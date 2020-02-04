@@ -25,7 +25,6 @@ function updateDistrict(schools){
 
 function buildSchoolList(schools){
 	var topTen = schools.slice(0,10)
-	console.log(topTen)
 	var table = d3.select("#exploreSciTable").append("table")
 	var head = table.append("tr")
 	head.append("th")
@@ -101,7 +100,6 @@ function buildExploreSchoolTypeSummary(schools){
 
 	var totalSci = magnetTotal + charterTotal + tpsTotal + privateTotal;
 
-	console.log(magnetTotal, charterTotal, tpsTotal, privateTotal, magnetTotal + charterTotal + tpsTotal + privateTotal)
 
 	var width = 600;
 
@@ -142,7 +140,6 @@ function buildExploreSchoolTypeSummary(schools){
 
 function buildExploreSciBar(data){
 
-console.log(data)
 
 	var margin = {top: 20, right: 20, bottom: 30, left: 50},
 	    width = 600 - margin.left - margin.right,
@@ -250,8 +247,8 @@ function buildExploreScatter(data){
 	  // });
 
 	  // Scale the range of the data
-	  x.domain(d3.extent(data, function(d) { return d.minority; }));
-	  y.domain([0, d3.max(data, function(d) { return d.sci; })]);
+	  x.domain([0,1]);
+	  y.domain([0, .08]);
 
 	      
 	  // Add the scatterplot
@@ -318,7 +315,6 @@ function scaleExploreDots(byPop){
 
 function toggleSchoolType(show, schoolType){
 	if(!show){
-		console.log(show, schoolType)
 		d3.selectAll(".explore." + schoolType)
 			.transition()
 			.style("opacity", 1)
@@ -369,7 +365,6 @@ d3.selectAll(".schoolLevelButton")
 		else if(d3.select(this).classed("l2")) level = 2
 		else level = 3
 
-		console.log(level)
 
 		d3.selectAll(".schoolLevelButton").classed("active", false)
 		d3.select(this).classed("active", true)
@@ -384,12 +379,10 @@ d3.selectAll(".schoolLevelButton")
 		updateDistrict(schools)
 	})
 
-	    	// console.log(districtNames, "foo");
 
 			$( "#districtName" ).autocomplete({
 				source: districtNames,
 				select: function(event, ui){
-					// console.log(ui.item.value)
 					var districtName = ui.item.value
 					var level = getLevel();
 					var schools = data.filter(function(o){
@@ -408,7 +401,6 @@ d3.selectAll(".schoolLevelButton")
 			.sort(function(a, b){
 				return b.sci - a.sci
 			})
-			console.log(initSchools)
 			updateDistrict(initSchools)
 	    	
 	    });
@@ -478,8 +470,8 @@ d3.selectAll(".schoolLevelButton")
 			  // Add the scatterplot
 
 			  d3.selectAll(".dot")
-			  	.transition()
-			  	.duration(300)
+  	.transition()
+  	.duration(300)
 			  	.style("opacity",0)
 
 
@@ -510,8 +502,8 @@ d3.selectAll(".schoolLevelButton")
 			  var returnVal, returnVal2, returnValL, returnVal2L, returnValR, returnVal2R;
 
 			  d3.selectAll(".lollipop")
-			  	  .transition()
-			  	  .duration(700)
+  .transition()
+  .duration(700)
 			  	  .style("stroke", function(d,i){
 			  	  	if(d.minority < M){
 			  	  		return "#55b748"
@@ -519,8 +511,8 @@ d3.selectAll(".schoolLevelButton")
 			  	  		return "#1696d2"
 			  	  	}
 			  	  })
-			      .transition()
-			      .duration(1000)
+	// .transition()
+	// .duration(1000)
 			      .attr("y2", function(d) { return y(d.sci); })
 			      .transition()
 			      .delay(function(d,i){ return (171 - i) * 3})
@@ -541,13 +533,10 @@ d3.selectAll(".schoolLevelButton")
 			      	// totalY += 
 			      	// return totalY
 
-			      	// console.log(i)
 
 			      })
 			      .attr("y2", function(d,i){
-			      	// console.log(d.sci)
 			      	if(prevY2 == false){
-			      		console.log(i,d)
 			      		prevY2 = true;
 			      		totalY2 = d.sci;
 			      		return y(d.sci);
@@ -561,8 +550,8 @@ d3.selectAll(".schoolLevelButton")
   			      .attr("x1", 200)
   			      .attr("x2", 200)
   			      .style("stroke-width", "3px")
-  			      .transition()
-  			      .delay(function(d,i){ return 800 - (171 - i)*3})
+  .transition()
+  .delay(function(d,i){ return 800 - (171 - i)*3})
 					.style("stroke-width", "60px")	
 			      .attr("x2", function(d,i){
 		      	if(d.minority < M){
@@ -585,8 +574,9 @@ d3.selectAll(".schoolLevelButton")
 			      		return 400
 			      	}
 			      })
-			      .transition()
-			      .delay(function(d,i){ return i})
+  .transition()
+  .delay(function(d,i){ return i})	
+  
 			      .attr("y1", function(d,i){
 			      	if(d.minority < M){
 				      	if(prevYL == false){
@@ -617,13 +607,11 @@ d3.selectAll(".schoolLevelButton")
 			      	// totalY += 
 			      	// return totalY
 
-			      	// console.log(i)
 
 			      })
 			      .attr("y2", function(d,i){
 			      	if(d.minority < M){
 				      	if(prevY2L == false){
-				      		console.log(i,d)
 				      		prevY2L = true;
 				      		totalY2L = d.sci;
 				      		return y(d.sci);
@@ -635,7 +623,6 @@ d3.selectAll(".schoolLevelButton")
 				      	}
 				     }else{
 				      	if(prevY2R == false){
-				      		console.log(i,d)
 				      		prevY2R = true;
 				      		totalY2R = d.sci;
 				      		return y(d.sci);
@@ -648,12 +635,89 @@ d3.selectAll(".schoolLevelButton")
 
 				     }
 			      })
+			      .on("end", function(d,i){
+			      	if(i == 170){
+			      		d3.select("#gogogo").style("display","none").transition().style("opacity",0)
+			      		d3.select("#gogogo2").style("display","block").transition().style("opacity",1)
+			      	}
+			      })
 			      // .attr("x1",10)
 			      // .attr("x2",10)
 			      // .classed("charter", function(d){ return d.charter })
 			      // .classed("magnet", function(d){ return d.magnet })
 			      // .classed("private", function(d){ return d.private })
 			      // .classed("tps", function(d){ return d.tps })
+
+			      d3.select("#gogogo2").on("click", function(){
+
+
+	var y = d3.scaleLinear().range([height, 0])
+	.domain([0, .08]);
+
+
+var x = d3.scaleLinear().range([0, width])
+	  .domain([0,1]);
+
+
+
+
+	  d3.selectAll(".lollipop")
+	  	.transition()
+	  		  	.duration(800)
+
+	  	  .style("stroke-width","1")
+	  	  
+	      // .attr("r", function(d){ return exploreDotPopScalar*Math.sqrt(d.population)})
+	      .attr("x1", function(d) { return x(d.minority); })
+	      .attr("x2", function(d) { return x(d.minority); })
+	      .attr("y1", function(d) { return y(0); })
+	      .attr("y2", function(d) { return y(d.sci); })
+	      .transition()
+	      .style("stroke","#d2d2d2")
+	      .transition()
+	      .style("opacity",0)
+			     
+var iL = 0;
+var iR = 0;
+
+var rowCount = 5;
+
+var rL = 0;
+var rR = 0;
+			      
+	d3.selectAll(".dot")
+		.transition()
+		.delay(600)
+		.style("opacity",1)
+		.transition()
+		.delay(function(d,i){ return 200 + i*3})
+		.duration(1200)
+
+		.attr("r",4)
+		.attr("cx", function(d,i){
+			if(d.minority < M){
+				iL += 1;
+				return 200 + (iL-1)%rowCount * 10;
+			}else{
+				iR += 1;
+				return 400 + (iR-1)%rowCount * 10;
+			}
+		})
+		.attr("cy", function(d,i){
+			if(d.minority < M){
+				iL += 1;
+				if(iL % rowCount == 0){ rL += 1}
+				return height - (10 - rL) * 10;
+			}else{
+				iR += 1;
+				if(iR % rowCount == 0){ rR += 1}
+				return height - (rR-1) * 10;
+			}
+		})
+
+})
+
+
 
 
 function getRandomColor() {
