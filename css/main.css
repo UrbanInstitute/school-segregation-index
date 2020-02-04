@@ -68,6 +68,10 @@ body, svg{
 	text-decoration: underline;
 	cursor: pointer;
 }
+.lollipop{
+	stroke: #d2d2d2;
+	stroke-width: 1px;
+}
 .explore.dot, .explore.bar{
 	stroke: none;
 	/*opacity: .5;*/
@@ -123,4 +127,13 @@ td.private{
 }
 td{
 	padding: 10px;
+}
+
+
+
+
+
+#gogogo{
+	width: 150px;
+	cursor: pointer;
 }
