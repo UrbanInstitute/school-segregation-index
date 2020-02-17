@@ -506,9 +506,11 @@ d3.selectAll(".schoolLevelButton")
   .duration(700)
 			  	  .style("stroke", function(d,i){
 			  	  	if(d.minority < M){
-			  	  		return "#55b748"
+			  	  		// return "#55b748"
+			  	  		return getRandomColor();
 			  	  	}else{
-			  	  		return "#1696d2"
+			  	  		// return "#1696d2"
+			  	  		return getRandomColor();
 			  	  	}
 			  	  })
 	// .transition()
@@ -721,12 +723,13 @@ var rR = 0;
 
 
 function getRandomColor() {
-  // var letters = '0123456789ABCDEF';
-  // var color = '#';
-  // for (var i = 0; i < 6; i++) {
-  //   color += letters[Math.floor(Math.random() * 16)];
-  // }
-  return "red";
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+  // return "red";
 }
 
 
