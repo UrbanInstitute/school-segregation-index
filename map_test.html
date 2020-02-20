@@ -5,7 +5,7 @@
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
-<link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 
 <style>
 	body { margin: 0; padding: 0; }
@@ -43,9 +43,10 @@ function getRandom(min, max) {
 	mapboxgl.accessToken = 'pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZTy4hI_PWXw3C3UFbDQ';
 var map = new mapboxgl.Map({
 container: 'map',
-style: 'mapbox://styles/urbaninstitute/ck6v8cc1h0bmc1ilak25b30zt',
-center: [-73.938, 40.788],
-zoom: 9
+style: 'mapbox://styles/urbaninstitute/ck6v9mz210cu21ilszga8az2p',
+center: [-73.938, 40.688],
+zoom: 9,
+minZoom: 6
 });
 
 
@@ -151,7 +152,9 @@ d3.csv("mapping/schoolDistricts/boundaries/boundaries.csv").then(function(bounda
 		],
 		{
 			  "padding": {"top": 10, "bottom":25, "left": 10, "right": 10},
-			"duration": 4000
+			"duration": 4000,
+			"essential": true,
+			"minZoom": 0
 		});
 
 

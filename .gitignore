@@ -1,0 +1,6 @@
+.DS_Store
+*.geojson
+*.mbtiles
+*.shp
+*.dbf
+*.zip
