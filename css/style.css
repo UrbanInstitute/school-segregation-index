@@ -1,0 +1,546 @@
+/*#sections{
+  pointer-events: none;
+  opacity: 0;
+}
+*/
+
+*:focus{
+  outline: none;
+}
+body{
+  font-family: "Lato";
+}
+.container {
+  width: 1180px;
+}
+
+#graphic {
+  padding-top: 60px;
+}
+
+#topTitle{
+  font-size: 30px;
+  text-align: center;
+  padding-bottom: 20px;
+}
+#topText, #bottomContent{
+  margin-top: -140px;
+  padding: 40px;
+  margin-bottom:30px;
+  font-size:21px;
+  font-weight:400;
+  color:#000;
+  background: #fff; 
+  z-index: 1000;
+  position: relative;
+}
+#bottomTitle{
+  font-weight: bold;
+  margin-bottom: 10px;  
+}
+#bottomContent{
+  width: 1150px;
+    margin: 0 auto;
+    padding: 0px;
+}
+#topHR{
+  width: 130px;
+  height: 6px;
+  background-color: #1696d2;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+
+p{
+  line-height:1.6;
+  margin-bottom:15px !important;
+}
+#sections {
+  position: relative;
+  display: inline-block;
+  width: 400px;
+  top: 0px;
+  z-index: 90;
+  padding-bottom: 20px;
+  pointer-events: auto;
+}
+
+.step {
+  margin-bottom: 200px;
+  font-family: "Lato";
+  font-size: 16px;
+  line-height: 23px;
+  color: #000;
+}
+.smallStep{
+  /*margin-bottom: 400px;*/
+}
+.title{
+  font-size:18px;
+   margin-top:40px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.subtitle{
+  margin-top: -8px;
+  font-size: 17px;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+#extra-space {
+  height: 0px;
+}
+
+#narrativeVizContainer {
+  display: inline-block;
+  z-index: 1;
+  margin-left: 0;
+  position: relative;
+  /*top: 730px;*/
+  float: right;
+}
+#narrativeVizContainer svg{
+  cursor: pointer;
+}
+#narrativeVizContainer svg.nonInteractive{
+  cursor: auto;
+}
+#narrativeVizContainer.posFixed{
+  position: fixed;
+  top: 20px;
+  padding-left: 10px;
+}
+#narrativeVizContainer.posRelTop{
+  position: relative;
+  float: right;
+  padding-left: 10px;
+}
+#narrativeVizContainer.posRelBottom{
+  position: relative;
+  float: inherit;
+  padding-left: 0px;
+  bottom: -110px;
+}
+#narrativeVizContainer.posRelBottomSingleCol{
+  position: absolute;
+  float: inherit;
+  padding-left: 10px;
+}
+#narrativeVizContainer.posRelTopSingleCol{
+   position: absolute;
+  float: inherit;
+  padding-left: 10px; 
+}
+
+
+/******************* BUTTONS **************************/
+#mobileButtonContainer{
+    position: absolute;
+    bottom: 33px;
+    left: 220px;
+    width: 100%;
+}
+.mobileButton{
+  width: 85px;
+  margin-right: 22px;
+  margin-bottom: 7px;
+  height: 10px;
+  padding-top: 13px;
+  padding-bottom: 26px;
+  color: #5c5859;
+  background-color: #d2d2d2;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+/*.mobileButton.locked{
+  opacity: .3 !important;
+}*/
+.mobileButton.active{
+  background-color: #af206c;
+  color: #ffffff;
+}
+
+/******************* END BUTTONS **************************/
+
+
+
+
+/******************* CHART COMPONENTS **************************/
+
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #666;
+  shape-rendering: crispEdges;
+}
+.axis path{
+  display: none;
+}
+.tick text{
+  font-size: 12px;
+  font-family: "Lato";
+}
+.local.bar, .local.legendItem{
+  fill: #1696d2;
+  stroke: #1696d2;
+  stroke-width: 1px;
+}
+.legendText{
+  font-size: 15px;
+  font-family: Lato;
+}
+.state.bar, .legendItem.state{
+  fill: #062635;
+  stroke: #062635;
+  stroke-width: 1px;
+}
+.cutoff.blank{
+  fill: #fff;
+  stroke: #fff;
+  stroke-width: 2px;
+}
+.cutoff.solid{
+  fill: #1696d2;
+  stroke: #1696d2;
+  stroke-width: 1px;
+}
+.cutoff.outline{
+  fill: #ececec;
+  stroke: #d2d2d2;
+  stroke-width: 2px;
+  stroke-dasharray: 12,6;
+}
+.threshold, .legendLine{
+  stroke-dasharray: 5,5;
+  stroke: #fdbf11;
+  stroke-width: 3px;
+}
+.recaptureContainer{
+  stroke: #fdd870;
+  fill: #fdd870;
+  stroke-width: 7px;
+}
+
+
+
+/*g.slider.locked .dot{
+  fill: #9d9d9d;
+  stroke: #9d9d9d;
+}*/
+.dot{
+  fill: #af206b;
+  stroke: #eb098a;
+}
+
+.track,
+.track-inset,
+.track-overlay {
+  stroke-linecap: round;
+}
+
+.track {
+  stroke: #d2d2d2;
+  stroke-opacity: 1;
+  stroke-width: 10px;
+}
+
+.track-inset {
+  stroke: #d2d2d2;
+  stroke-width: 10px;
+}
+
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+  cursor: crosshair;
+}
+.axisLabel{
+    fill: black;
+    font-family: Lato;
+    font-size: 13px;
+    font-style: italic;
+}
+
+/******************* END CHART COMPONENTS **************************/
+
+
+#isMobile, #isPhone, #isShort, #sectionIndex{
+    display: none;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.dotNote{
+  display: block;
+}
+.mobileDotNote{
+  display: none;
+  font-style: italic;
+}
+.mobileDotNote span{
+  font-weight: bold;
+}
+#mobile-notes{
+  display: none;
+}
+#mobile-notes-text-dots{
+  font-size: 14px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  line-height: 1.6;
+}
+#mobile-notes-text-maps{
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-height: 880px){
+  #isShort{
+    display: block;
+  }
+  #narrativeVizContainer.posRelBottom{
+    bottom: -97px;
+  }
+  #dotChartYAxis .tick text{
+    font-size: 11px;
+  }
+
+/*  .scatterButton{
+    bottom: 80px;
+  }*/
+}
+
+@media (max-height: 636px) , (max-width: 768px){
+  #isPhone{
+    display: block;
+  }
+  #mobileButtonContainer{
+    /*display: none;*/
+    bottom: -10px;
+    left: 0px;
+  }
+  .legendText{
+    font-size: 12px;
+  }
+  .mobileButton{
+    margin-right: 4px;
+  }
+  #mobileButtonContainer{
+    display: block;
+  }
+}
+
+@media (max-width: 1200px){
+  .container{
+    margin-left: 10px;
+  }
+}
+@media (max-width: 1170px){
+  .headerimage{
+    height: 440px !important;
+  }
+  .container{
+    margin-left: auto;
+    width: 100%;
+  }
+  #isMobile{
+    display: block;
+  }
+  #topText, #bottomContent{
+    font-size: 18px;
+  }
+#extra-space {
+  height: 680px;
+  z-index: -1;
+}
+  #sections{
+    display: inherit;
+    width: 400px;
+    margin: 0 auto;
+    pointer-events: none;
+  }
+  .step {
+    margin-bottom: 1000px;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: rgb(136, 136, 136) 4px 4px 16px;
+    padding: 30px;
+    z-index: 2;
+  }
+  .lastStep{
+    opacity: 0 !important;
+  }
+  #bottomContent {
+      width: calc(100% - 80px);
+  }
+  .step.lastStep{
+    margin-bottom: 0px;
+  }
+  .step.firstStep{
+    margin: 0px;
+  }
+  #narrativeVizContainer{
+    /*position: fixed;*/
+    /*top: 20px;*/
+  }
+}
+@media (max-width: 930px){
+  .headerimage {
+    height: 350px !important;
+  }
+  #topTitle {
+    font-size: 25px;
+  }
+}
+@media (max-width: 768px){
+  .step {
+    margin-bottom: 1200px;
+  }
+}
+@media (max-width: 350px){
+  #sections{
+    /*width: 300px;*/
+    left: -20px;
+    /*pointer-events: none;*/
+  }
+}
+
+@media (max-width: 500px){
+  .headerimage {
+    height: 180px !important;
+    top: 20px;
+  }
+  #topText, #bottomContent{
+    margin-top: -90px;
+    padding: 20px;
+  }
+  #sections{
+    width: 300px;
+    /*left: -20px;*/
+    pointer-events: none;
+  }
+}
+
+
+
+/********header (below urban menu)**********/
+   
+
+.headerimage{
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 720px;
+  z-index:-1;
+}
+
+.headerwrapper{
+  padding-top:120px;
+}
+
+#heroimage{
+   background-image: url("../images/header-illo2-01.jpg");
+     background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+
+}
+
+
+.div-title-block
+{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+  width:90%;
+  color: #ffffff;
+  font-weight: 700;
+  line-height: 1.4em;
+  font-size: 2.3em;
+  margin: auto;
+}
+
+
+@media (max-width: 2000px) {
+  .headerimage{ height:600px;}
+}
+/*browser windows smaller than 850px*/
+@media (max-width: 600px) {
+   .headerimage{ height:300px;}
+   .div-title-block {
+    font-size: 1.6em !important;
+   }
+}
+
+@media (max-width: 991px) {
+   
+   .headerwrapper{padding-top:125px;}
+   
+}
+
+@media  (max-width: 480px) {
+  .full-width-col { font-size:18px;}
+   .container {margin-bottom: 40px; padding:0px 4px;}
+   .headerimage{width: 100%; height: 300px;}
+   .headerwrapper{padding-top:80px;}
+   h1 { font-size:24px;}
+ 
+}
+
+
+
+/********************************************************/
+/************* NARRATIVE CHOOSE SCHOOL *****************/
+/********************************************************/
+
+#narrativeChooseSchoolContainer{
+  position: fixed;
+  z-index: 1000;
+  bottom: 0px;
+  left: 0px;
+  height: 0px;
+  width: 100%;
+  background: #1696d2;
+  color: #fff;
+}
+
+#narrativeChooseSchoolHeader{    
+  width: 1070px;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+#narrativeChooseSchoolLabel{
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+#narrativeChooseSchoolInput{
+  display: inline-block;
+  float: left;
+  margin-left: 20px;
+  color: #353535;
+}
+#narrativeChooseSchoolArrow{
+  float: right;
+  transform: rotate(0deg);
+  cursor: pointer;
+}
+
+#narrativeChooseSchoolTextContainer{
+    clear: both;
+    width: 1070px;
+    margin: 0 auto;
+    margin-top: 10px;
+}

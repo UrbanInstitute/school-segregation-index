@@ -1,0 +1,71 @@
+<html>
+<head>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic,900" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+	<div id = "exploreDistrictName"></div>
+	<label for="districtName">Search by district: </label>
+  	<input id="districtName">
+
+  	<div>
+  		<div class = "schoolLevelButton l1">Elementary</div>
+  		<div class = "schoolLevelButton l2 active">Middle</div>
+  		<div class = "schoolLevelButton l3">High</div>
+  	</div>
+
+
+
+
+
+
+	<div class = "tempSectionTitle">Total SCI by school type</div>
+	<div id = "exploreSchoolTypeSummary"></div>
+
+
+
+
+
+  	<div class = "tempSectionTitle">Scatter/ "V" chart</div>
+  	<div id = "schoolTypeButtons">
+  		<div class = "schoolTypeButton tps active" data-schoolType = "tps">TPS</div>
+  		<div class = "schoolTypeButton private active" data-schoolType = "private">Private</div>
+  		<div class = "schoolTypeButton charter active" data-schoolType = "charter">Charter</div>
+  		<div class = "schoolTypeButton magnet active" data-schoolType = "magnet">Magnet</div>
+  	</div>
+
+  	<div class = "scaleByPop byPop">Uniform dot size</div>
+
+  	<div id = "exploreScatter"></div>
+
+
+
+
+
+
+
+  	<div class = "tempSectionTitle">SCI bar chart</div>
+  	<div id = "exploreSciBar"></div>
+
+
+
+  	<div class = "tempSectionTitle">Highest SCI schools</div>
+  	<div id = "exploreSciTable"></div>
+
+
+
+
+
+
+
+
+
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src = "js/main.js"></script>
+</body>
+</html>

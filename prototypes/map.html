@@ -1,0 +1,284 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Create a hover effect</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
+<link href='https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 500px; height: 500px; }
+	#rando{
+    position: absolute;
+    top: 530px;
+    left: 10px;
+    background: #1696d2;
+    color: #fff;
+    font-family: Lato;
+    padding: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+	}
+</style>
+</head>
+<body>
+<button id="fit">Fit to Kenya</button>
+
+
+<div id="map"></div>
+<div id = "rando">Go to random district</div>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.js"></script>
+<script>
+
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+
+
+
+
+	mapboxgl.accessToken = 'pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZTy4hI_PWXw3C3UFbDQ';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/urbaninstitute/ck6v9mz210cu21ilszga8az2p',
+center: [-73.938, 40.688],
+zoom: 9,
+minZoom: 6
+});
+
+
+map.on("load", function(e){
+// var s = map.getSource("urbaninstitute.19we1533")
+// console.log(s)
+// 3620580
+// map.on("mousemove", "schooldistricts", function(e){
+
+// map.addSource('test', {
+// 'type': 'vector',
+// 'url':
+// 'mapbox://urbaninstitute.19we1533;'
+// });
+ 
+// The feature-state dependent fill-opacity expression will render the hover effect
+// when a feature's hover state is set to true.
+// map.addLayer({
+// 'id': 'fills2',
+// 'type': 'fill',
+// 'source': 'mapbox://urbaninstitute.19we1533',
+// 'layout': {},
+// 'paint': {
+// 'fill-color': '#627BC1',
+// 'fill-opacity': [
+// 'case',
+// ['boolean', ['feature-state', 'active'], false],
+// 1,
+// 0.5
+// ]
+// }
+// });
+ 
+// map.addLayer({
+// 'id': 'state-borders',
+// 'type': 'line',
+// 'source': 'states',
+// 'layout': {},
+// 'paint': {
+// 'line-color': '#627BC1',
+// 'line-width': 2
+// }
+// });
+
+
+// mapboxgl.clearStorage()
+// console.log(map.getStyle().layers)
+
+
+
+var geoid = 3620580
+// // // console.log(map)
+var f = map.queryRenderedFeatures({layer: "schooldistricts-fill"}).filter(function(o){
+	return o.id == geoid
+})[0]
+
+map.setFeatureState(
+f,
+{ "active": true })
+
+
+var fs = map.queryRenderedFeatures({layer: "schooldistricts-stroke"}).filter(function(o){
+	return o.id == geoid
+})[0]
+
+map.setFeatureState(
+fs,
+{ "active": true })
+
+
+
+d3.csv("mapping/schoolDistricts/boundaries/boundaries.csv").then(function(boundaries){
+	console.log(boundaries)
+	d3.select("#rando").on("click", function(){
+		var boundary = boundaries[getRandom(0, boundaries.length)]
+		
+		var f1 = map.queryRenderedFeatures({layer: "schooldistricts-fill"}).filter(function(o){
+			return o.id == geoid
+		})
+
+		for(var i = 0; i < f1.length; i++){
+					map.setFeatureState(f1[i], { "active": false })
+		}
+
+		var fs1 = map.queryRenderedFeatures({layer: "schooldistricts-stroke"}).filter(function(o){
+			return o.id == geoid
+		})
+
+		for(var i = 0; i < fs1.length; i++){
+					map.setFeatureState(fs1[i], { "active": false })
+		}
+
+
+		geoid = boundary["geoid"]
+
+		map.setLayoutProperty('schooldistricts-fill', 'visibility', 'none');
+
+
+
+
+		map.fitBounds([
+		[boundary.lon1, boundary.lat1],
+		[boundary.lon2, boundary.lat2],
+		],
+		{
+			"padding": {"top": 10, "bottom":25, "left": 10, "right": 10},
+			"duration": 4000,
+			"essential": true,
+			"minZoom": 0
+		});
+
+
+
+
+
+setTimeout(function(){
+	map.setLayoutProperty('schooldistricts-fill', 'visibility', 'visible');
+		var f2 = map.queryRenderedFeatures({"source": "composite", "layer": "schooldistricts-fill"}).filter(function(o){
+			return o.id == geoid
+		})
+		for(var i = 0; i < f2.length; i++){
+					map.setFeatureState(f2[i], { "active": true })
+		}
+
+		var fs2 = map.queryRenderedFeatures({"layer": "schooldistricts-stroke"}).filter(function(o){
+			return o.id == geoid
+		})
+		for(var i = 0; i < fs2.length; i++){
+					map.setFeatureState(fs2[i], { "active": true })
+		}
+		
+},3000)
+		
+
+
+
+
+		// setTimeout(function(){ 
+		// 	console.log("foo")
+
+		// var f2 = map.queryRenderedFeatures({layer: "schooldistricts"}).filter(function(o){
+		// 	return o.id == geoid
+		// })
+
+		// for(var i = 0; i < f2.length; i++){
+		// 			map.setFeatureState(f2[i], { "active": true })
+		// }
+
+
+
+		//  }, 0);
+
+
+
+
+	})
+})
+
+
+// map.on('click', function(e) {
+// 	console.log(e)
+// // set bbox as 5px reactangle area around clicked point
+// var bbox = [
+// [e.point.x - 5, e.point.y - 5],
+// [e.point.x + 5, e.point.y + 5]
+// ];
+// var features = map.queryRenderedFeatures(bbox, {
+// layers: ['lvl_1_tps']
+// });
+
+// console.log(features)
+
+// })
+map.on("mouseover", ["lvl_1_tps", "lvl_1_private"], function(e){
+	console.log(e)
+})
+
+//  f = map.queryRenderedFeatures({layer: "schooldistricts", filter : 
+
+//  	[
+//         "boolean",
+//         // red is higher when feature.properties.temperature is higher
+//         ["get", "type"],
+//         // green is always zero
+//         "Feature"
+//     ]
+
+// })
+
+
+
+
+
+
+// console.log(map.getFeatureState(
+// { "source": "composite", "sourceLayer":"schooldistricts", id: 3402790 }))
+
+// console.log(map.getFeatureState(
+// { "source": "composite", "sourceLayer":"schooldistricts", id: 3620580 }))
+
+
+// console.log(f)
+
+
+// // console.log(map)
+// })
+})
+ 
+// map.on('mousemove', function(e) {
+// var features = map.queryRenderedFeatures(
+//   [[0, 0], [30, 50]],
+//   { layers: ['schooldistricts'] }
+// );
+
+// console.log(e.point.x,e.point.y, features)
+// })
+		// if (e.features.length > 0) {
+		// if (hoveredStateId) {
+		// map.setFeatureState(
+		// { source: 'states', id: hoveredStateId },
+		// { hover: false }
+		// );
+		// }
+		// hoveredStateId = e.features[0].id;
+		// map.setFeatureState(
+		// { source: 'states', id: hoveredStateId },
+		// { hover: true }
+		// );
+		// }
+
+</script>
+ 
+</body>
+</html>
+	
