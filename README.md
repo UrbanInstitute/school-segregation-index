@@ -16,3 +16,8 @@ To replace dot data:
 
 **Build feature boundaries from shapefile**
 `python3 scripts/mapping/schoolDistricts/get_feature_boundaries.py k12-segregation`
+
+
+### Build dot data for charts
+**Smaller separate file for WI**
+`python3 scripts/charts/reshape_WI_Data.py k12-segregation`

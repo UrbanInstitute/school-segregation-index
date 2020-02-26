@@ -1,5 +1,6 @@
 - Get crosswalk from T of composite districts (where diff levels overlap)
 - Get from T M for each district
+- Get from T strat for duplicate schools
 - Get from T district leaid in school file
 - duration of map dependent on distance btwn districts?
 - pull dist boundaries from valid dists, not from shapefile

@@ -67,7 +67,8 @@ p{
 }
 
 .step {
-  margin-bottom: 200px;
+  margin-bottom: 10vh;
+  min-height: 80vh;
   font-family: "Lato";
   font-size: 16px;
   line-height: 23px;
@@ -164,108 +165,81 @@ p{
   color: #ffffff;
 }
 
-/******************* END BUTTONS **************************/
 
 
+/******************* V CHART COMPONENTS **************************/
 
 
-/******************* CHART COMPONENTS **************************/
-
-
-.axis path,
-.axis line {
+.v.x.axis path,
+.v.x.axis line {
   fill: none;
-  stroke: #666;
+  stroke: #353535;
   shape-rendering: crispEdges;
 }
-.axis path{
+
+.v.y.axis path{
   display: none;
+}
+.v.y.axis line{
+  stroke: #dedddd;
 }
 .tick text{
   font-size: 12px;
   font-family: "Lato";
 }
-.local.bar, .local.legendItem{
-  fill: #1696d2;
-  stroke: #1696d2;
-  stroke-width: 1px;
+
+.milwaukee.medianLine{
+  stroke: #848081;
+  stroke-dasharray: 2 3;
 }
-.legendText{
-  font-size: 15px;
-  font-family: Lato;
+.choose.medianLine{
+   stroke: #fff;
+  stroke-dasharray: 2 3; 
 }
-.state.bar, .legendItem.state{
-  fill: #062635;
-  stroke: #062635;
-  stroke-width: 1px;
-}
-.cutoff.blank{
+
+.choose.medianTextG{
   fill: #fff;
-  stroke: #fff;
-  stroke-width: 2px;
 }
-.cutoff.solid{
-  fill: #1696d2;
-  stroke: #1696d2;
+
+.dot.belowMedian{
+  fill: #fdbf11;
+  stroke: #fff;
+  stroke-width: .5;
+}
+.dot.aboveMedian{
+  fill: #55b748;
+  stroke: #fff;
+  stroke-width: .5;
+}
+.dot.highlight{
+  fill: #ec008b;
+}
+.lollipop{
   stroke-width: 1px;
 }
-.cutoff.outline{
-  fill: #ececec;
-  stroke: #d2d2d2;
-  stroke-width: 2px;
-  stroke-dasharray: 12,6;
-}
-.threshold, .legendLine{
-  stroke-dasharray: 5,5;
+.lollipop.belowMedian{
   stroke: #fdbf11;
-  stroke-width: 3px;
 }
-.recaptureContainer{
-  stroke: #fdd870;
-  fill: #fdd870;
-  stroke-width: 7px;
+.lollipop.aboveMedian{
+  stroke: #55b748;
 }
-
-
-
-/*g.slider.locked .dot{
-  fill: #9d9d9d;
-  stroke: #9d9d9d;
-}*/
-.dot{
-  fill: #af206b;
-  stroke: #eb098a;
+.lollipop.highlight{
+  stroke: #ec008b;
 }
 
-.track,
-.track-inset,
-.track-overlay {
-  stroke-linecap: round;
+
+
+/******************* V CHOOSE CHART COMPONENTS **************************/
+
+.v.choose.axis path,
+.v.choose.axis line{
+  stroke: #fff;
 }
 
-.track {
-  stroke: #d2d2d2;
-  stroke-opacity: 1;
-  stroke-width: 10px;
+.v.choose.y.axis line{
+  stroke: #46abdb;
 }
 
-.track-inset {
-  stroke: #d2d2d2;
-  stroke-width: 10px;
-}
-
-.track-overlay {
-  pointer-events: stroke;
-  stroke-width: 50px;
-  stroke: transparent;
-  cursor: crosshair;
-}
-.axisLabel{
-    fill: black;
-    font-family: Lato;
-    font-size: 13px;
-    font-style: italic;
-}
 
 /******************* END CHART COMPONENTS **************************/
 
@@ -369,7 +343,7 @@ p{
     pointer-events: none;
   }
   .step {
-    margin-bottom: 1000px;
+    margin-bottom: 10vh;
     opacity: 1;
     background: rgba(255, 255, 255, 0.9);
     box-shadow: rgb(136, 136, 136) 4px 4px 16px;
@@ -544,3 +518,33 @@ p{
     margin: 0 auto;
     margin-top: 10px;
 }
+#narrativeChooseSchoolChartContainer{
+    position: absolute;
+    right: 0px;
+    top: 12px;
+}
+#narrativeChooseSchoolChartContainer svg{
+    position: absolute;
+    right: 0px;
+    top: 10px;
+}
+#narrativeChooseSchoolList{
+  position: absolute;
+  left: 0px;
+}
+
+
+
+
+
+
+
+
+
+
+/********** MAPPPP **************/
+#mapContainer{
+    height: 500px;
+    width: 500px;
+    display: block;
+  }

@@ -12,10 +12,9 @@ with open("%s/%s/data/charts/source/CCD-PSS2015_SegCounterfactuals_glea_FINALIZE
 	for i in range(0, len(head)):
 		h[head[i]] = i
 
-	with open('%s/%s/data/charts/csv/wi_schools.csv'%(env["PROJECT_PATH"], argv[1]), 'w', newline='') as outFile:
+	with open('%s/%s/data/charts/csv/all_schools.csv'%(env["PROJECT_PATH"], argv[1]), 'w', newline='') as outFile:
 		writer = csv.writer(outFile)
-		# need more here
-		writer.writerow(["schoolid", "schoolName","pop", "minority_pop","minority_percent" "sci", "type","compareMedian"])
+		writer.writerow(["schoolid", "level","districtId", "schoolName","pop", "minority_pop","minority_percent","sci", "type","compareMedian"])
 		for row in reader:
 			schoolTypeString = ""
 			for schoolType in ["tps", "charter", "magnet", "private"]:
@@ -27,7 +26,7 @@ with open("%s/%s/data/charts/source/CCD-PSS2015_SegCounterfactuals_glea_FINALIZE
 
 			minorityPercent = float(row[h["minority_school"]]) / float(row[h["population_school"]])
 			
-			districtMinorityPercent = .5 #THIS WILL CHANGE, A VAL FROM DATA
+			districtMinorityPercent = 0.763666397 #THIS WILL CHANGE, A VAL FROM DATA
 			compareMedian = "above" if (minorityPercent > districtMinorityPercent) else "below"
 
-			writer.writerow([row[h["schid"]],row[h["school_name"]],row[h["population_school"]],row[h["minority_school"]],minorityPercent,row[h["SCI_sys"]],schoolTypeString,compareMedian])
+			writer.writerow([row[h["schid"]],row[h["level"]],row[h["gleaid"]],row[h["school_name"]],row[h["population_school"]],row[h["minority_school"]],minorityPercent,row[h["SCI_sys"]],schoolTypeString,compareMedian])

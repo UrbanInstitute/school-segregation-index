@@ -1,4 +1,4 @@
-schoolid,schoolName,pop,minority_pop,minority_percentsci,type,compareMedian
+schoolid,schoolName,pop,minority_pop,minority_percent,sci,type,compareMedian
 01506026,Prince Of Peace School,450,447,0.9933333333333333,.0070786,private,above
 01506536,St Catherine Catholic School,130,118,0.9076923076923077,.0011826,private,above
 01506558,St Charles Borromeo School,193,50,0.25906735751295334,.0079399,private,below
@@ -8,14 +8,14 @@ schoolid,schoolName,pop,minority_pop,minority_percentsci,type,compareMedian
 01506707,St Margaret Mary School,242,14,0.05785123966942149,.0137272,private,below
 01506762,St Matthias Parish School,251,29,0.11553784860557768,.0131163,private,below
 01506795,St Thomas Aquinas Academy,209,33,0.15789473684210525,.0102359,private,below
-01506842,St Roman Parish School,278,169,0.6079136690647482,.0039256,private,above
+01506842,St Roman Parish School,278,169,0.6079136690647482,.0039256,private,below
 01506853,St Rose & St Leo Catholic School,440,378,0.8590909090909091,.0023465,private,above
 01506864,St Sebastian School,296,77,0.26013513513513514,.0121528,private,below
 01507405,Blessed Sacrament School,167,137,0.8203592814371258,.0003896,private,above
 01507482,St Rafael The Archangel School,398,384,0.964824120603015,.0053818,private,above
 01507529,Mother Of Good Counsel,210,165,0.7857142857142857,.0000735,private,above
 01507551,Blessed Savior Catholic School - East Campus,168,159,0.9464285714285714,.0020324,private,above
-01507573,Northwest Catholic School,238,174,0.7310924369747899,.0010902,private,above
+01507573,Northwest Catholic School,238,174,0.7310924369747899,.0010902,private,below
 01507595,Our Lady Queen Of Peace School,153,134,0.8758169934640523,.0010142,private,above
 01507664,St Adalbert Elementary School,450,450,1.0,.007311,private,above
 01507711,St Anthony School Of Milwaukee,1867,1848,0.9898232458489555,.0288608,private,above
@@ -24,11 +24,11 @@ schoolid,schoolName,pop,minority_pop,minority_percentsci,type,compareMedian
 01511874,Mt Calvary Lutheran School,191,178,0.9319371727748691,.0020962,private,above
 01511896,Mt Olive Lutheran School,172,79,0.45930232558139533,.0044086,private,below
 01512029,St Martini Lutheran School,246,230,0.9349593495934959,.0027574,private,above
-01512674,Word Of Life Lutheran School,74,49,0.6621621621621622,.000734,private,above
+01512674,Word Of Life Lutheran School,74,49,0.6621621621621622,.000734,private,below
 01512878,Atonement Lutheran School,282,274,0.9716312056737588,.0039619,private,above
-01512958,Christ-St Peter Lutheran School,191,113,0.5916230366492147,.0029381,private,above
+01512958,Christ-St Peter Lutheran School,191,113,0.5916230366492147,.0029381,private,below
 01513088,St Peter-Immanuel Lutheran School,171,143,0.8362573099415205,.0006095,private,above
-01513532,Salem Lutheran School,122,68,0.5573770491803278,.0022003,private,above
+01513532,Salem Lutheran School,122,68,0.5573770491803278,.0022003,private,below
 01513543,St Johns Lutheran School,155,54,0.34838709677419355,.0053044,private,below
 01513576,Milwaukee Montessori School,214,34,0.1588785046728972,.0104645,private,below
 01514387,Mt Lebanon Evangelical Lutheran School,204,169,0.8284313725490197,.0006035,private,above
@@ -51,7 +51,7 @@ schoolid,schoolName,pop,minority_pop,minority_percentsci,type,compareMedian
 550006502894,Milwaukee Scholars Charter School,387,374,0.9664082687338501,.0052806,charter,above
 550006702898,Milwaukee Math And Science Academy,219,214,0.9771689497716894,.0031707,charter,above
 550006802922,North Point Lighthouse Charter School,243,237,0.9753086419753086,.0034832,charter,above
-550007002942,Woodlands School East,180,133,0.7388888888888889,.0007158,charter,above
+550007002942,Woodlands School East,180,133,0.7388888888888889,.0007158,charter,below
 550007102969,Rocketship Southside Community Prep,347,335,0.9654178674351584,.0047081,charter,above
 550007203006,Milwaukee College Preparatory School: Lola Rowe North Campus,291,284,0.9759450171821306,.0041856,charter,above
 550007402692,Seeds Of Health Elementary Program,289,273,0.9446366782006921,.003456,charter,above
@@ -75,7 +75,7 @@ schoolid,schoolName,pop,minority_pop,minority_percentsci,type,compareMedian
 550960001142,Clement Avenue Elementary,277,97,0.35018050541516244,.0094409,tps,below
 550960001143,Congress Elementary,439,424,0.9658314350797267,.0059705,tps,above
 550960001144,Cooper Elementary,261,105,0.40229885057471265,.007842,tps,below
-550960001146,Curtin Elementary,190,131,0.6894736842105263,.0014828,tps,above
+550960001146,Curtin Elementary,190,131,0.6894736842105263,.0014828,tps,below
 550960001148,Doerfler Elementary,470,404,0.8595744680851064,.0025241,tps,above
 550960001154,Eighty-First Street Elementary,264,221,0.8371212121212122,.0009587,tps,above
 550960001155,Milwaukee German Immersion,518,138,0.26640926640926643,.0210158,tps,below
@@ -86,13 +86,13 @@ schoolid,schoolName,pop,minority_pop,minority_percentsci,type,compareMedian
 550960001161,Milwaukee Spanish Immersion,458,382,0.834061135371179,.0015546,tps,above
 550960001162,Fifty-Third Street Elementary,247,232,0.9392712550607287,.0028511,tps,above
 550960001163,Forest Home Elementary,648,594,0.9166666666666666,.0063454,tps,above
-550960001164,Meir School,281,177,0.6298932384341637,.0034896,tps,above
+550960001164,Meir School,281,177,0.6298932384341637,.0034896,tps,below
 550960001165,Franklin Elementary,164,162,0.9878048780487805,.0025095,tps,above
 550960001166,Fratney Elementary,366,302,0.825136612021858,.0009894,tps,above
 550960001169,Gaenslen Elementary,410,354,0.8634146341463415,.0023238,tps,above
 550960001170,Barbee Elementary,190,180,0.9473684210526315,.0023123,tps,above
 550960001172,Garland Elementary,328,115,0.35060975609756095,.0111682,tps,below
-550960001173,Goodrich Elementary,246,181,0.7357723577235772,.0010377,tps,above
+550960001173,Goodrich Elementary,246,181,0.7357723577235772,.0010377,tps,below
 550960001174,River Trail Elementary,238,201,0.8445378151260504,.001001,tps,above
 550960001175,Grant Elementary,434,337,0.7764976958525346,.0004618,tps,above
 550960001176,Grantosa Drive Elementary,344,325,0.9447674418604651,.0041172,tps,above
@@ -115,45 +115,45 @@ schoolid,schoolName,pop,minority_pop,minority_percentsci,type,compareMedian
 550960001206,Lincoln Avenue Elementary,432,382,0.8842592592592593,.003146,tps,above
 550960001208,Hopkins Lloyd,178,167,0.9382022471910112,.0020399,tps,above
 550960001209,Longfellow Elementary,554,515,0.9296028880866426,.00598,tps,above
-550960001210,Lowell Elementary,201,130,0.6467661691542289,.0022335,tps,above
-550960001213,Manitoba Elementary,305,216,0.7081967213114754,.001938,tps,above
+550960001210,Lowell Elementary,201,130,0.6467661691542289,.0022335,tps,below
+550960001213,Manitoba Elementary,305,216,0.7081967213114754,.001938,tps,below
 550960001214,Maple Tree Elementary,185,162,0.8756756756756757,.0012242,tps,above
 550960001216,Maryland Montessori,229,67,0.2925764192139738,.0088266,tps,below
 550960001219,Mitchell Elementary,389,355,0.9125964010282777,.0036866,tps,above
 550960001220,Morgandale Elementary,337,287,0.8516320474777448,.0016025,tps,above
 550960001224,Neeskara Elementary,324,276,0.8518518518518519,.0015462,tps,above
-550960001225,Ninety-Fifth Street Elementary,335,237,0.7074626865671642,.0021476,tps,above
-550960001231,Parkview Elementary,370,206,0.5567567567567567,.0066908,tps,above
+550960001225,Ninety-Fifth Street Elementary,335,237,0.7074626865671642,.0021476,tps,below
+550960001231,Parkview Elementary,370,206,0.5567567567567567,.0066908,tps,below
 550960001233,Pierce Elementary,364,335,0.9203296703296703,.0036677,tps,above
 550960001236,Riley Elementary,461,425,0.9219088937093276,.0047014,tps,above
 550960001239,Academy Of Accelerated Learning,542,152,0.28044280442804426,.0214003,tps,below
 550960001240,Sherman Elementary,201,192,0.9552238805970149,.0025685,tps,above
 550960001243,Silver Spring Elementary,203,201,0.9901477832512315,.0031432,tps,above
 550960001246,Honey Creek Elementary,335,166,0.4955223880597015,.0076467,charter,below
-550960001249,Story Elementary,258,171,0.6627906976744186,.0025466,tps,above
-550960001250,Stuart Elementary,289,215,0.7439446366782007,.0010361,tps,above
+550960001249,Story Elementary,258,171,0.6627906976744186,.0025466,tps,below
+550960001250,Stuart Elementary,289,215,0.7439446366782007,.0010361,tps,below
 550960001255,Thoreau Elementary,320,303,0.946875,.0038822,tps,above
-550960001256,Bethune Academy,320,211,0.659375,.0032433,tps,above
+550960001256,Bethune Academy,320,211,0.659375,.0032433,tps,below
 550960001258,Townsend Street Elementary,196,191,0.9744897959183674,.0027971,tps,above
-550960001259,Trowbridge Street Elementary,140,82,0.5857142857142857,.0022177,tps,above
+550960001259,Trowbridge Street Elementary,140,82,0.5857142857142857,.0022177,tps,below
 550960001261,Jackson Elementary,251,244,0.9721115537848606,.0035357,tps,above
 550960001264,Victory Elementary,322,141,0.43788819875776397,.0087873,tps,below
 550960001265,Vieau Elementary,469,449,0.9573560767590619,.0060706,tps,above
-550960001270,Whitman Elementary,236,134,0.5677966101694916,.0040658,tps,above
+550960001270,Whitman Elementary,236,134,0.5677966101694916,.0040658,tps,below
 550960001271,Whittier Elementary,178,64,0.3595505617977528,.0059376,charter,below
 550960001317,La Causa Charter School,532,526,0.9887218045112782,.0081785,charter,above
 550960001512,Westside Academy,233,228,0.9785407725321889,.0033982,tps,above
 550960001829,Carson Academy,212,206,0.9716981132075472,.0029796,tps,above
-550960001847,Highland Community School,203,108,0.5320197044334976,.0040598,charter,above
-550960002340,Milwaukee French Immersion,416,273,0.65625,.004317,tps,above
-550960002342,Zablocki Elementary,394,297,0.7538071065989848,.0011116,tps,above
+550960001847,Highland Community School,203,108,0.5320197044334976,.0040598,charter,below
+550960002340,Milwaukee French Immersion,416,273,0.65625,.004317,tps,below
+550960002342,Zablocki Elementary,394,297,0.7538071065989848,.0011116,tps,below
 550960002395,Brown Street Academy,282,272,0.9645390070921985,.003807,tps,above
-550960002415,Milwaukee Parkside School,478,250,0.5230125523012552,.009893,tps,above
+550960002415,Milwaukee Parkside School,478,250,0.5230125523012552,.009893,tps,below
 550960002438,Elm Creative Arts Elementary,423,402,0.950354609929078,.0052458,tps,above
 550960002439,Thurston Woods Elementary,259,248,0.9575289575289575,.0033559,tps,above
 550960002442,Starms Discovery,268,264,0.9850746268656716,.0040443,tps,above
 550960002464,Metcalfe Elementary,184,180,0.9782608695652174,.0026796,tps,above
-550960002493,Ideal,149,106,0.7114093959731543,.0009097,charter,above
+550960002493,Ideal,149,106,0.7114093959731543,.0009097,charter,below
 550960002498,Business And Economics Academy Of Milwaukee,479,471,0.9832985386221295,.0071625,charter,above
 550960002601,Rogers Street Academy,389,372,0.9562982005141388,.0050032,tps,above
 550960002602,Carver Academy,274,267,0.9744525547445255,.0039094,tps,above
@@ -163,13 +163,13 @@ schoolid,schoolName,pop,minority_pop,minority_percentsci,type,compareMedian
 550960002860,Milwaukee College Preparatory School -- Lloyd Street,313,306,0.9776357827476039,.004543,charter,above
 550960002870,Daniels University Preparatory Academy,114,112,0.9824561403508771,.0016972,charter,above
 550960002911,Howard Avenue Montessori School,134,36,0.26865671641791045,.0054132,tps,below
-550960002931,Macdowell Montessori School K3-12,254,181,0.7125984251968503,.0015273,tps,above
+550960002931,Macdowell Montessori School K3-12,254,181,0.7125984251968503,.0015273,tps,below
 550960002949,Milwaukee Environmental Science Academy,236,223,0.9449152542372882,.0028273,charter,above
 550960002967,Universal Academy For The College Bound,529,512,0.9678638941398866,.0072778,charter,above
 550960002979,Hapa-Hmong Amer Peace Academy K3-12,672,16,0.023809523809523808,.0398903,charter,below
 550960002993,Obama School Of Career And Technical Education,135,133,0.9851851851851852,.0020384,tps,above
 550960003371,Alba - Academia De Lenguaje Y Bellas Artes,327,324,0.9908256880733946,.0050803,charter,above
-A0110249,Eastbrook Academy,385,226,0.587012987012987,.0060598,private,above
+A0110249,Eastbrook Academy,385,226,0.587012987012987,.0060598,private,below
 A0110294,St Sava Orthodox School,83,0,0.0,.00508,private,below
 A0303368,Hope Christian School - Prima,536,525,0.9794776119402985,.0078562,private,above
 A0304119,St Lucas Evangelical Lutheran School,168,55,0.3273809523809524,.0060226,private,below
@@ -182,7 +182,7 @@ A0702467,Hickman Academy Preparatory School,314,310,0.9872611464968153,.0047916,
 A0702469,Hope Christian School - Fortis,433,431,0.9953810623556582,.0068799,private,above
 A0702477,Loving Shepherd Lutheran School,68,27,0.39705882352941174,.0020707,private,below
 A0903869,Right Step,154,150,0.974025974025974,.0021922,private,above
-A0992067,St Joseph Academy,312,220,0.7051282051282052,.0020566,private,above
+A0992067,St Joseph Academy,312,220,0.7051282051282052,.0020566,private,below
 A1504120,Hope Christian School: Caritas,185,184,0.9945945945945946,.0029282,private,above
 A1504122,Institute Of Technology And Academics,249,247,0.9919678714859438,.0038905,private,above
 A1504172,Sainta,32,13,0.40625,.0009517,private,below
@@ -194,7 +194,7 @@ A1592227,Hope Christian School - Semper,280,273,0.975,.0040069,private,above
 A1592232,Shining Star Christian School-West Capital,138,12,0.08695652173913043,.0075168,private,below
 A9106937,Messmer Catholic Schools,1598,1482,0.9274092615769712,.0169777,private,above
 A9107011,Yeshiva Elementary School,168,0,0.0,.0102824,private,below
-A9301055,St Coletta Day School Of Milwaukee,25,15,0.6,.0003683,private,above
+A9301055,St Coletta Day School Of Milwaukee,25,15,0.6,.0003683,private,below
 A9301062,Holy Redeemer Christian Academy,585,582,0.9948717948717949,.0092719,private,above
 A9304123,Believers In Christ Christian Academy,226,214,0.9469026548672567,.0027423,private,above
 A9504545,Nativity Jesuit Middle,140,140,1.0,.0022745,private,above

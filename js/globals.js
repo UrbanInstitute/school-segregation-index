@@ -1,3 +1,13 @@
+const TAMARACK_ID = "A9703704"
+
+
+
+
+
+
+
+
+
 var IS_SHORT = function(){
   return (d3.select("#isShort").style("display") == "block")
 }
@@ -32,6 +42,8 @@ function getInternetExplorerVersion()
   return rv;
 }
 
+
+
 var PHONE_VIS_WIDTH = 230;
 var PHONE_VIS_HEIGHT = 400;
 var SHORT_VIS_WIDTH = 600;
@@ -44,7 +56,7 @@ var VIS_HEIGHT = 680;
 var DURATION = 800;
 
 
-var MARGIN = { top: 100, left: 120, bottom: 104, right: 20 };
+var MARGIN = { top: 10, left: 120, bottom: 104, right: 20 };
 var PHONE_MARGIN = { top: 110, left: 40, bottom: 30, right: 30 };
 
 
