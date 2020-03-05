@@ -1,6 +1,14 @@
 - Get crosswalk from T of composite districts (where diff levels overlap)
 - Get from T M for each district
 - Get from T strat for duplicate schools
-- Get from T district leaid in school file
+	- Get from T district leaid in school file
+- should dot sizes be consistently normalized across all schools?
+	- for V chart, when all schools same, should pop size be accurate?
+- should V chart rescale when normalized, e.g. "466627001128"
 - duration of map dependent on distance btwn districts?
 - pull dist boundaries from valid dists, not from shapefile
+- limit autocomplete search results (e.g. "school")
+
+- click to go to district behavior
+	- don't fly to if v close dist?
+	- small tooltip, click to select

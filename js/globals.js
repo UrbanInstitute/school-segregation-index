@@ -1,5 +1,18 @@
-const TAMARACK_ID = "A9703704"
+const NARRATIVE_FIXED_R = 7,
+      NARRATIVE_DOT_SCALAR = .2,
+      TAMARACK_ID = "A9703704",
+      MILWAUKEE_ID = "5509600",
+      DEFAULT_MAP_CENTER = [-87.95301604229502,43.05051815873145],
+      DEFAULT_MAP_ZOOM = 9.424957516747982,
+      DEFAULT_LEVEL = "1",
+      
+      MAP_SHOW_DOT_OPACITY = "100%",
+      MAP_HIDE_DOT_OPACITY = " 10%",
+      V_HIDE_DOT_OPACITY = .1;
+      V_SHOW_DOT_OPACITY = .8,
+      DEFAULT_TRANSITION_TIME = 250
 
+let ALL_SCHOOL_TYPES = ["tps","private","charter","magnet"]
 
 
 
@@ -73,3 +86,11 @@ var dotMax = 1.4;
 
 var thresholdSmall = 6000;
 var thresholdLarge = 10000;
+
+
+
+
+
+
+
+

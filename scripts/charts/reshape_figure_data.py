@@ -2,9 +2,6 @@ import csv
 from os import environ as env
 from sys import argv as argv
 
-
-
-
 with open("%s/%s/data/charts/source/CCD-PSS2015_SegCounterfactuals_glea_FINALIZED.csv"%(env["PROJECT_PATH"], argv[1])) as sourceFile:
 	reader = csv.reader(sourceFile)
 	head = next(reader)
@@ -14,7 +11,7 @@ with open("%s/%s/data/charts/source/CCD-PSS2015_SegCounterfactuals_glea_FINALIZE
 
 	with open('%s/%s/data/charts/csv/all_schools.csv'%(env["PROJECT_PATH"], argv[1]), 'w', newline='') as outFile:
 		writer = csv.writer(outFile)
-		writer.writerow(["schoolid", "level","districtId", "schoolName","pop", "minority_pop","minority_percent","sci", "type","compareMedian"])
+		writer.writerow(["schoolId", "level","districtId", "schoolName","pop", "minority_pop","minority_percent","sci", "type","compareMedian"])
 		for row in reader:
 			schoolTypeString = ""
 			for schoolType in ["tps", "charter", "magnet", "private"]:

@@ -1,9 +1,3 @@
-function setActiveDistrict(districtId){
-  d3.select("#activeDistrict").datum(districtId)
-}
-function getActiveDistrict(){
-  return  d3.select("#activeDistrict").datum()
-}
 
 
 /**
@@ -17,9 +11,8 @@ var scrollVis = function () {
   // and margins of the vis area.
   var svgWidth,
       svgHeight,
-      barsHeight,
-      recaptureContainerX,
-      recaptureContainerY,
+      exploreVWidth,
+      exploreVHeight,
       TAMARACK_MEDIAN,
       MILWAUKEE_SUM;
 
@@ -28,14 +21,9 @@ var scrollVis = function () {
 
 
 
-  const NARRATIVE_FIXED_R = 7,
-        NARRATIVE_DOT_SCALAR = .2,
-        TAMARACK_ID = "A9703704",
-        MILWAUKEE_ID = "5509600",
-        DEFAULT_LEVEL = "1",
-        NUMBER_LINE_DOT_OPACITY = 1,
-        DEFAULT_TRANSITION_TIME = 250
 
+  exploreVHeight = 500;
+  exploreVWidth = 500;
 
   if ( IS_PHONE() ){ svgWidth = PHONE_VIS_WIDTH }
   else if ( IS_SHORT() ){ svgWidth = SHORT_VIS_WIDTH }
@@ -55,6 +43,7 @@ var scrollVis = function () {
   // // var barsHeight = ( IS_PHONE() ) ? height*.5 : height*.65;
 
   svgMargin = ( IS_PHONE() ) ? PHONE_MARGIN : MARGIN;
+  var vExploreMargin = { top: 0, left: 10, bottom: 0, right: 50 };
   // var dotMargin = (IS_PHONE() ) ? PHONE_DOT_MARGIN : DOT_MARGIN;
 
   // Keep track of which visualization
@@ -70,11 +59,13 @@ var scrollVis = function () {
   // main svg used for visualization
   var svg = null;
   var svgChoose = null;
+  var svgExplore = null;
 
   // d3 selection that will be used
   // for displaying visualizations
   var g = null;
   var gChoose = null;
+  var gExplore = null;
 
   // var barPadding = (IS_PHONE()) ? .4 : .1
   // var x = d3.scaleBand().rangeRound([0, width]).padding(barPadding),
@@ -118,22 +109,26 @@ var scrollVis = function () {
 
 
       svgChoose = d3.select("#narrativeChooseSchoolChartContainer").append('svg')
-      // @v4 use merge to combine enter and existing selection
-      // svg = svg.merge(svgE);
-
       svgChoose.attr('width', svgWidth + svgMargin.left + svgMargin.right);
       svgChoose.attr('height', svgHeight + svgMargin.top + svgMargin.bottom);
-
       svgChoose.append('g');
 
+      svgExplore = d3.select("#exploreVChartContainer").append('svg')
+      svgExplore.attr('width', exploreVWidth + vExploreMargin.left + vExploreMargin.right);
+      svgExplore.attr('height', exploreVHeight + vExploreMargin.top + vExploreMargin.bottom);
+      svgExplore.append('g');
 
-      // this group element will be used to contain all
-      // other elements.
-      g = d3.select('g')
+
+
+      g = svg.select('g')
         .attr('transform', 'translate(' + svgMargin.left + ',' + svgMargin.top + ')');
-
       gChoose = svgChoose.select('g')
         .attr('transform', 'translate(' + svgMargin.left + ',' + svgMargin.top + ')');
+      gExplore = svgExplore.select('g')
+        .attr('transform', 'translate(' + vExploreMargin.left + ',' + vExploreMargin.top + ')');
+
+
+    
 
       // perform some preprocessing on raw data
       var milwaukeeData = preprocessMilwaukeeData(rawData[0], rawData[2]);
@@ -141,17 +136,165 @@ var scrollVis = function () {
       var allDistrictData = rawData[2]
 
 
+      bindGlobalData(milwaukeeData, schoolData, null, allDistrictData);
+
       setupVis(milwaukeeData, schoolData, null, allDistrictData);
+      
+      setupExploreVis(milwaukeeData, allDistrictData);
 
       setupSections(milwaukeeData, schoolData, null, allDistrictData);
     });
   };
+function setupControls(){
+  d3.selectAll(".levelButton").on("click", function(){
+    var level = d3.select(this).attr("data-level")
+    if(level == getLevel()) return false
+    else setLevel(level)
+  })
+  d3.selectAll(".radioContainer").on("click", function(){
+    // var schoolTypes = all(),
+    var el = d3.select(this);
+    var newSchoolTypes = []
+
+    if(el.classed("all")){
+      if(el.classed("active")) newSchoolTypes = []
+      else newSchoolTypes = ALL_SCHOOL_TYPES
+
+    }else{
+
+      ALL_SCHOOL_TYPES.forEach(function(s){
+        // console.log(s)
+        if(el.classed(s)){
+          if(el.classed("active") == false){
+            newSchoolTypes.push(s)
+          }
+        }else{
+          if(d3.select(".radioContainer." + s).classed("active")){
+            newSchoolTypes.push(s)
+          }
+
+        }
+      })
+    }
+    
+    setSchoolTypes(newSchoolTypes)
+  })
+}
+
+function setupExploreVis(milwaukeeData, allDistrictData){
+  setupControls();
+
+  gExplore.selectAll(".explore").remove()
+
+    var x = getVX("explore");
+    var y = getVY("explore", 1, milwaukeeData);
+    var vH = getVHeight("explore", -1)
+    var vW = getVWidth("explore")
+    var vMargins = getVMargins("explore")
+    var chartPos = getRelativeChartPositions("explore")
+  
+var districtMedian = TAMARACK_MEDIAN
+
+    gExplore
+      .append("line")
+      .attr("class", "explore medianLine")
+            .attr("x1", x(districtMedian))
+      .attr("x2", x(districtMedian))
+      .attr("y1", chartPos.y1)
+      .attr("y2", chartPos.y1)
+
+    gExplore.append("g")
+  .attr("class", "v explore y axis")
+  .attr("transform", "translate(" + vMargins.left + ",0)")
+  // .style("opacity",0)
+  .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+
+      gExplore.append("g")
+        .attr("class", "v explore x axis")
+        .attr("transform", "translate(0," + (getVHeight("explore",1)) + ")")
+        .call(d3.axisBottom(x)
+                .tickFormat(d3.format(".0%"))
+                .tickSizeOuter(0)
+             );
+
+ var avgGExplore = gExplore.append("g")
+    .attr("class", "explore medianTextG")
+    .attr("transform", "translate(" + (x(districtMedian) - 50) + "," + (svgHeight + 200) + ")")
+
+    avgGExplore.append("text")
+      .attr("class", "explore districtAverage label")
+      .text("District Average")
+      .attr("x",0)
+      .attr("y",0)
+
+    avgGExplore.append("text")
+
+      .attr("class", "explore districtAverage value")
+      .text(d3.format(".0%")(districtMedian) + " black and hispanic")
+      .attr("x",0)
+      .attr("y",20)
 
 
-function setupChooseVis(districtData, schoolid, districtDatum){
+        gExplore.selectAll(".lollipop.explore")
+        .data(milwaukeeData)
+      .enter().append("line")
+        .attr("x1", function(d) { return x(d.minority_percent); })
+        .attr("x2", function(d) { return x(d.minority_percent); })
+        .attr("y1", function(d){ return y(0) })
+        .attr("y2", function(d){ return y(d.sci) })
+        .attr("class",function(d){
+          return d.type + " sid_" + d.schoolId;
+        })
+        .classed("lollipop explore",true)
+        .classed("belowMedian", function(d){
+          return d.compareMedian == "below"
+        })
+        .classed("aboveMedian", function(d){
+          return d.compareMedian == "above"
+        })
+        // .classed("highlight", function(d){
+        //   return d.schoolId == schoolId
+        // })
+
+
+        gExplore.selectAll(".dot.explore")
+        .data(milwaukeeData)
+      .enter().append("circle")
+        .attr("r", function(d){return NARRATIVE_DOT_SCALAR*Math.sqrt(d.pop)})
+        .attr("cx", function(d) { return x(d.minority_percent); })
+        .attr("cy", function(d) { return y(d.sci); })
+        .attr("class",function(d){
+          return d.type + " sid_" + d.schoolId;
+        })
+        .classed("dot explore",true)
+        .classed("belowMedian", function(d){
+          return d.compareMedian == "below"
+        })
+        .classed("aboveMedian", function(d){
+          return d.compareMedian == "above"
+        })
+        .style("opacity", V_SHOW_DOT_OPACITY)
+
+
+
+    // activeDot = d3.select(".dot.explore.highlight")
+    // activeLine = d3.select(".lollipop.explore.highlight")
+
+    // adClone = activeDot.node().cloneNode(true)
+    // alClone = activeLine.node().cloneNode(true)
+
+    // d3.select(adClone).classed("beeHide", true).datum(activeDot.datum())
+    // d3.select(alClone).classed("beeHide", true).datum(activeLine.datum())
+    
+    
+    // activeDot.node().parentNode.appendChild(adClone)
+    // activeDot.node().parentNode.appendChild(alClone)
+
+}
+
+function setupChooseVis(districtData, schoolId, districtDatum){
 districtData.sort(function(a, b){ return (a.minority_percent < b.minority_percent) ? -1 : 1 })
 gChoose.selectAll(".choose").remove()
-
 
     var x = getVX("choose");
     var y = getVY("choose", 1, districtData);
@@ -161,19 +304,18 @@ gChoose.selectAll(".choose").remove()
     var chartPos = getRelativeChartPositions("choose")
 
     var districtMedian = districtDatum.M //replace with info from mapped distrits JSON
-// console.log(gChoose)
 
   
     gChoose
       .append("line")
-      .attr("class", "choose medianLine")
+      .attr("class", "choose medianLine narrative")
             .attr("x1", x(districtMedian))
       .attr("x2", x(districtMedian))
       .attr("y1", chartPos.y1)
       .attr("y2", chartPos.y1)
 
     gChoose.append("g")
-  .attr("class", "narrative v choose y axis")
+  .attr("class", "v choose y axis")
   .attr("transform", "translate(" + vMargins.left + ",0)")
   .style("opacity",0)
   .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
@@ -187,7 +329,7 @@ gChoose.selectAll(".choose").remove()
              );
 
  var avgGChoose = gChoose.append("g")
-    .attr("class", "choose medianTextG")
+    .attr("class", "choose medianTextG narrative")
     .attr("transform", "translate(" + (x(districtMedian) - 50) + "," + (svgHeight + 200) + ")")
 
     avgGChoose.append("text")
@@ -212,7 +354,7 @@ gChoose.selectAll(".choose").remove()
         .attr("y1", function(d){ return y(0) })
         .attr("y2", function(d){ return y(0) })
         .attr("class",function(d){
-          return "sid_" + d.schoolid;
+          return d.type + " sid_" + d.schoolId;
         })
         .classed("lollipop narrative choose",true)
         .classed("belowMedian", function(d){
@@ -222,20 +364,20 @@ gChoose.selectAll(".choose").remove()
           return d.compareMedian == "above"
         })
         .classed("highlight", function(d){
-          return d.schoolid == schoolid
+          return d.schoolId == schoolId
         })
 
 
         gChoose.selectAll(".dot.narrative.choose")
         .data(districtData)
       .enter().append("circle")
-        .attr("r", NARRATIVE_FIXED_R)
-        .attr("cx", function(d) { return x(d.minority_percent); })
-        .attr("cy", function(d){
-          return (d.schoolid == schoolid) ? chartPos.dot  : chartPos.hide;
+        .attr("r", function(d){
+          return (d.schoolId == schoolId) ? NARRATIVE_FIXED_R  : 0;
         })
+        .attr("cx", function(d) { return x(d.minority_percent); })
+        .attr("cy", chartPos.dot)
         .attr("class",function(d){
-          return "sid_" + d.schoolid;
+          return d.type + " sid_" + d.schoolId;
         })
         .classed("dot narrative choose",true)
         .classed("belowMedian", function(d){
@@ -245,10 +387,10 @@ gChoose.selectAll(".choose").remove()
           return d.compareMedian == "above"
         })
         .classed("highlight", function(d){
-          return d.schoolid == schoolid
+          return d.schoolId == schoolId
         })
         .style("opacity", function(d){
-          return (d.schoolid == schoolid) ? 1 : NUMBER_LINE_DOT_OPACITY;
+          return (d.schoolId == schoolId) ? 1 : V_SHOW_DOT_OPACITY;
         })
 
 
@@ -275,7 +417,7 @@ gChoose.selectAll(".choose").remove()
   function buildAutocompletes(schoolData, allDistrictData){
     var schoolNames = schoolData
         .filter(function(o){ return o.level == DEFAULT_LEVEL }).map(function(o){
-          return {"label" : o.schoolName + " " + " (" + o.level + ")", "value": o.schoolid
+          return {"label" : o.schoolName + " " + " (" + o.level + ")", "value": o.schoolId
         }
     })
 
@@ -285,16 +427,13 @@ gChoose.selectAll(".choose").remove()
         delay: 0,
         appendTo: "#narrativeChooseSchoolList",
         select: function(event, ui){
-          // console.log("asdf")
-          var schoolDatum = schoolData.filter(function(o){ return o.schoolid == ui.item.value })[0]
+          var schoolDatum = schoolData.filter(function(o){ return o.schoolId == ui.item.value })[0]
           var districtData = schoolData.filter(function(o){ return o.districtId == schoolDatum.districtId && o.level == schoolDatum.level })
 
-
           setActiveDistrict(schoolDatum.districtId)
+          // dispatch.call("changeDistrict", this, schoolDatum.districtId)
 
-          dispatch.call("changeDistrict", this, schoolDatum.districtId)
-
-          setupChooseVis(districtData, schoolDatum.schoolid, allDistrictData[schoolDatum.districtId + "_" + schoolDatum.level])
+          setupChooseVis(districtData, schoolDatum.schoolId, allDistrictData[schoolDatum.districtId + "_" + schoolDatum.level])
 
           activateFunctions[activeIndex]("choose")
 
@@ -326,7 +465,7 @@ gChoose.selectAll(".choose").remove()
   */
   var setupVis = function (milwaukeeData, schoolData, mapData, allDistrictData) {
 
-    setActiveDistrict(MILWAUKEE_ID)
+
 
     buildAutocompletes(schoolData, allDistrictData)    
     g.append("text")
@@ -347,7 +486,7 @@ gChoose.selectAll(".choose").remove()
 
     g
       .append("line")
-      .attr("class", "milwaukee medianLine")
+      .attr("class", "milwaukee medianLine narrative")
       .attr("x1", x(TAMARACK_MEDIAN))
       .attr("x2", x(TAMARACK_MEDIAN))
       .attr("y1", chartPos.y1)
@@ -375,11 +514,11 @@ gChoose.selectAll(".choose").remove()
              );
 
     var avgG = g.append("g")
-    .attr("class", "milwaukee medianTextG")
+    .attr("class", "milwaukee medianTextG narrative")
     .attr("transform", "translate(" + (x(TAMARACK_MEDIAN) - 50) + "," + (svgHeight + 200) + ")")
 
     avgG.append("text")
-      .attr("class", "milwaukee districtAverage label")
+      .attr("class", "milwaukee districtAverage label narrative")
       .text("District Average")
       .attr("x",0)
       .attr("y",0)
@@ -400,7 +539,7 @@ gChoose.selectAll(".choose").remove()
         .attr("y1", function(d){ return y(0) })
         .attr("y2", function(d){ return y(0) })
         .attr("class",function(d){
-          return "sid_" + d.schoolid;
+          return d.type + " sid_" + d.schoolId;
         })
         .classed("lollipop narrative milwaukee",true)
         .classed("belowMedian", function(d){
@@ -410,20 +549,20 @@ gChoose.selectAll(".choose").remove()
           return d.compareMedian == "above"
         })
         .classed("highlight", function(d){
-          return d.schoolid == TAMARACK_ID
+          return d.schoolId == TAMARACK_ID
         })
 
 
         g.selectAll(".dot.narrative.milwaukee")
         .data(milwaukeeData)
       .enter().append("circle")
-        .attr("r", NARRATIVE_FIXED_R)
-        .attr("cx", function(d) { return x(d.minority_percent); })
         .attr("cy", function(d){
-          return (d.schoolid == TAMARACK_ID) ? chartPos.dot : chartPos.hide;
+          return (d.schoolId == TAMARACK_ID) ? NARRATIVE_FIXED_R : 0;
         })
+        .attr("cx", function(d) { return x(d.minority_percent); })
+        .attr("cy",  chartPos.dot )
         .attr("class",function(d){
-          return "sid_" + d.schoolid;
+          return d.type + " sid_" + d.schoolId;
         })
         .classed("dot narrative milwaukee",true)
         .classed("belowMedian", function(d){
@@ -433,10 +572,10 @@ gChoose.selectAll(".choose").remove()
           return d.compareMedian == "above"
         })
         .classed("highlight", function(d){
-          return d.schoolid == TAMARACK_ID
+          return d.schoolId == TAMARACK_ID
         })
         .style("opacity", function(d){
-          return (d.schoolid == TAMARACK_ID) ? 1 : NUMBER_LINE_DOT_OPACITY;
+          return (d.schoolId == TAMARACK_ID) ? 1 : V_SHOW_DOT_OPACITY;
         })
 
 
@@ -460,6 +599,11 @@ gChoose.selectAll(".choose").remove()
     tamarackDot.node().parentNode.appendChild(tlClone)
     
 
+
+    setActiveDistrict(MILWAUKEE_ID)
+    setLevel(DEFAULT_LEVEL)
+    setActiveSchool(TAMARACK_ID)
+    setSchoolTypes(ALL_SCHOOL_TYPES)
 
     // y domain
 
@@ -494,9 +638,8 @@ gChoose.selectAll(".choose").remove()
     activateFunctions[5] = function(trigger){ scaleDotsByPopulation(milwaukeeData, chartData, mapData,allDistrictData,trigger) };
     activateFunctions[6] = function(trigger){ breakInNarrative(milwaukeeData, chartData, mapData,allDistrictData,trigger) };
     activateFunctions[7] = function(trigger){ stackSCI(milwaukeeData, chartData, mapData,allDistrictData,trigger) };
-    activateFunctions[8] = function(trigger){ groupedStackedSCI(milwaukeeData, chartData, mapData,allDistrictData,trigger) };
-    activateFunctions[9] = function(trigger){ narrativeBeeSwarm(milwaukeeData, chartData, mapData,allDistrictData,trigger) };
-    activateFunctions[10] = function(trigger){ dispatch.call("changeDistrict", this, getActiveDistrict())  };
+    activateFunctions[8] = function(trigger){ narrativeBeeSwarm(milwaukeeData, chartData, mapData,allDistrictData,trigger) };
+    activateFunctions[9] = function(trigger){ lastSection(milwaukeeData, chartData, mapData,allDistrictData,trigger);}
   };
 
   /**
@@ -515,9 +658,7 @@ gChoose.selectAll(".choose").remove()
   */
  
 
-  function getChooseSchoolStatus(){
-    return (d3.select("#narrativeChooseSchoolContainer").classed("open")) ? "open" : "closed";
-  }
+
   function showChooseSchool(){
     var containerHeight = (getChooseSchoolStatus() == "open") ? (window.innerHeight * .5 - 25) + "px" : "50px"
     d3.select("#narrativeChooseSchoolContainer")
@@ -574,75 +715,6 @@ gChoose.selectAll(".choose").remove()
   //   //do some stuff
   // })
 
-
-  function getSize(){
-    return "desktop"
-  }
-
-
-
-
-  function getVWidth(section){
-    var size = getSize(),
-        margins = getVMargins(section),
-        width = 600 - margins.left - margins.right;
-    return width
-
-  }
-  function getVHeight(section, index){
-    var size = getSize(),
-        chooseSchoolStatus = getChooseSchoolStatus()
-        margins = getVMargins(section, size),
-        baseH = (chooseSchoolStatus == "closed" || index > 5) ? 600 : 300;
-        if(section == "choose") baseH = 300;
-        height = baseH - margins.top - margins.bottom;
-
-
-    return height
-  }
-  function getRelativeChartPositions(section, index){
-    chooseSchoolStatus = getChooseSchoolStatus()
-    scalar = (chooseSchoolStatus == "closed" || index > 5) ? .1 : .15;
-
-
-
-    var vH = getVHeight(section, index)
-    return {"y1": vH , "y2": vH *.5, "y3": vH * scalar, "dot": vH - 20, "hide" : - 50, "lowM": vH * .5 - 30, "highM": vH * scalar + 10}
-  }
-  function getVMargins(section){
-    var size = getSize()
-    var margin = {top: 20, right: 20, bottom: 30, left: 50}
-      
-    return margin;  
-  }
-  function getVX(section){
-    var width = getVWidth(section),
-        margins = getVMargins(section)
-  
-    var x = d3
-      .scaleLinear()
-      .range([margins.left, width])
-      .domain([0,1])
-
-    return x
-  }
-  function getVY(section, index, data){
-    var height = getVHeight(section, index)
-        
-    // if()
-  
-    if(index >= 7){
-      height = height *.8
-    }
-
-    var yMax = (index >= 7.5) ? 1 : d3.max(data, function(d) { return d.sci; })
-
-    var y = d3
-      .scaleLinear()
-      .range([height,60])
-      .domain([0, yMax]);
-    return y
-  }
 
   function unsquishCharts(){
 var   data = d3.selectAll(".milwaukee.dot").data(),
@@ -731,7 +803,7 @@ activateFunctions[activeIndex]("squish")
       chartSelector = ".milwaukee"
     }
     else if(trigger == "scroll"){
-      chartSelector = ""
+      chartSelector = ".narrative"
     }
     else if(trigger == "choose"){
       chartSelector = ".choose"
@@ -751,11 +823,12 @@ activateFunctions[activeIndex]("squish")
     var x = getVX("narrative");
     var y = getVY("narrative", 1, milwaukeeData);
     // d3.select("#placeholderText").text("just a dot")
-        d3.selectAll(".dot.narrative" + chartSelector)
+        d3.selectAll(".dot" + chartSelector)
         .transition()
-        .attr("cy", function(d){
-          return (d3.select(this).classed("highlight")) ? chartPos.dot : chartPos.hide;
+        .attr("r", function(d){
+          return (d3.select(this).classed("highlight")) ? NARRATIVE_FIXED_R : 0;
         })
+
 
 
       d3.selectAll(".medianLine" + chartSelector)
@@ -769,7 +842,7 @@ activateFunctions[activeIndex]("squish")
     .transition()
     .attr("transform", function(){ return "translate(" + (x(getM(this,allDistrictData)) - 50) + "," + (height + 200) + ")" })
 
-    d3.selectAll(".lollipop.narrative" + chartSelector)
+    d3.selectAll(".lollipop" + chartSelector)
         .transition()
         .duration(1000)
         .attr("y1", function(d){ return y(0) })
@@ -809,16 +882,16 @@ activateFunctions[activeIndex]("squish")
     .transition()
     .attr("transform", function(){ return "translate(" + (x(getM(this,allDistrictData)) - 50) + "," + chartPos.lowM + ")" })
 
-d3.selectAll(".lollipop.narrative"  + chartSelector)
+d3.selectAll(".lollipop"  + chartSelector)
         .transition()
         .duration(1000)
         .attr("y1", function(d){ return y(0) })
         .attr("y2", function(d){ return y(0) })
 
-        d3.selectAll(".dot.narrative" + chartSelector)
+        d3.selectAll(".dot" + chartSelector)
         .transition()
-        .attr("cy", function(d){
-          return (d3.select(this).classed("highlight")) ? chartPos.dot  : chartPos.hide;
+        .attr("r", function(d){
+          return (d3.select(this).classed("highlight")) ? NARRATIVE_FIXED_R  : 0;
         })
 
 
@@ -840,34 +913,42 @@ d3.selectAll(".lollipop.narrative"  + chartSelector)
 
 
 
-
-      d3.selectAll(".dot.narrative.milwaukee")
+     d3.selectAll(".dot.narrative.milwaukee.highlight")
+     .attr("cy", chartPos.dot)
+      d3.selectAll(".dot.narrative.milwaukee:not(.highlight)")
+      .attr("cy", chartPos.dot)
+      .attr("r",0)
       .transition()
-      .duration(400)
+      .duration(12500)
       .delay(function(d,i){
         return i*10;
       })
-      .attr("cy", function(d){
-      return chartPos.dot;
-      })
+      .ease(d3.easeElastic)
+      .attr("r", NARRATIVE_FIXED_R)
       .attr("cx", function(d) { return x(d.minority_percent); })
 
-      if(dLength > 0){
-        d3.selectAll(".dot.narrative.choose")
-        .transition()
-        .duration(400)
-        .delay(function(d,i){
 
+      if(dLength > 0){
+
+
+     d3.selectAll(".dot.narrative.choose.highlight")
+     .attr("cy", chartPos.dot)
+      d3.selectAll(".dot.narrative.choose:not(.highlight)")
+      .attr("cy", chartPos.dot)
+      .attr("r",0)
+      .transition()
+      .duration(5500)
+      .delay(function(d,i){
         return ( mLength/dLength * (i+1)*10)
         })
-        .attr("cy", function(d){
-        return chartPos.dot;
-        })
-        .attr("cx", function(d) { return x(d.minority_percent); })
+      .ease(d3.easeElastic)
+      .attr("r", NARRATIVE_FIXED_R)
+      .attr("cx", function(d) { return x(d.minority_percent); })
+
       }
 
     }else{
-      d3.selectAll(".dot.narrative" + chartSelector)
+      d3.selectAll(".dot" + chartSelector)
       .transition()
       .duration(DEFAULT_TRANSITION_TIME)
       .delay(0)
@@ -875,10 +956,11 @@ d3.selectAll(".lollipop.narrative"  + chartSelector)
         return chartPos.dot;
       })
       .attr("cx", function(d) { return x(d.minority_percent); })
+      .attr("r", NARRATIVE_FIXED_R)
     }
 
 
-        d3.selectAll(".lollipop.narrative" + chartSelector)
+        d3.selectAll(".lollipop" + chartSelector)
         .transition()
         // .ease(d3.easeElastic)
         .duration(1000)
@@ -888,7 +970,7 @@ d3.selectAll(".lollipop.narrative"  + chartSelector)
           return y(0)
         })
 
-d3.selectAll(".narrative.v.y.axis" + chartSelector)
+d3.selectAll(".v.y.axis" + chartSelector)
   .transition()
   .delay(1300)
   .style("opacity",0)
@@ -906,7 +988,7 @@ d3.selectAll(".narrative.v.y.axis" + chartSelector)
     var chartPos = getRelativeChartPositions("narrative",4)
 
       if(trigger == "scroll"){
-        d3.selectAll(".dot.narrative" + chartSelector)
+        d3.selectAll(".dot" + chartSelector)
         .transition()
         .duration(300)
         .attr("r", NARRATIVE_FIXED_R)
@@ -918,7 +1000,7 @@ d3.selectAll(".narrative.v.y.axis" + chartSelector)
           return (d3.select(this).classed("choose")) ? yC(d.normSci) : y(d.normSci)
         })
 
-        d3.selectAll(".lollipop.narrative" + chartSelector)
+        d3.selectAll(".lollipop" + chartSelector)
         .transition()
         .delay(300)
         .duration(1000)
@@ -930,7 +1012,7 @@ d3.selectAll(".narrative.v.y.axis" + chartSelector)
         })
 
       }else{
-        d3.selectAll(".dot.narrative" + chartSelector)
+        d3.selectAll(".dot" + chartSelector)
         .transition()
         .duration(DEFAULT_TRANSITION_TIME)
         .attr("cx", function(d) { return x(d.minority_percent); })
@@ -938,7 +1020,7 @@ d3.selectAll(".narrative.v.y.axis" + chartSelector)
           return (d3.select(this).classed("choose")) ? yC(d.normSci) : y(d.normSci)
         })
 
-        d3.selectAll(".lollipop.narrative" + chartSelector)
+        d3.selectAll(".lollipop" + chartSelector)
         .transition()
         .delay(0)
         .duration(DEFAULT_TRANSITION_TIME)
@@ -956,7 +1038,7 @@ d3.selectAll(".narrative.v.y.axis" + chartSelector)
 
   
 
-d3.selectAll(".narrative.v.y.axis" + chartSelector)
+d3.selectAll(".v.y.axis" + chartSelector)
   .transition()
   .delay(1500)
   .style("opacity",1)
@@ -1035,7 +1117,7 @@ if(trigger == "scroll"){
 
 
 if(trigger == "scroll"){
-         d3.selectAll(".dot.narrative" + chartSelector)
+         d3.selectAll(".dot" + chartSelector)
         .transition()
         .duration(500)
         .delay(function(d,i){
@@ -1046,7 +1128,7 @@ if(trigger == "scroll"){
           return (d3.select(this).classed("choose")) ? yC(d.sci) : y(d.sci)
         })
 
-        d3.selectAll(".lollipop.narrative" + chartSelector)
+        d3.selectAll(".lollipop" + chartSelector)
 
         .transition()
         .duration((trigger == "scroll") ? 500 : DEFAULT_TRANSITION_TIME)
@@ -1060,7 +1142,7 @@ if(trigger == "scroll"){
           return (d3.select(this).classed("choose")) ? yC(d.sci) : y(d.sci)
         })
 }else{
-         d3.selectAll(".dot.narrative" + chartSelector)
+         d3.selectAll(".dot" + chartSelector)
         .transition()
         .duration(DEFAULT_TRANSITION_TIME)
         .delay(0)
@@ -1069,7 +1151,7 @@ if(trigger == "scroll"){
           return (d3.select(this).classed("choose")) ? yC(d.sci) : y(d.sci)
         })
 
-        d3.selectAll(".lollipop.narrative" + chartSelector)
+        d3.selectAll(".lollipop" + chartSelector)
 
         .transition()
         .duration(DEFAULT_TRANSITION_TIME)
@@ -1213,15 +1295,19 @@ if(trigger == "scroll"){
  .transition()
   .delay(200)
         .attr("y2", function(d){ return ySquish(d.sci) })
-        .style("stroke-width", "2px")
+        .style("stroke-width", "10px")
 
 
             .transition()
             .delay(function(d,i){
-              if(10/d.sci < 3000){ return 10/d.sci }
-              else{ return 1/d.sci}
+              // if(10/d.sci < 3000){ return 5/d.sci }
+              return .5/d.sci
+              // return i*30
             })
-            .duration(900)
+            .duration(1200)
+                          .attr("x1", 200)
+              .attr("x2", 200)
+            // .ease(d3.easeBounce)
             
             .attr("y1", function(d,i){
               if(prevY == false){
@@ -1252,8 +1338,7 @@ if(trigger == "scroll"){
                 return ySquish(returnVal2)
               }
             })
-              .attr("x1", 200)
-              .attr("x2", 200)
+
             //   .transition()
             // .delay(function(d,i){
             //   if(10/d.sci < 3000){ return 900 - 10/d.sci }
@@ -1293,14 +1378,6 @@ if(trigger == "scroll"){
 
   }
 
-  function groupedStackedSCI(milwaukeeData, chartData, mapData,allDistrictData,trigger){
-    // d3.select("#placeholderText").text("stacked SCI break out 50/50")
-
-        d3.selectAll(".lollipop.narrative.milwaukee")
-        .transition()
-        .style("stroke-width", "50px")
-
-  }
 
   function narrativeBeeSwarm(milwaukeeData, chartData, mapData,allDistrictData,trigger){
     // d3.select("#placeholderText").text("BEES")
@@ -1324,7 +1401,7 @@ function BEES(data){
   // Map the basic node data to d3-friendly format.
   var nodes = data.map(function(node, index) {
     return {
-      schoolid: node.schoolid,
+      schoolId: node.schoolId,
       minority_pop: node.minority_pop,
       sci: node.sci,
       type: node.type,
@@ -1406,6 +1483,12 @@ function BEES(data){
 
   }
 
+   function lastSection(){
+    // dispatch.call("changeDistrict", this, getActiveDistrict());
+    setActiveDistrict(getActiveDistrict())
+    setLevel(DEFAULT_LEVEL)
+   } 
+
 
 
 
@@ -1428,6 +1511,8 @@ function BEES(data){
       d.minority_percent = +d.minority_percent;
       d.sci = +d.sci;
       d.normSci = Math.abs(+d.minority_percent - TAMARACK_MEDIAN)/MILWAUKEE_SUM
+      d.type = d.type;
+      d.schoolName = d.schoolName;
       return d;
     }).sort(function(a, b){ return (a.minority_percent < b.minority_percent) ? -1 : 1 })
   }
@@ -1441,6 +1526,8 @@ function BEES(data){
       d.sci = +d.sci;
       d.normSci = Math.abs(+d.minority_percent - districtDatum["M"])/districtDatum["sum"]
       d.compareMedian = (+d.minority_percent < districtDatum["M"]) ? "below" : "above"
+      d.type = d.type;
+      d.schoolName = d.schoolName;
       return d;
     }).sort(function(a, b){ return (a.schoolName < b.schoolName) ? -1 : 1 })
   }
@@ -1502,6 +1589,7 @@ function display(rawData) {
 
   scroll.on('resized', function(){
     d3.select("#narrativeVizContainer svg").remove()
+    d3.select("#exploreVChartContainer svg").remove()
     display(rawData)
   })
 

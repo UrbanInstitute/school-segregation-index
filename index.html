@@ -7,10 +7,11 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/> -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="css/style.css"/>
   <link rel="stylesheet" type="text/css" href="css/urban.css"/>
   <link rel="stylesheet" type="text/css" href="css/urban-header.css"/>
-  <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
+  
 
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic,900" rel="stylesheet" type="text/css">
 
@@ -57,6 +58,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div id = "isShort"></div>
 <div id = "sectionIndex" data-index="0"></div>
 <div id = "activeDistrict"></div>
+<div id = "activeLevel"></div>
+<div id = "activeSchool"></div>
+<div id = "milwaukeeDataContainer"></div>
+<div id = "schoolDataContainer"></div>
+<div id = "mapDataContainer"></div>
+<div id = "allDistrictDataContainer"></div>
+
 
 <!-- START HEADER -->
 <div id="header-pinned" class="no-touch">
@@ -95,7 +103,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div id='graphic'>
     <div id = "topText">
         <div id = "topTitle">How Much Does Your School Contribute to Segregation?</div>
-        <div id = "topHR"></div>
         <div class = "pubDate">March XX, 2020</div>
         <p>
         School segregation has proven to be one of America’s most intractable problems—difficult to change and complicated to understand.
@@ -154,17 +161,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <p>
         So how does this change how we typically think about school segregation? 
         </p>
-      </section>
-      <section class="step">
         <p>
         Traditional measures of segregation that look only at a school’s racial composition may miss schools that look vastly different from their districts, and these measures don’t quantify how much each school contributes to broader system segregation.
         </p>
+      </section>
+      <section class="step">
+
         <p>
         Our measure looks at segregation at the district level and treats schools as parts of a whole: each school contributes a certain share to total segregation in the broader system. 
         </p>
-       
-      </section>
-      <section class="step">
         <p>
         Beyond that, our SCI shifts conventional thinking about which schools are considered segregated. Absolute measures of segregation are often based solely on whether schools enroll a certain share of white students and, as a result, only flag schools that predominantly enroll large shares of Black or Hispanic students as segregated. 
         </p>
@@ -227,7 +232,166 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </p>
   <div id = "exploreContainer">
     <div>EXPLORE SECTION</div>
-    <div id = "mapContainer"></div>
+
+    <div id = "exploreMainNavContainer">
+      <div id = "levelContainer">
+        <div class = "levelButton active" data-level="1">Elementary schools</div>
+        <div class = "levelButton" data-level="2">Middle schools</div>
+        <div class = "levelButton" data-level="3">High schools</div>
+      </div>
+    </div>
+    
+
+    <div id = "schoolTypeControlContainer">
+      <div class = "radioContainer all active">
+        <div class = "radioButton"></div>
+        <div class = "radioLabel">All schools</div>
+      </div>
+      <div class = "radioContainer tps active">
+        <div class = "radioButton"></div>
+        <div class = "radioLabel">Traditional public schools</div>
+      </div>
+      <div class = "radioContainer private active">
+        <div class = "radioButton"></div>
+        <div class = "radioLabel">Private schools</div>
+      </div>
+      <div class = "radioContainer charter active">
+        <div class = "radioButton"></div>
+        <div class = "radioLabel">Charter schools</div>
+      </div>
+      <div class = "radioContainer magnet active">
+        <div class = "radioButton"></div>
+        <div class = "radioLabel">Magnet schools</div>
+      </div>
+    </div>
+    <div id = "exploreVChartContainer"></div>
+    <div id = "mapComponentsContainer">
+      <div id = "mapContainer"></div>
+      <div id = "mapDotSvgContainer"></div>
+    </div>
+
+    <div id = "breakdownContainer">
+      <div id = "breakdownRaceContainer">
+        <div class = "breakdownHeader race">Segregation contribution in <span class = "districtNameText"></span> by schools’ racial composition</div>
+        <div class = "breakdownSubheader race"><span id = "breakdownsubPercent"></span> of students in <span id = "breakdownsubName" class = "districtNameText"></span> are Black or Hispanic</div>
+
+        <div id = "breakdownUnderContainer">
+          <div class = "breakdownSubheader">Schools with a smaller share of Black or Hispanic students than the district average</div>
+          <div class = "breakdownRaceBarContainer under">
+            <div class = "breakdownRaceBar under"></div>
+          <div class = "breadownRaceBarLabel under"><span class = "bblPercent under"></span>in <span class = "bblNumber under"></span> schools</div>
+          </div>
+
+        </div>
+
+        <div id = "breakdownOverContainer">
+          <div class = "breakdownSubheader">Schools with a larger share of Black or Hispanic students than the district average</div>
+          <div class = "breakdownRaceBarContainer over">
+            <div class = "breakdownRaceBar over"></div>
+          <div class = "breadownRaceBarLabel over"><span class = "bblPercent over"></span>in <span class = "bblNumber over"></span> schools</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id = "breakdownTypeContainer">
+        <div class = "breakdownHeader type">Segregation contribution in <span class = "districtNameText"></span> by school type</div>
+
+        <div class = "breakdownTypeChartContainer tps">
+          <div class = "breakdownTypeName tps">Traditional public</div>
+          <div class = "breakdownNoSchools tps hide">There are no traditional public schools in this district</div>
+
+          <div class = "breakdownTypeBarContainer sci tps">
+            <div class = "subBar sci tps active"></div>
+            <div class = "subBar sci private"></div>
+            <div class = "subBar sci charter"></div>
+            <div class = "subBar sci magnet"></div>
+            <div class = "subLabel sci tps"><span></span>of SCI</div>
+          </div>
+
+          <div class = "breakdownTypeBarContainer pop tps">
+            <div class = "subBar pop tps active"></div>
+            <div class = "subBar pop private"></div>
+            <div class = "subBar pop charter"></div>
+            <div class = "subBar pop magnet"></div>
+            <div class = "subLabel pop tps"><span></span>of students</div>
+          </div>
+
+        </div>
+
+        <div class = "breakdownTypeChartContainer private">
+          <div class = "breakdownTypeName private">Private</div>
+          <div class = "breakdownNoSchools private hide">There are no private schools in this district</div>
+
+          <div class = "breakdownTypeBarContainer sci private">
+            <div class = "subBar sci tps"></div>
+            <div class = "subBar sci private active"></div>
+            <div class = "subBar sci charter"></div>
+            <div class = "subBar sci magnet"></div>
+            <div class = "subLabel sci private"><span></span>of SCI</div>
+          </div>
+
+          <div class = "breakdownTypeBarContainer pop private">
+            <div class = "subBar pop tps"></div>
+            <div class = "subBar pop private active"></div>
+            <div class = "subBar pop charter"></div>
+            <div class = "subBar pop magnet"></div>
+            <div class = "subLabel pop private"><span></span>of students</div>
+          </div>
+          
+        </div>
+
+        <div class = "breakdownTypeChartContainer charter">
+          <div class = "breakdownTypeName charter">Charter</div>
+          <div class = "breakdownNoSchools charter hide">There are no charter schools in this district</div>
+
+          <div class = "breakdownTypeBarContainer sci charter">
+            <div class = "subBar sci tps"></div>
+            <div class = "subBar sci private"></div>
+            <div class = "subBar sci charter active"></div>
+            <div class = "subBar sci magnet"></div>
+            <div class = "subLabel sci charter"><span></span>of SCI</div>
+          </div>
+
+          <div class = "breakdownTypeBarContainer pop charter">
+            <div class = "subBar pop tps"></div>
+            <div class = "subBar pop private"></div>
+            <div class = "subBar pop charter active"></div>
+            <div class = "subBar pop magnet"></div>
+            <div class = "subLabel pop charter"><span></span>of students</div>
+          </div>
+          
+        </div>
+
+        <div class = "breakdownTypeChartContainer magnet">
+          <div class = "breakdownTypeName magnet">Magnet</div>
+          <div class = "breakdownNoSchools magnet hide">There are no magnet schools in this district</div>
+
+          <div class = "breakdownTypeBarContainer sci magnet">
+            <div class = "subBar sci tps"></div>
+            <div class = "subBar sci private"></div>
+            <div class = "subBar sci charter"></div>
+            <div class = "subBar sci magnet active"></div>
+            <div class = "subLabel sci magnet"><span></span>of SCI</div>
+          </div>
+
+          <div class = "breakdownTypeBarContainer pop magnet">
+            <div class = "subBar pop tps"></div>
+            <div class = "subBar pop private"></div>
+            <div class = "subBar pop charter"></div>
+            <div class = "subBar pop magnet active"></div>
+            <div class = "subLabel pop magnet"><span></span>of students</div>
+          </div>
+          
+        </div>        
+
+
+        </div>
+      </div>
+
+
+    </div>
+
   </div>
 </div>
 
@@ -302,6 +466,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script  src="lib/d3-voronoi.min.js"></script>
 <script  src="js/header.js"></script>
 <script  src="js/globals.js"></script>
+<script  src="js/getters.js"></script>
+<script  src="js/events.js"></script>
 <script  src="js/mapping.js"></script>
 <script  src="js/scroller.js"></script>
 <script  src="js/sections.js"></script>

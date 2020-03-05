@@ -9,7 +9,7 @@ with open("../CCD-PSS2015_SegCounterfactuals_glea_FINALIZED.csv") as sourceFile:
 
 	with open('dotData/csv/allSchools.csv', 'w', newline='') as outFile:
 		writer = csv.writer(outFile)
-		writer.writerow(["schoolid","level","type","lon","lat","population","compareMedian"])
+		writer.writerow(["schoolId","level","type","lon","lat","population","compareMedian"])
 		for row in reader:
 			schoolTypeString = ""
 			for schoolType in ["tps", "charter", "magnet", "private"]:
@@ -40,7 +40,7 @@ with open("../CCD-PSS2015_SegCounterfactuals_glea_FINALIZED.csv") as sourceFile:
 # 		for schoolType in ["charter","private","magnet","tps"]:
 # 			with open('dotData/csv/lvl_%s_%s.csv'%(level, schoolType), 'w', newline='') as outFile:
 # 				writer = csv.writer(outFile)
-# 				writer.writerow(["schoolid","lon","lat","population","compareMedian"])
+# 				writer.writerow(["schoolId","lon","lat","population","compareMedian"])
 # 				for row in reader:
 # 					if(row[h["level"]] == level and row[h[schoolType]] == "1"):
 # 						minorityPercent = float(row[h["minority_school"]]) / float(row[h["population_school"]])

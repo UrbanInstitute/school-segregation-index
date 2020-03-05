@@ -19,12 +19,14 @@ body{
 }
 
 #topTitle{
-  font-size: 30px;
-  text-align: center;
-  padding-bottom: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    /*margin-top: 100px;*/
+    margin-bottom: 50px;
+    text-align: center;
 }
 #topText, #bottomContent{
-  margin-top: -140px;
+  /*margin-top: -140px;*/
   padding: 40px;
   margin-bottom:30px;
   font-size:21px;
@@ -423,6 +425,7 @@ p{
 
 #heroimage{
    background-image: url("../images/header-illo2-01.jpg");
+   background-position: bottom;
      background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
@@ -484,7 +487,7 @@ p{
   left: 0px;
   height: 0px;
   width: 100%;
-  background: #1696d2;
+  background: #696969;
   color: #fff;
 }
 
@@ -536,15 +539,231 @@ p{
 
 
 
+/**************explore controls**************/
+.levelButton{
+  font-size: 14px;
+  display: inline-block;
+background: #d2d2d2;
+    color: #9d9d9d;
+    text-transform: uppercase;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+}
+.levelButton.active{
+  background: #1696d2;
+  color: #fff;
+}
+#schoolTypeControlContainer{
+  margin-bottom: 20px;
+}
+.radioContainer{
+    display: inline-block;
+    margin-right: 60px;
+  cursor: pointer;
 
+}
+.radioButton{
+  display: inline-block;
+  width: 21px;
+    margin-right: 9px;
+    top: 5px;
+    position: relative;
+    height: 21px;
+    background-image: url(../images/radio-inactive.png);
+    background-size: 21px;
+    background-repeat: no-repeat;
 
+}
+.radioContainer.active .radioButton{
+  
+  background-image: url(../images/radio-active.png);
 
+}
+.radioLabel{
+  display: inline-block;
+      font-size: 16px;
+    font-weight: bold;
 
+}
+
+/****************explore v********************/
+
+#exploreVChartContainer{
+  display: inline-block;
+  float: left;
+  margin-right: 43px;
+}
 
 
 /********** MAPPPP **************/
+#mapComponentsContainer{
+  display: inline-block;
+  position: relative;
+  height: 470px;
+  width: 470px;
+  float: left;
+}
 #mapContainer{
-    height: 500px;
+  border: 1px solid #353535;
+}
+#mapContainer, #mapDotSvgContainer{
+height: 500px;
     width: 500px;
-    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
   }
+ #mapDotSvgContainer{
+    pointer-events: none;
+}
+.mapboxgl-ctrl-group button.mapboxgl-ctrl-compass{
+    display: none ;
+}
+
+
+
+/********************* breakdown bars *****************/
+#breakdownContainer{
+    display: block;
+    float: left;
+    clear: both;
+}
+.breakdownHeader{
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+.breakdownHeader.race{
+  margin-top: 30px;
+}
+.breakdownSubheader{
+  font-size: 13px;
+}
+#breakdownUnderContainer{
+  display: block;
+  margin-top: 33px;
+}
+#breakdownOverContainer{
+  margin-top: 60px;
+}
+.breakdownRaceBarContainer{
+  width: 470px;
+  margin-top: 5px;
+  background: #dcdcdc;
+  height: 25px;
+  position: relative;
+}
+.breakdownRaceBar{
+  display: block;
+  height: 25px;
+  position: absolute;
+  top: 0px;
+}
+.breakdownRaceBar.under{
+  left: 0px;
+  background: #FDBF11;
+  border-right: 2px solid #fff;
+}
+.breakdownRaceBar.over{
+  right: 0px;
+  background: #56B747;
+  border-left: 2px solid #fff;
+}
+.breadownRaceBarLabel{
+  font-size: 14px;
+  position: absolute;
+  top: 28px;
+}
+.bblPercent{
+  display: block;
+  font-weight: bold;
+}
+.breadownRaceBarLabel.under{
+  left: 0px;
+  text-align: left;
+}
+.breadownRaceBarLabel.over{
+  right: 0px;
+  text-align: right;
+}
+
+
+
+.breakdownTypeName{
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.breakdownTypeBarContainer{
+  width: 202px;
+  margin-top: 5px;
+  background: #dcdcdc;
+  height: 25px;
+  position: relative;
+}
+.breakdownTypeBarContainer.sci{
+  margin-top: 24px;
+}
+.breakdownTypeBarContainer.pop{
+  margin-top: 46px;
+}
+.subBar{
+  display: block;
+  height: 25px;
+  /*position: absolute;*/
+  top: 0px;
+  float: left;
+  border-right: 2px solid #fff;
+}
+.subBar.active{
+  background: #1696d2;
+}
+.subBar.hide{
+  display: none;
+}
+.subLabel{
+  font-size: 14px;
+}
+.subLabel span{
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 3px;
+}
+.breakdownTypeChartContainer{
+  width: 240px;
+  display: inline-block;
+}
+.breakdownHeader.type{
+  margin-top: 60px;
+}
+.breakdownNoSchools{
+  display: block;
+  position: absolute;
+  z-index: 1;
+  background: #fff;
+  width: 200px;
+  font-size: 13px;
+  font-style: italic;
+  color: #848081;
+  padding-top: 20px;
+  padding-bottom: 100px;
+}
+.breakdownNoSchools.hide{
+  display: none;
+}
+
+
+
+
+
+
+
+
+footer{
+  display: block;
+    float: left;
+    width: 100%;
+}

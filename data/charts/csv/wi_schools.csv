@@ -1,4 +1,4 @@
-schoolid,schoolName,pop,minority_pop,minority_percent,sci,type,compareMedian
+schoolId,schoolName,pop,minority_pop,minority_percent,sci,type,compareMedian
 01506026,Prince Of Peace School,450,447,0.9933333333333333,.0070786,private,above
 01506536,St Catherine Catholic School,130,118,0.9076923076923077,.0011826,private,above
 01506558,St Charles Borromeo School,193,50,0.25906735751295334,.0079399,private,below

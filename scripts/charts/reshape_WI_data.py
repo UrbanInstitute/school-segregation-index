@@ -14,7 +14,7 @@ with open("%s/%s/data/charts/source/CCD-PSS2015_SegCounterfactuals_glea_FINALIZE
 
 	with open('%s/%s/data/charts/csv/wi_schools.csv'%(env["PROJECT_PATH"], argv[1]), 'w', newline='') as outFile:
 		writer = csv.writer(outFile)
-		writer.writerow(["schoolid", "schoolName","pop", "minority_pop","minority_percent","sci", "type","compareMedian"])
+		writer.writerow(["schoolId", "schoolName","pop", "minority_pop","minority_percent","sci", "type","compareMedian"])
 		for row in reader:
 			if(row[h["gleaid"]] == "5509600" and row[h["level"]] == "1"):
 				schoolTypeString = ""
