@@ -1680,7 +1680,8 @@ function BEES(data){
       d.level = d.level;
       d.allLevels= d.allLevels;
       d.neighbor_minority_percent = +d.neighbor_minority_percent
-      d.displayCity = (d.cityName == "") ? d.distName + ", " + d.state : d.cityName;
+      // d.displayCity = (d.cityName == "") ? d.distName + ", " + d.state : d.cityName;
+      d.displayCity = d.distName;
 
       return d;
     }).sort(function(a, b){ return (a.schoolName < b.schoolName) ? -1 : 1 })
