@@ -10,7 +10,7 @@ function scroller() {
 
   var container = d3.select('body');
   // event dispatcher
-  var dispatch = d3.dispatch('active','resized');
+  // var dispatch = d3.dispatch('active','resized');
 
   // d3 selection of all the
   // text sections that will
@@ -55,6 +55,8 @@ function scroller() {
     // when window is scrolled call
     // position. When it is resized
     // call resize.
+    
+
     d3.select(window)
       .on('scroll.scroller', position)
       .on('resize.scroller', resize);
@@ -77,6 +79,31 @@ function scroller() {
     });
   }
 
+
+
+  function reset(){
+    sectionPositions = [];
+    var startPos;
+
+    var drawerOffset;
+    var drawerStatus = getChooseSchoolStatus()
+    if(drawerStatus == "open"){
+      drawerOffset = (window.innerHeight - 50)*.5 
+    }
+    else if(drawerStatus == "hidden"){
+      drawerOffset = 0
+    }else{
+      drawerOffset = 50;
+    }
+
+    sections.each(function (d, i) {
+      var top = this.getBoundingClientRect().top;
+      if (i === 0) {
+        startPos = top;
+      }
+      sectionPositions.push(top - startPos + drawerOffset);
+    });
+  }
   /**
    * resize - called initially and
    * also when page is resized.
@@ -90,21 +117,44 @@ function scroller() {
     visPosition()
     sectionPositions = [];
     var startPos;
+
+    var drawerOffset;
+    var drawerStatus = getChooseSchoolStatus()
+    if(drawerStatus == "open"){
+      drawerOffset = (window.innerHeight - 50)*.5 
+    }
+    else if(drawerStatus == "hidden"){
+      drawerOffset = 0
+    }else{
+      drawerOffset = 50;
+    }
+
     sections.each(function (d, i) {
       var top = this.getBoundingClientRect().top;
       if (i === 0) {
         startPos = top;
       }
-      sectionPositions.push(top - startPos);
+      sectionPositions.push(top - startPos + drawerOffset);
     });
     containerStart = container.node().getBoundingClientRect().top + window.pageYOffset;
     dispatch.call('resized', this);
   }
 
+  function fixHeader(){
+    if(! IS_MOBILE()){
+     var headTop = d3.select("#exploreHeading").node().getBoundingClientRect().bottom;
+     // console.log(headTop)
+     if(headTop < 0){
+      d3.select("#tt-container").classed("fixed", true)
+     }else{
+      d3.select("#tt-container").classed("fixed", false)
+     }
+   }
+  }
 
   function fixVis(){
     if(! IS_MOBILE()){
-      if(d3.select(".step").node().getBoundingClientRect().top <= 64){
+      if(d3.select(".step").node().getBoundingClientRect().top <= 317){
         var bump = (IS_SHORT()) ? -120: 150;
         if(d3.selectAll(".step").nodes()[d3.selectAll(".step").nodes().length-1].getBoundingClientRect().bottom <= VIS_WIDTH+MARGIN.top+MARGIN.bottom+20+bump){
           d3.select("#narrativeVizContainer")
@@ -123,7 +173,7 @@ function scroller() {
             .classed("posRelBottom", false)
             .classed("posRelTop", false)
             .classed("posFixed", true)
-            .style("top", "20px")  
+            .style("top", "30px")  
           d3.select("#sections")
             .style("z-index",90)
 
@@ -172,7 +222,7 @@ function scroller() {
               .classed("posRelBottom", false)
               .classed("posRelTop", false)
               .classed("posFixed", true)
-              .style("top", "20px")  
+              .style("top", "30px")  
             d3.select("#sections")
               .style("z-index",90)
           }
@@ -181,6 +231,7 @@ function scroller() {
   }
   window.setInterval(function(){
     fixVis()
+    fixHeader()
     visPosition()
   }, 20);
   /**
@@ -230,6 +281,8 @@ function scroller() {
   scroll.on = function (action, callback) {
     dispatch.on(action, callback);
   };
+
+  dispatch.on("reset", reset)
 
   return scroll;
 }

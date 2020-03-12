@@ -278,10 +278,10 @@ display: inline-block;
 }
 
 ul{
-        list-style: outside none none;
+/*        list-style: outside none none;
     width: 100%;
     margin: 0 auto;
-    text-align: center;
+    text-align: center;*/
 }
 
 #subhead ul li{

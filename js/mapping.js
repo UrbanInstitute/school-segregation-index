@@ -2,7 +2,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZ
 //initialize map. Zoom and center set to show Milwaukee district, by default
 var map = new mapboxgl.Map({
 	container: 'mapContainer',
-	style: 'mapbox://styles/urbaninstitute/ck74zk2yw3otr1it5m248xc3e',
+	style: 'mapbox://styles/urbaninstitute/ck7nmn6ln1b731iqhyf0n1zzy',
 	center: DEFAULT_MAP_CENTER,
 	zoom: DEFAULT_MAP_ZOOM,
 	minZoom: 6
@@ -52,13 +52,7 @@ function hoverOnSchool(e){
 	if(getActiveLayers().indexOf(e.features[0].layer.id) == -1){
 		return false;
 	}
-	console.log(e.features[0])
-	var coords = map.project([school.properties.lon, school.properties.lat])
-	schoolDotMarker
-		.style("opacity",1)
-		.attr("cx", coords.x)
-		.attr("cy", coords.y)
-		.attr("r", Math.sqrt(school.properties.population) * school.layer.paint["circle-radius"][2])
+	setActiveSchool(school.properties)
 }
 
 //use a setTimeOut bc I'm a hack and need to wait for level
@@ -69,7 +63,7 @@ setTimeout(function(){
 	for (var i = 0; i < defaultLayers.length; i++){
 		map.on('mouseenter', defaultLayers[i], hoverOnSchool)	
 	}
-	changeDistrict(MILWAUKEE_ID)
+	changeDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
 },2000)
 
 map.on("load", function(e){
@@ -95,13 +89,26 @@ map.on("load", function(e){
 	//dispatch handlers for mapping events are here, since they need to be defined after
 	//map has loaded. See events.js for further dispatch functions
 	//(called as `changeSchpol(schoolId, oldDistrictId)`,`changeLevel(level)` etc.)
-	dispatch.on("changeSchool", function(schoolId, oldDistrictId){
-		changeSchool(schoolId, oldDistrictId)
+	dispatch.on("changeSchool", function(school, oldDistrictId){
+		changeSchool(school.schoolId, oldDistrictId)
+		// var school = getSchoolData().filter(function(o){
+		// 	return o.schoolId == schoolId && o.level == getLevel()
+		// })[0]
+		var popLabel = school.hasOwnProperty("pop") ? "pop" : "population"
+
+	
+		var coords = map.project([school.lon, school.lat])
+		schoolDotMarker
+		.style("opacity",1)
+		.attr("cx", coords.x)
+		.attr("cy", coords.y)
+		.attr("r", Math.sqrt(school[popLabel]) * MAP_DOT_SCALAR)
+
 	})
 
 	dispatch.on("changeLevel", function(level){
 		//handle events for non map charts (see events.js)
-		changeLevel(level)
+		// changeLevel(level)
 
 		//loop through all dot layers for all levels and school types
 		var schoolTypes = getSchoolTypes()
@@ -127,6 +134,12 @@ map.on("load", function(e){
 						]
 					)
 
+					map.setPaintProperty(
+						layerName,
+						"circle-stroke-color",
+						"rgba(255,255,255,0)"
+					)
+
 					map.off('mouseenter', layerName, hoverOnSchool)	
 				}
 				//If layer matches level, but school type is not currently shown
@@ -145,6 +158,11 @@ map.on("load", function(e){
 							"hsla(0, 0%, 0%," + MAP_HIDE_DOT_OPACITY + ")"
 						]
 					)
+					map.setPaintProperty(
+						layerName,
+						"circle-stroke-color",
+						"rgba(255,255,255," + MAP_HIDE_DOT_OPACITY_STROKE + ")"
+					)
 
 					map.off('mouseenter', layerName, hoverOnSchool)	
 				//If layer matches both level and current school types, show it
@@ -162,6 +180,12 @@ map.on("load", function(e){
 							"hsla(113, 44%, 50%," + MAP_SHOW_DOT_OPACITY + ")",
 							"hsla(0, 0%, 0%," + MAP_SHOW_DOT_OPACITY + ")"
 						]
+					)
+
+					map.setPaintProperty(
+						layerName,
+						"circle-stroke-color",
+						"rgba(255,255,255," + MAP_SHOW_DOT_OPACITY_STROKE + ")"
 					)
 
 					map.on('mouseenter', layerName, hoverOnSchool)	
@@ -197,7 +221,12 @@ map.on("load", function(e){
 						"hsla(0, 0%, 0%," + MAP_HIDE_DOT_OPACITY + ")",
 					]
 				)
-				console.log(layerName)
+				map.setPaintProperty(
+					layerName,
+					"circle-stroke-color",
+					"rgba(255,255,255," + MAP_HIDE_DOT_OPACITY_STROKE + ")"
+				)
+				
 				map.off('mouseenter', layerName, hoverOnSchool)
 			//If layer matches schoolTypes, show it and turn on mouse events
 			}else{
@@ -214,6 +243,11 @@ map.on("load", function(e){
 						"hsla(0, 0%, 0%," + MAP_SHOW_DOT_OPACITY + ")",
 					]
 				)
+				map.setPaintProperty(
+					layerName,
+					"circle-stroke-color",
+					"rgba(255,255,255," + MAP_SHOW_DOT_OPACITY_STROKE + ")"
+				)
 
 				map.on('mouseenter', layerName, hoverOnSchool)	
 			}
@@ -223,18 +257,18 @@ map.on("load", function(e){
 	//On load, by default, set map to default values
 	//This is redundantly handled by scroll events, but is neccessary if page
 	//loads at bottom, on map view
-	setLevel(DEFAULT_LEVEL)
-	setSchoolTypes(ALL_SCHOOL_TYPES)
-	setActiveSchool(TAMARACK_ID)
+	// setLevel(DEFAULT_LEVEL)
+	// setSchoolTypes(ALL_SCHOOL_TYPES)
+	// setActiveSchool(TAMARACK_ID)
 
 	//District boundaries are precalculated in `scripts/mapping/schoolDistricts/get_feature_boundaries.py`
 	//and stored in lightweight csv.
 	d3.csv("data/mapping/schoolDistricts/boundaries/boundaries.csv").then(function(boundaries){
 
 		//Dispatch handler inside d3 promise, in order to get district boundaries
-		dispatch.on("changeDistrict", function(districtId){
+		dispatch.on("changeDistrict", function(districtId, level, schoolId){
 			//handle events for non map charts (see events.js)
-			changeDistrict(districtId)
+			changeDistrict(districtId, level, schoolId)
 			
 			//get the boundaries for the new district
 			var boundary = boundaries.filter(function(o){ return o.geoid == districtId})[0]

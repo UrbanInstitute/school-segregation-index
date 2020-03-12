@@ -12,6 +12,7 @@ body{
 }
 .container {
   width: 1180px;
+  margin: 0 auto;
 }
 
 #graphic {
@@ -44,6 +45,7 @@ body{
   width: 1150px;
     margin: 0 auto;
     padding: 0px;
+    margin-top: 50px;
 }
 #topHR{
   width: 130px;
@@ -118,12 +120,17 @@ p{
   position: relative;
   float: right;
   padding-left: 10px;
+    top: -295px !important;
+    left: -29px !important;
+
+
 }
 #narrativeVizContainer.posRelBottom{
   position: relative;
   float: inherit;
   padding-left: 0px;
-  bottom: -110px;
+  bottom: -511px;
+  left: 6px !important;
 }
 #narrativeVizContainer.posRelBottomSingleCol{
   position: absolute;
@@ -178,7 +185,13 @@ p{
   stroke: #353535;
   shape-rendering: crispEdges;
 }
-
+.axis.label{
+    font-size: 12px;
+    font-style: italic;
+}
+.axis.label.choose{
+  fill: #fff;
+}
 .v.y.axis path{
   display: none;
 }
@@ -213,8 +226,9 @@ p{
   stroke: #fff;
   stroke-width: .5;
 }
-.dot.highlight{
+.dot.highlight, .dot.active{
   fill: #ec008b;
+  opacity: 1;
 }
 .lollipop{
   stroke-width: 1px;
@@ -225,11 +239,20 @@ p{
 .lollipop.aboveMedian{
   stroke: #55b748;
 }
-.lollipop.highlight{
+.lollipop.highlight, .lollipop.active{
   stroke: #ec008b;
+  opacity: 1;
 }
-
-
+.directLabel.over rect{
+  fill: #55b748
+}
+.directLabel.under rect{
+  fill: #fdbf11
+}
+.directLabel text{
+  fill: #fff;
+  font-size: 14px;
+}
 
 /******************* V CHOOSE CHART COMPONENTS **************************/
 
@@ -239,12 +262,18 @@ p{
 }
 
 .v.choose.y.axis line{
-  stroke: #46abdb;
+  stroke: #fff;
+  stroke-dasharray: 2px 3px;
+  stroke-width: .75px;
 }
 
 
 /******************* END CHART COMPONENTS **************************/
-
+  .step.firstStep, .step.lastStep{
+    margin: 0px;
+    height: 0px;
+    min-height: 0px;
+  }
 
 #isMobile, #isPhone, #isShort, #sectionIndex{
     display: none;
@@ -284,7 +313,8 @@ p{
     display: block;
   }
   #narrativeVizContainer.posRelBottom{
-    bottom: -97px;
+  bottom: -511px;
+    left: 6px !important;
   }
   #dotChartYAxis .tick text{
     font-size: 11px;
@@ -361,9 +391,7 @@ p{
   .step.lastStep{
     margin-bottom: 0px;
   }
-  .step.firstStep{
-    margin: 0px;
-  }
+
   #narrativeVizContainer{
     /*position: fixed;*/
     /*top: 20px;*/
@@ -487,15 +515,35 @@ p{
   left: 0px;
   height: 0px;
   width: 100%;
-  background: #696969;
+  background: #5C5859;
+  border-top: 1px solid #332D2F;
   color: #fff;
 }
+#narrativeChooseSchoolContainer.teaser .instructions.teaser{
+  display: block;
+}
+#narrativeChooseSchoolContainer svg{
+  /*pointer-events: none;*/
+  opacity: 0;
+}
+#narrativeChooseSchoolContainer.open svg{
+  opacity: 1;
+}
+.instructions.teaser
+{
+  display: none;
+  font-size: 23px;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 18px;
+    margin-top: 23px;
+}
 
-#narrativeChooseSchoolHeader{    
-  width: 1070px;
-  height: 30px;
-  margin: 0 auto;
-  margin-top: 10px;
+#narrativeChooseSchoolHeader, #narrativeChooseSchoolTextContainer{    
+    width: calc(100% - 20px);
+    height: 30px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 #narrativeChooseSchoolLabel{
   display: inline-block;
@@ -504,10 +552,42 @@ p{
   text-transform: uppercase;
 }
 #narrativeChooseSchoolInput{
-  display: inline-block;
+    display: inline-block;
+    float: left;
+    color: #fff;
+    background: #5C5859;
+    border: 1px solid white;
+    padding: 5px 11px;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 14px;
+    font-family: Lato;
+    width: 400px;
+}
+#narrativeChooseSchoolContainer.teaser #narrativeChooseSchoolInput{
+  margin-bottom: 100px;
+}
+#narrativeChooseSchoolContainer.teaser #narrativeChooseSchoolArrow{
+  display: none;
+} 
+#narrativeChooseSchoolName{
+  margin-bottom: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+.choose-lvl{
   float: left;
-  margin-left: 20px;
-  color: #353535;
+  background: #848081;
+  font-size: 13px;
+  font-weight: bold;
+  border: 1px solid #848081;
+  padding: 8px 12px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+.choose-lvl.active{
+  border: 1px solid #fff;
 }
 #narrativeChooseSchoolArrow{
   float: right;
@@ -516,10 +596,15 @@ p{
 }
 
 #narrativeChooseSchoolTextContainer{
-    clear: both;
-    width: 1070px;
-    margin: 0 auto;
-    margin-top: 10px;
+  margin-top: 31px;
+  width: 400px;
+}
+#narrativeChooseSchoolText{
+  float: left;
+  clear: both;
+  margin-top: 25px;
+  font-size: 15px;
+  line-height: 24px;
 }
 #narrativeChooseSchoolChartContainer{
     position: absolute;
@@ -529,17 +614,100 @@ p{
 #narrativeChooseSchoolChartContainer svg{
     position: absolute;
     right: 0px;
-    top: 10px;
+    top: -10px;
 }
-#narrativeChooseSchoolList{
-  position: absolute;
-  left: 0px;
+#narrativeChooseSchoolList {
+    position: fixed;
+    left: 10px;
+    display: block;
+    top: -43px;
+    height: 100%;
+}
+#narrativeChooseSchoolList.open{
+  top: calc(-50% + 33px );
+}
+#narrativeChooseSchoolList.teaser{
+  top: -143px;
 }
 
 
+#exploreSchoolInput{
+    color: #020202;
+    background: #fff;
+    border: 1px solid #020202;
+    padding: 8px 11px;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 17px;
+    font-family: Lato;
+    width: 363px;
+    margin-bottom: 30px;
+}
+
+#exploreSchoolList{
+  position: relative;
+}
+#exploreSchoolList ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front{
+    display: block !important;
+    position: absolute;
+    width: 131px;
+    /* top: 270px !important; */
+    left: 0px !important;
+    height: fit-content;
+    color: #fff;
+    width: 278px !important;
+    list-style: none;
+    top: -30px !important;
+    z-index: 200;
+}
+
+#narrativeChooseSchoolList ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front{
+    display: block !important;
+    position: absolute;
+    width: 131px;
+    /* top: 270px !important; */
+    left: 0px !important;
+    bottom: 0px;
+    height: fit-content;
+    top: unset !important;
+    color: #fff;
+    width: 278px !important;
+    list-style: none;
+}
+ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li{
+  background: #7B7B7B;
+  padding: 22px 15px 22px 15px;
+  border-bottom: 1px solid #BCBCBC;
+  cursor: pointer;
+}
+ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li:hover{
+  background: #1696d2;
+}
+.searchSchool{
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.searchCity{
+font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+.searchLevel{
+  font-size: 13px;
+  font-style: italic;
+}
 
 
 /**************explore controls**************/
+#exploreHeading{
+    /*text-align: center;*/
+    font-size: 30px;
+    margin-bottom: 75px;
+    margin-top: 130px;
+    font-weight: bold;
+}
 .levelButton{
   font-size: 14px;
   display: inline-block;
@@ -557,6 +725,11 @@ background: #d2d2d2;
 }
 #schoolTypeControlContainer{
   margin-bottom: 20px;
+}
+#schoolTypeLabel{
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
 .radioContainer{
     display: inline-block;
@@ -588,6 +761,109 @@ background: #d2d2d2;
 
 }
 
+/****************explore tooltip ********************/
+#tt-container.fixed{
+    position: fixed;
+    top: 50px;
+    background: white;
+    width: 100%;
+    z-index: 100;
+    border-bottom: 2px solid #EC008B;
+    left: 0px;
+    padding-left: 20px;
+}
+#tt-container.fixed #tt-lvlContainer{
+  margin-top: 3px ;
+}
+#tt-container.fixed #tt-schoolName{
+  margin-top: 18px;
+}
+#tt-container.fixed #tt-dataContainer{
+    top: 49px;
+    position: fixed;
+    z-index: 200;
+}
+#tt-container.fixed .tt-datumContainer.district {
+    width: 15%;
+    margin-left: 35%;
+    margin-right: 5%;
+
+}
+#tt-container.fixed #tt-nameContainer{
+  border-bottom: none;
+}
+#tt-nameContainer{
+    padding-bottom: 9px;
+    border-bottom: 2px solid #EC008B;
+}
+#tt-schoolName{
+    color: #0E0C0D;
+    font-size: 21px;
+    font-weight: 900;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 12px;
+}
+.tt-lvl{
+    display: inline-block;
+    font-size: 14px;
+    background: #DCDBDB;
+    color: #0E0C0D;
+    width: fit-content;
+    padding: 6px 11px;
+    margin-right: 7px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+.tt-lvl.active{
+  background: #EC008B;
+  color: #fff; 
+}
+.tt-lvl.hidden{
+  display: none;
+}
+#tt-dataContainer{
+  width: 100%;
+    display: block;
+    float: left;
+    margin-top: 20px;
+    margin-bottom: 45px;
+}
+.tt-datumContainer{
+font-size: 19px;
+    float: left;
+    width: 15%;
+    display: inline-block;
+}
+.tt-datumContainer.minority{
+  width: 24%;
+}
+.tt-datumContainer.sci{
+  width: 6%;
+}
+.tt-datumLabel{
+  font-size: 16px;
+  font-weight: bold;
+}
+.tt-datumValue{
+font-size: 16px;
+    color: #848081;
+}
+.tt-datumContainer.district{
+  width: 55%;
+}
+#tt-container.fixed #tt-hood{
+  margin-top: 9px;
+}
+#tt-hood{
+color: #353535;
+    font-size: 16px;
+    font-style: italic;
+    float: right;
+    margin-top: 19px;
+    width: 45%;
+}
 /****************explore v********************/
 
 #exploreVChartContainer{
@@ -606,8 +882,9 @@ background: #d2d2d2;
   float: left;
 }
 #mapContainer{
-  border: 1px solid #353535;
+border: 2px solid #1E1E1E;
 }
+
 #mapContainer, #mapDotSvgContainer{
 height: 500px;
     width: 500px;
@@ -642,11 +919,17 @@ height: 500px;
 .breakdownSubheader{
   font-size: 13px;
 }
+.breakdownSubheader.overunder{
+    top: 50px;
+    position: relative;
+}
 #breakdownUnderContainer{
-  display: block;
+  display: inline-block;
   margin-top: 33px;
+  margin-right: 40px;
 }
 #breakdownOverContainer{
+  display: inline-block;
   margin-top: 60px;
 }
 .breakdownRaceBarContainer{
@@ -657,7 +940,7 @@ height: 500px;
   position: relative;
 }
 .breakdownRaceBar{
-  display: block;
+  display: flex;
   height: 25px;
   position: absolute;
   top: 0px;
@@ -689,7 +972,20 @@ height: 500px;
   right: 0px;
   text-align: right;
 }
-
+.mouseSubBar{
+  display: inline-block;
+  float: left;
+height: 25px;
+    cursor: pointer;
+}
+.mouseSubBar.active{
+  background: #ec008b;
+}
+.mouseSubBar.disabled{
+    pointer-events: none;
+    background: white;
+    opacity: .6;
+}
 
 
 .breakdownTypeName{
@@ -711,7 +1007,7 @@ height: 500px;
   margin-top: 46px;
 }
 .subBar{
-  display: block;
+  display: flex;
   height: 25px;
   /*position: absolute;*/
   top: 0px;
@@ -755,9 +1051,15 @@ height: 500px;
   display: none;
 }
 
+.ui-helper-hidden-accessible{
+  display: none;
+}
 
 
-
+.voronoi path{
+  fill: transparent;
+  stroke: none;
+}
 
 
 
@@ -766,4 +1068,15 @@ footer{
   display: block;
     float: left;
     width: 100%;
+}
+footer p{
+  clear: both;
+}
+.footerButton{
+  margin-bottom: 12px;
+}
+
+
+.explore.medianTextG{
+  display: none;
 }

@@ -4,7 +4,10 @@
   }
 
   function getChooseSchoolStatus(){
-    return (d3.select("#narrativeChooseSchoolContainer").classed("open")) ? "open" : "closed";
+    var drawer = d3.select("#narrativeChooseSchoolContainer")
+    if(drawer.classed("open")) return "open"
+    else if (drawer.classed("hidden")) return "hidden"
+    else return "closed"
   }
 
 
@@ -37,7 +40,8 @@
   }
   function getVMargins(section){
     var size = getSize()
-    var margin = {top: 20, right: 20, bottom: 30, left: 50}
+    var mb = (section == "explore") ? 60 : 30;
+    var margin = {top: 20, right: 20, bottom: mb, left: 40}
       
     return margin;  
   }
@@ -60,16 +64,38 @@
     if(index >= 7){
       height = height *.8
     }
-
-    var yMax = (index >= 7.5) ? 1 : d3.max(data, function(d) { return d.sci; })
-
+// console.log(data)
+    var yMax;
+    // console.log(data, data[0])
+    if(index >= 7.5){
+      yMax = 1
+    }
+    else if(data.length > 0 && data[0].districtId == MILWAUKEE_ID){
+      yMax = d3.max(data, function(d) { return d.sci; })
+    }
+    else{
+      var sciMax = d3.max(data, function(d) { return d.sci; })
+      var normMax = d3.max(data, function(d) { return d.normSci; })
+      yMax = Math.max(sciMax, normMax)
+    }
+// console.log(yMax)
     var y = d3
       .scaleLinear()
       .range([height,60])
       .domain([0, yMax]);
     return y
   }
+function getFixedR(isMilwaukee){
+  // if(isMilwaukee || )
+  if(isMilwaukee || typeof(getActiveDistrict()) == "undefined" || typeof(getLevel()) == "undefined"){
+      return NARRATIVE_DOT_SCALAR * Math.sqrt(37578 / (116 + 55))
 
+  }else{
+    d = getAllDistrictData()[getActiveDistrict() + "_" + getLevel()]
+    return NARRATIVE_DOT_SCALAR * Math.sqrt(d.totalPop / (d.aboveSchools + d.belowSchools))
+  }
+
+}
 function getSchoolData(){
   return d3.select("#schoolDataContainer").datum()
 
@@ -83,7 +109,7 @@ function getActiveDistrict(){
   return  d3.select("#activeDistrict").datum()
 }
 function getActiveSchool(){
-  return  d3.select("#activeSchool").datum()
+  return d3.select("#activeSchool").datum()
 }
 function getLevel(){
   return d3.select("#activeLevel").datum();

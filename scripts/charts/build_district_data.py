@@ -56,7 +56,6 @@ with open("%s/%s/data/charts/source/CCD-PSS2015_SegCounterfactuals_glea_FINALIZE
 		workingDict[districtKey]["sumMinority"] += minority
 		workingDict[districtKey]["minorityPercents"].append(minority_percent)
 
-
 for item in workingDict.items():
 	districtKey = item[0]
 	d = item[1]
@@ -78,6 +77,10 @@ for item in workingDict.items():
 	belowSCI = 0;
 	aboveSCI = 0;
 
+	print(M)
+
+	if len(d["schoolList"]) > 100:
+		print(len(d["schoolList"]))
 	for s in d["schoolList"]:
 		if(s["minority"] < M):
 			belowPop += s["pop"]
@@ -87,19 +90,21 @@ for item in workingDict.items():
 			abovePop += s["pop"]
 			aboveSchools += 1
 			aboveSCI += s["sci"]
-
+	
 	mCheck = aboveSCI + belowSCI
 	if abs(mCheck-1) >= .000001:
 		print("SCI sum for all schools by M in dist %s is %f"%(districtKey, mCheck))
 
+	if (abovePop - belowPop == 0):
+		print("In %s above and below schools same population"%districtKey, abovePop, belowPop, sumPop, d["districtName"])
+	# print(abovePop/sumPop - aboveSCI)
 
 # don't include aboveSCI and belowSCI since they're always 50/50
-	outDict[districtKey] = {"districtName": d["districtName"], "sum" : sumDiff, "M": M, "abovePop": abovePop/ sumPop, "belowPop": belowPop/ sumPop, "aboveSchools": aboveSchools, "belowSchools": belowSchools,  "tps": {"sci": d["tps"]["sci"], "pop": d["tps"]["pop"]/ sumPop }, "private": {"sci": d["private"]["sci"], "pop": d["private"]["pop"]/ sumPop }, "charter": {"sci": d["charter"]["sci"], "pop": d["charter"]["pop"]/ sumPop }, "magnet": {"sci": d["magnet"]["sci"], "pop": d["magnet"]["pop"]/ sumPop }}
+	outDict[districtKey] = {"districtName": d["districtName"], "totalPop":sumPop, "sum" : sumDiff, "M": M, "abovePop": abovePop/ sumPop, "belowPop": belowPop/ sumPop, "aboveSchools": aboveSchools, "belowSchools": belowSchools,  "tps": {"sci": d["tps"]["sci"], "pop": d["tps"]["pop"]/ sumPop }, "private": {"sci": d["private"]["sci"], "pop": d["private"]["pop"]/ sumPop }, "charter": {"sci": d["charter"]["sci"], "pop": d["charter"]["pop"]/ sumPop }, "magnet": {"sci": d["magnet"]["sci"], "pop": d["magnet"]["pop"]/ sumPop }}
 
 
 		# print(districtKey, M)
 	# print(districtKey)
-
 
 with open("%s/%s/data/charts/json/all_districts.json"%(env["PROJECT_PATH"], argv[1]), "w") as fp:
     json.dump(outDict, fp)

@@ -1,18 +1,27 @@
 const NARRATIVE_FIXED_R = 7,
       NARRATIVE_DOT_SCALAR = .2,
+      MAP_DOT_SCALAR = .2,
       TAMARACK_ID = "A9703704",
+      // TAMARACK_ID = "360096606069",
       MILWAUKEE_ID = "5509600",
+      // MILWAUKEE_ID = "3620580"
       DEFAULT_MAP_CENTER = [-87.95301604229502,43.05051815873145],
+      // DEFAULT_MAP_CENTER = [-73.700009,-74.25909,40/.477399]
       DEFAULT_MAP_ZOOM = 9.424957516747982,
-      DEFAULT_LEVEL = "1",
+      DEFAULT_LEVEL = "2",
       
       MAP_SHOW_DOT_OPACITY = "100%",
-      MAP_HIDE_DOT_OPACITY = " 10%",
+      MAP_HIDE_DOT_OPACITY = "10%",
+      MAP_SHOW_DOT_OPACITY_STROKE = 1,
+      MAP_HIDE_DOT_OPACITY_STROKE = .1,
       V_HIDE_DOT_OPACITY = .1;
       V_SHOW_DOT_OPACITY = .8,
       DEFAULT_TRANSITION_TIME = 250
 
-let ALL_SCHOOL_TYPES = ["tps","private","charter","magnet"]
+let ALL_SCHOOL_TYPES = ["tps","private","charter","magnet"],
+    ALL_LEVELS = [null,"Elementary school","Middle school","High school"],
+    ALL_SCHOOL_TYPES_FULL = {"tps": "traditional public", "private": "private", "charter": "charter", "magnet": "magnet"}
+
 
 
 
@@ -69,7 +78,7 @@ var VIS_HEIGHT = 680;
 var DURATION = 800;
 
 
-var MARGIN = { top: 10, left: 120, bottom: 104, right: 20 };
+var MARGIN = { top: 10, left: 40, bottom: 109, right: 20 };
 var PHONE_MARGIN = { top: 110, left: 40, bottom: 30, right: 30 };
 
 
@@ -92,5 +101,41 @@ var thresholdLarge = 10000;
 
 
 
+
+  var svgWidth,
+      svgHeight,
+      exploreVWidth,
+      exploreVHeight,
+      TAMARACK_MEDIAN,
+      MILWAUKEE_SUM;
+
+  // var SMALL_RADIUS = (IS_PHONE()) ? 3 : 5;
+  // var LARGE_RADIUS = (IS_PHONE()) ? 3 : 10;
+
+
+
+
+  exploreVHeight = 500;
+  exploreVWidth = 500;
+
+  if ( IS_PHONE() ){ svgWidth = PHONE_VIS_WIDTH }
+  else if ( IS_SHORT() ){ svgWidth = SHORT_VIS_WIDTH }
+  else{ svgWidth = VIS_WIDTH} 
+
+  if ( IS_PHONE() ){ svgHeight = PHONE_VIS_HEIGHT }
+  else if ( IS_SHORT() ){ svgHeight = SHORT_VIS_HEIGHT }
+  else{ svgHeight = VIS_HEIGHT} 
+
+  // if ( IS_PHONE() ){ barsHeight = height*.5 }
+  // else if ( IS_SHORT() ){ barsHeight = height*.65 }
+  // else{ barsHeight = height*.65}
+
+  // if(IS_PHONE()){ recaptureContainerX = 3; recaptureContainerY = 15000;}
+  // else{ recaptureContainerX = 11; recaptureContainerY = 16300;}
+
+  // // var barsHeight = ( IS_PHONE() ) ? height*.5 : height*.65;
+
+  svgMargin = ( IS_PHONE() ) ? PHONE_MARGIN : MARGIN;
+  var vExploreMargin = { top: 0, left: 10, bottom: 0, right: 50 };
 
 
