@@ -59,7 +59,7 @@ function scroller() {
 
     d3.select(window)
       .on('scroll.scroller', position)
-      .on('resize.scroller', resize);
+      // .on('resize.scroller', resize);
 
     // manually call resize
     // initially to setup
