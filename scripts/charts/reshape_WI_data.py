@@ -5,7 +5,7 @@ from sys import argv as argv
 
 allLevels = {}
 rows = []
-with open("%s/%s/data/charts/source/CCD-PSS2015_SegCounterfactuals_glea_FINALIZED.csv"%(env["PROJECT_PATH"], argv[1])) as sourceFile:
+with open("%s/%s/data/charts/source/CCD-PSS2017_SegCounterfactuals_glea_FINALIZED.csv"%(env["PROJECT_PATH"], argv[1])) as sourceFile:
 	reader = csv.reader(sourceFile)
 	head = next(reader)
 	h = {}
@@ -33,7 +33,7 @@ with open("%s/%s/data/charts/source/CCD-PSS2015_SegCounterfactuals_glea_FINALIZE
 
 			minorityPercent = float(row[h["minority_school"]]) / float(row[h["population_school"]])
 			
-			districtMinorityPercent = 0.763666397 #THIS WILL CHANGE, A VAL FROM DATA
+			districtMinorityPercent = 0.7996193583469277 #THIS WILL CHANGE, A VAL FROM DATA
 			compareMedian = "above" if (minorityPercent > districtMinorityPercent) else "below"
 
 			neighbor_minority_percent = float(row[h["minority_nbrsch"]]) / float(row[h["population_nbrsch"]])

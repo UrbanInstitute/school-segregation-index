@@ -7,7 +7,7 @@ from sys import argv as argv
 with open("%s/%s/data/charts/json/all_districts.json"%(env["PROJECT_PATH"], argv[1]),"r") as districtFile:
 	districtData = json.load(districtFile)
 
-	with open("%s/%s/data/charts/source/CCD-PSS2015_SegCounterfactuals_glea_FINALIZED.csv"%(env["PROJECT_PATH"], argv[1])) as sourceFile:
+	with open("%s/%s/data/charts/source/CCD-PSS2017_SegCounterfactuals_glea_FINALIZED.csv"%(env["PROJECT_PATH"], argv[1])) as sourceFile:
 		reader = csv.reader(sourceFile)
 		head = next(reader)
 		h = {}

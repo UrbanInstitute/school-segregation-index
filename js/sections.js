@@ -547,6 +547,7 @@ return $( "<li>" )
       .attr("x",0)
       .attr("y",0)
 
+console.log(TAMARACK_MEDIAN)
     avgG.append("text")
 
       .attr("class", "milwaukee districtAverage value")

@@ -2,7 +2,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZ
 //initialize map. Zoom and center set to show Milwaukee district, by default
 var map = new mapboxgl.Map({
 	container: 'mapContainer',
-	style: 'mapbox://styles/urbaninstitute/ck7nmn6ln1b731iqhyf0n1zzy',
+	style: 'mapbox://styles/urbaninstitute/ck87c4ck101yl1jp7d5visna5',
 	center: DEFAULT_MAP_CENTER,
 	zoom: DEFAULT_MAP_ZOOM,
 	minZoom: 6
@@ -71,8 +71,12 @@ map.on("load", function(e){
 	//fly to locatino
 	var geoid = MILWAUKEE_ID
 	var f = map.queryRenderedFeatures({layer: "schooldistricts-fill"}).filter(function(o){
+		// if(typeof(o.properties.class) == "undefined") console.log(o)
+		// console.log(o.layer.id)
+		// if(o.layer.id == "schooldistricts-fill") console.log(o)
 		return o.id == geoid
 	})[0]
+	console.log(f, geoid)
 	map.setFeatureState(
 	f,
 	{ "active": true })
@@ -85,7 +89,7 @@ map.on("load", function(e){
 		fs,
 		{ "active": true }
 	)
-
+// console.log(f, fs)
 	//dispatch handlers for mapping events are here, since they need to be defined after
 	//map has loaded. See events.js for further dispatch functions
 	//(called as `changeSchpol(schoolId, oldDistrictId)`,`changeLevel(level)` etc.)
