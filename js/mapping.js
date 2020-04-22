@@ -77,18 +77,35 @@ map.on("load", function(e){
 		return o.id == geoid
 	})[0]
 	console.log(f, geoid)
-	map.setFeatureState(
-	f,
-	{ "active": true })
+
+
+
+
+
+	// map.setFeatureState(
+	// f,
+	// { "active": true })
+
+
+
+
+
 
 	var fs = map.queryRenderedFeatures({layer: "schooldistricts-stroke"}).filter(function(o){
 		return o.id == geoid
 	})[0]
 
-	map.setFeatureState(
-		fs,
-		{ "active": true }
-	)
+
+
+
+
+	// map.setFeatureState(
+	// 	fs,
+	// 	{ "active": true }
+	// )
+
+
+	
 // console.log(f, fs)
 	//dispatch handlers for mapping events are here, since they need to be defined after
 	//map has loaded. See events.js for further dispatch functions
