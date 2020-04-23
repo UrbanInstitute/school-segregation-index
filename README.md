@@ -28,7 +28,7 @@ To replace district boundary data:
 
 ### Build dot data for charts
 **Smaller separate file for WI**
-`python3 scripts/charts/reshape_WI_data.py k12-segregation`
+python3 scripts/charts/reshape_WI_data.py k12-segregation
 
 
 python3 scripts/charts/reshape_figure_data.py k12-segregation

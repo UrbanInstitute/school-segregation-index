@@ -1,0 +1,53 @@
+pattern,count,find_regex,replace_regex
+ends with 'El',3511,(.*)El$,\1Elementary
+contains ' Elem ',2130,(.*)([-| |/]?)Elem([-| |/|.])(.*)$,\1\2Elementary\3\4
+ends with 'Sch',1272,(.*)Sch$,\1School
+contains ' El ',888,(.*)([-| |/])El([-| |/|.])(.*)$,\1\2Elementary\3\4
+starts with 'Ps ' (to P.S. ),642,^Ps (.*),P.S. \1
+ends with 'H S',613,(.*)H S$,\1High School
+contains ' Jr ',525,(.*)([-| |/]?)Jr([-| |/|.])(.*)$,\1\2Junior\3\4
+ends with 'Ms',386,(.*)Ms$,\1Middle School
+ends with 'Hs',310,(.*)Hs$,\1High School
+contains ' Sr ',200,(.*)([-| |/]?)Sr([-| |/|.])(.*)$,\1\2Senior\3\4
+ends with 'J H',194,(.*)J H$,\1Junior High
+contains '(The)' (removed),159,(.*)(\(The\))(.*)$,\1\3
+contains ' Tech ',99,(.*)([-| |/]?)Tech([-| |/|.])(.*)$,\1\2Technology\3\4
+contains ' Acad ',94,(.*)([-| |/]?)Acad([-| |/|.])(.*)$,\1\2Academy\3\4
+ends with 'Ctr',89,(.*)Ctr$,\1Center
+ends with 'Cs',87,(.*)Cs$,\1Charter School
+contains ' Sch ',82,(.*)([-| |/])Sch([-| |/|.])(.*)$,\1\2School\3\4
+starts with 'Is ' (to I.S. ),62,^Is (.*),I.S. \1
+ends with 'Jhs',54,(.*)Jhs$,\1Junior High School
+contains ' V ',51,(.*)([-| |/])V([-| |/|.])(.*)$,\1\2V\3\4
+contains ' Ii ',48,(.*)([-| |/])Ii([-| |/|.])(.*)$,\1\2II\3\4
+contains ' Ctr ',46,(.*)([-| |/])Ctr([-| |/|.])(.*)$,\1\2Center\3\4
+contains ' X ',43,(.*)([-| |/])X([-| |/|.])(.*)$,\1\2X\3\4
+ends with 'Acad',43,(.*)Acad$,\1Academy
+contains ' Sci ',37,(.*)([-| |/]?)Sci([-| |/|.])(.*)$,\1\2Science\3\4
+contains ' Cs ',33,(.*)([-| |/])Cs([-| |/|.])(.*)$,\1\2Charter School\3\4
+ends with 'Jshs',33,(.*)Jshs$,\1Junior/Senior High School
+starts with 'Ms ' (to M.S. ),32,^Ms (.*),M.S. \1
+contains ' H S ',28,(.*)([-| |/])H S([-| |/|.])(.*)$,\1\2High School\3\4
+starts with 'Ps/Is ' (to P.S./I.S. ),23,^Ps/Is (.*),P.S./I.S. \1
+ends with 'Schl',17,(.*)Schl$,\1School
+ends with 'Tech',15,(.*)Tech$,\1Technology
+contains ' Intl ',15,(.*)([-| |/]?)Intl([-| |/|.])(.*)$,\1\2International\3\4
+starts with 'Ps/Ms ' (to P.S./M.S. ),12,^Ps/Ms (.*),P.S./M.S. \1
+contains ' Engr ',11,(.*)([-| |/]?)Engr([-| |/|.])(.*)$,\1\2Engineering\3\4
+contains ' Schl ',11,(.*)([-| |/]?)Schl([-| |/|.])(.*)$,\1\3School\3\4
+contains ' Xxiii ',8,(.*)([-| |/])Xxiii([-| |/|.])(.*)$,\1\2XXIII\3\4
+contains ' J H ',8,(.*)([-| |/])J H([-| |/|.])(.*)$,\1\2Junior High\3\4
+ends with 'Sr',5,(.*)Sr$,\1Senior
+ends with 'Jr',4,(.*)Jr$,\1Junior
+contains ' Iiii ',4,(.*)([-| |/])Iii([-| |/|.])(.*)$,\1\2III\3\4
+ends with 'Chs',4,(.*)Chs$,\1Charter School
+contains ' Scis ',3,(.*)([-| |/])Scis([-| |/|.])(.*)$,\1\2Sciences\3\4
+ends with 'Sci',3,(.*)Sci$,\1Science
+contains ' Ltrs ',2,(.*)([-| |/])Ltrs([-| |/|.])(.*)$,\1\2Letters\3\4
+contains ' Vi ',2,(.*)([-| |/])Vi([-| |/|.])(.*)$,\1\2VI\3\4
+contains ' Part. ',1,(.*)([-| |/])Part\.([-| |/|.])(.*)$,\1\2Partnership\3\4
+contains ' Viii ',1,(.*)([-| |/])Viii([-| |/|.])(.*)$,\1\2VIII\3\4
+contains ' Vii ',1,(.*)([-| |/])Vii([-| |/|.])(.*)$,\1\2VII\3\4
+contains ' Iv ',1,(.*)([-| |/])Iv([-| |/|.])(.*)$,\1\2IV\3\4
+contains ' Chs ',1,(.*)([-| |/])Chs([-| |/|.])(.*)$,\1\2Charter School\3\4
+contains ' Xi ',1,(.*)([-| |/])Xi([-| |/|.])(.*)$,\1\2XI\3\4

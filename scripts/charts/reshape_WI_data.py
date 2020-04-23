@@ -5,7 +5,7 @@ from sys import argv as argv
 
 allLevels = {}
 rows = []
-with open("%s/%s/data/charts/source/CCD-PSS2017_SegCounterfactuals_glea_FINALIZED.csv"%(env["PROJECT_PATH"], argv[1])) as sourceFile:
+with open("%s/%s/data/cleaned_source.csv"%(env["PROJECT_PATH"], argv[1])) as sourceFile:
 	reader = csv.reader(sourceFile)
 	head = next(reader)
 	h = {}
@@ -38,12 +38,12 @@ with open("%s/%s/data/charts/source/CCD-PSS2017_SegCounterfactuals_glea_FINALIZE
 
 			neighbor_minority_percent = float(row[h["minority_nbrsch"]]) / float(row[h["population_nbrsch"]])
 
-			rows.append([schoolId,level,row[h["gleaid"]],row[h["school_name"]],row[h["gleaname"]],row[h["maname"]],state,row[h["population_school"]],row[h["minority_school"]],minorityPercent,neighbor_minority_percent,row[h["SCI_sys"]],schoolTypeString,compareMedian, row[h["lon"]], row[h["lat"]]])
+			rows.append([schoolId,level,row[h["gleaid"]],row[h["school_name"]],row[h["gleaname"]],row[h["maname"]],row[h["REV_City"]],state,row[h["population_school"]],row[h["minority_school"]],minorityPercent,neighbor_minority_percent,row[h["SCI_sys"]],schoolTypeString,compareMedian, row[h["lon"]], row[h["lat"]]])
 
 
 with open('%s/%s/data/charts/csv/wi_schools.csv'%(env["PROJECT_PATH"], argv[1]), 'w', newline='') as outFile:
 	writer = csv.writer(outFile)
-	writer.writerow(["schoolId", "level","districtId", "schoolName","distName","cityName","state","pop", "minority_pop","minority_percent","neighbor_minority_percent", "sci", "type","compareMedian", "lon", "lat","allLevels"])
+	writer.writerow(["schoolId", "level","districtId", "schoolName","distName","msaName","cityName","state","pop", "minority_pop","minority_percent","neighbor_minority_percent", "sci", "type","compareMedian", "lon", "lat","allLevels"])
 
 	for row in rows:
 		row.append(" ".join(allLevels[row[0]]))

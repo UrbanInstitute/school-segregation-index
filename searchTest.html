@@ -1,0 +1,840 @@
+<html>
+<head>
+
+<style>
+*:focus{
+    outline: none;
+}
+    body{
+        font-family: Lato;
+    }
+.ui-helper-hidden-accessible{
+    display: none;
+}
+#narrativeChooseSchoolContainer{
+  position: fixed;
+  z-index: 1000;
+  bottom: 0px;
+  left: 0px;
+  height: 0px;
+  width: 100%;
+  background: #5C5859;
+  border-top: 1px solid #332D2F;
+  color: #fff;
+}
+#narrativeChooseSchoolContainer.teaser .instructions.teaser{
+  display: block;
+}
+#narrativeChooseSchoolContainer svg{
+  /*pointer-events: none;*/
+  opacity: 0;
+}
+#narrativeChooseSchoolContainer.open svg{
+  opacity: 1;
+}
+.instructions.teaser
+{
+  display: none;
+  font-size: 23px;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 18px;
+    margin-top: 23px;
+}
+
+#narrativeChooseSchoolHeader, #narrativeChooseSchoolTextContainer{    
+    width: calc(100% - 20px);
+    height: 30px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+#narrativeChooseSchoolLabel{
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+input{
+    display: inline-block;
+    float: left;
+    color: #fff;
+    background: #5C5859;
+    border: 1px solid white;
+    padding: 5px 11px;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 14px;
+    font-family: Lato;
+    width: 300px;
+    top: calc(90% - 18px);
+    position: fixed;
+}
+#inputB{
+    top: calc(80% - 18px);
+}
+#inputC{
+    left: 350px;
+    top: calc(80% - 18px);
+}
+#inputD{
+    top: calc(70% - 18px);
+}
+#inputE{
+    left: 350px;
+    top: calc(90% - 18px);
+}
+#inputF{
+    left: 350px;
+    top: calc(70% - 18px);
+}
+
+
+.label{
+    position: fixed;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #1696d2;
+}
+#labelA{
+    top: calc(90% - 34px);
+}
+#labelB{
+    top: calc(80% - 34px);
+}
+#labelC{
+    left: 350px;
+    top: calc(80% - 34px);
+}
+#labelD{
+    top: calc(70% - 34px);
+}
+#labelE{
+    left: 350px;
+    top: calc(90% - 34px);
+}
+#labelF{
+    left: 350px;
+    top: calc(70% - 34px);
+}
+
+
+#narrativeChooseSchoolContainer.teaser input{
+  margin-bottom: 100px;
+}
+#narrativeChooseSchoolContainer.teaser #narrativeChooseSchoolArrow{
+  display: none;
+} 
+#narrativeChooseSchoolName{
+  margin-bottom: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+.choose-lvl{
+  float: left;
+  background: #848081;
+  font-size: 13px;
+  font-weight: bold;
+  border: 1px solid #848081;
+  padding: 8px 12px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+.choose-lvl.active{
+  border: 1px solid #fff;
+}
+#narrativeChooseSchoolArrow{
+  float: right;
+  transform: rotate(0deg);
+  cursor: pointer;
+}
+
+#narrativeChooseSchoolTextContainer{
+  margin-top: 31px;
+  width: 400px;
+}
+#narrativeChooseSchoolText{
+  float: left;
+  clear: both;
+  margin-top: 25px;
+  font-size: 15px;
+  line-height: 24px;
+}
+#narrativeChooseSchoolChartContainer{
+    position: absolute;
+    right: 0px;
+    top: 12px;
+}
+#narrativeChooseSchoolChartContainer svg{
+    position: absolute;
+    right: 0px;
+    top: -10px;
+}
+.list {
+    position: fixed;
+    display: block;
+    left: -32px;
+    height: 100%;
+    top: -20%;
+    z-index: 100;
+}
+.list.a{
+    top: -10%;
+}
+.list.b {
+    top: -20%;
+}
+.list.c {
+    left: 310px;
+    top: -20%;
+}
+.list.d{
+    top: -30%;
+}
+.list.e {
+    left: 310px;
+    top: -10%;
+}
+.list.f {
+    left: 310px;
+    top: -30%;
+}
+.list.open{
+  top: calc(-50% + 33px );
+}
+.list.teaser{
+  top: -143px;
+}
+
+
+.list ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front{
+    display: block !important;
+    position: absolute;
+    width: 131px;
+    /* top: 270px !important; */
+    left: 0px !important;
+    bottom: 0px;
+    height: fit-content;
+    top: unset !important;
+    color: #fff;
+    width: 278px !important;
+    list-style: none;
+}
+ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li{
+  background: #7B7B7B;
+  padding: 22px 15px 22px 15px;
+  border-bottom: 1px solid #BCBCBC;
+  cursor: pointer;
+}
+ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li:hover{
+  background: #1696d2;
+}
+.searchSchool{
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.searchCity{
+font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+.searchLevel{
+  font-size: 13px;
+  font-style: italic;
+}
+
+
+
+</style>
+
+
+
+</head>
+<body>
+<div id = "labelA" class = "label">School/ City</div>
+<input id = "inputA" value = "Search by school and city"/>
+<div id = "listA" class = "list a"></div>
+
+
+<div id = "labelB" class = "label">School/ District</div>
+<input id = "inputB" value = "Search by school and district"/>
+<div class = "list b"></div>
+
+<div id = "labelD" class = "label">School/ County</div>
+<input id = "inputD" value = "Search by school and county"/>
+<div class = "list d"></div>
+
+<div id = "labelE" class = "label">School/ City/ County</div>
+<input id = "inputE" value = "Search by school, city, and county"/>
+<div class = "list e"></div>
+
+<div id = "labelC" class = "label">School/ City/ District</div>
+<input id = "inputC" value = "Search by school, city, and district"/>
+<div class = "list c"></div>
+
+<div id = "labelF" class = "label">School/ City/ County/ District</div>
+<input id = "inputF" value = "Search by school, city, county, and district"/>
+<div class = "list f"></div>
+
+
+<script src="lib/jquery-2.2.1.min.js"></script>
+<script src="lib/jquery-ui.1.12.1.min.js"></script>
+
+<script src="lib/d3.5.15.0.min.js"></script>
+
+
+<script>
+const NARRATIVE_FIXED_R = 7,
+      NARRATIVE_DOT_SCALAR = .2,
+      MAP_DOT_SCALAR = .2,
+      TAMARACK_ID = "A9703704",
+      // TAMARACK_ID = "360096606069",
+      MILWAUKEE_ID = "5509600",
+      // MILWAUKEE_ID = "3620580"
+      DEFAULT_MAP_CENTER = [-87.95301604229502,43.05051815873145],
+      // DEFAULT_MAP_CENTER = [-73.700009,-74.25909,40/.477399]
+      DEFAULT_MAP_ZOOM = 9.424957516747982,
+      DEFAULT_LEVEL = "2",
+      
+      MAP_SHOW_DOT_OPACITY = "100%",
+      MAP_HIDE_DOT_OPACITY = "10%",
+      MAP_SHOW_DOT_OPACITY_STROKE = 1,
+      MAP_HIDE_DOT_OPACITY_STROKE = .1,
+      V_HIDE_DOT_OPACITY = .1;
+      V_SHOW_DOT_OPACITY = .8,
+      DEFAULT_TRANSITION_TIME = 250
+
+let ALL_SCHOOL_TYPES = ["tps","private","charter","magnet"],
+    ALL_LEVELS = [null,"Elementary school","Middle school","High school"],
+    ALL_SCHOOL_TYPES_FULL = {"tps": "traditional public", "private": "private", "charter": "charter", "magnet": "magnet"}
+
+
+
+
+
+
+
+
+
+  function closeMenu(){
+    d3.selectAll(".list li").remove()
+  }
+
+  function buildAutocompletes(schoolData, allDistrictData){
+    var schoolNamesA = schoolData
+        .map(function(o){
+          return {
+            "label" : "<div class = 'searchSchool'>" + o.schoolName + "</div><div class = 'searchCity'>" + o.displayCity + "</div><div class = 'searchLevel'>" + o.allLevels.split(" ").map(function(o){ return ALL_LEVELS[+o] }).join(", ") + "</div>",
+            "value": o.schoolId,
+            "search": o.schoolName + " " + o.displayCity
+          }
+    })
+
+
+    var schoolNamesB = schoolData
+        .map(function(o){
+          return {
+            "label" : "<div class = 'searchSchool'>" + o.schoolName + "</div><div class = 'searchCity'>" + o.distName + "</div><div class = 'searchLevel'>" + o.allLevels.split(" ").map(function(o){ return ALL_LEVELS[+o] }).join(", ") + "</div>",
+            "value": o.schoolId,
+            "search": o.schoolName + " " + o.distName
+          }
+    })
+
+
+    var schoolNamesC = schoolData
+        .map(function(o){
+          return {
+            "label" : "<div class = 'searchSchool'>" + o.schoolName + "</div><div class = 'searchCity'>" + o.displayCity + "</div><div class = 'searchCity'>" + o.distName +  "</div><div class = 'searchLevel'>" + o.allLevels.split(" ").map(function(o){ return ALL_LEVELS[+o] }).join(", ") + "</div>",
+            "value": o.schoolId,
+            "search": o.schoolName + " " + o.displayCity + " " + o.distName
+          }
+    })
+
+
+
+    var schoolNamesD = schoolData
+        .map(function(o){
+          return {
+            "label" : "<div class = 'searchSchool'>" + o.schoolName + "</div><div class = 'searchCity'>" + o.countyName +  "</div><div class = 'searchLevel'>" + o.allLevels.split(" ").map(function(o){ return ALL_LEVELS[+o] }).join(", ") + "</div>",
+            "value": o.schoolId,
+            "search": o.schoolName + " " + o.countyName
+          }
+    })
+
+
+
+    var schoolNamesE = schoolData
+        .map(function(o){
+          return {
+            "label" : "<div class = 'searchSchool'>" + o.schoolName + "</div><div class = 'searchCity'>" + o.displayCity + "</div><div class = 'searchCity'>" + o.countyName +  "</div><div class = 'searchLevel'>" + o.allLevels.split(" ").map(function(o){ return ALL_LEVELS[+o] }).join(", ") + "</div>",
+            "value": o.schoolId,
+            "search": o.schoolName + " " + o.displayCity + " " + o.countyName
+          }
+    })
+
+
+
+    var schoolNamesF = schoolData
+        .map(function(o){
+          return {
+            "label" : "<div class = 'searchSchool'>" + o.schoolName + "</div><div class = 'searchCity'>" + o.displayCity + "</div><div class = 'searchCity'>" + o.countyName + "</div><div class = 'searchCity'>"+ o.distName +  "</div><div class = 'searchLevel'>" + o.allLevels.split(" ").map(function(o){ return ALL_LEVELS[+o] }).join(", ") + "</div>",
+            "value": o.schoolId,
+            "search": o.schoolName + " " + o.displayCity + " " + o.distName + " " + o.countyName
+          }
+    })
+
+
+
+
+$( "#inputA" )
+.on("click", function(event, ui){
+event.preventDefault()
+d3.select("#inputA").node().value = ""
+})
+.autocomplete({
+// },
+// search: function( event, ui ) {
+// },
+source: function( request, response ) {
+
+var words = request.term.toUpperCase().split(" ")
+// /^(?=.*?one)(?=.*?\btwo\b)(?=.*?\bthree\b).*$/
+
+words = words.map(function(w){ return "(?=.*?" + w + ")"  })
+
+var matcher = new RegExp(
+"^" + words.join("") + ".*$"
+);
+var rep = new Array(); 
+var maxRepSize = 5; // maximum response size  
+for (var i = 0; i < schoolNamesA.length; i++) {
+var o = schoolNamesA[i];
+var text = o.label,
+search = o.search.toUpperCase()
+val = o.value
+if ( text && ( !request.term || matcher.test(search) ) ){
+// add element to result array
+rep.push({
+"label" : text,
+"value": val,
+"option": ""
+});
+}
+else if(!matcher.test(search)){
+closeMenu()
+}
+if ( rep.length > maxRepSize ) {
+break;
+}
+}
+// send response
+response( rep);
+}, 
+// minLength: 5,
+delay: 0,
+appendTo: ".list.a",
+select: function(event, ui){
+// d3.select("#inputA").node().value = ui.label
+event.preventDefault()
+d3.select("#inputA").node().value = "Search by school and city"
+
+closeMenu()
+}
+
+})
+.data("ui-autocomplete")._renderItem = function( ul, item ) {
+//custom render function, adds classes to disable/custom style "more schools" option
+var maxSizeClass = (item.value == "maxRepSizeReached") ? " maxRepSizeReached ui-state-disabled" : ""
+return $( "<li>" )
+.addClass("ui-menu-item" + maxSizeClass)
+.append( "<div class = \"ui-menu-item-wrapper" + maxSizeClass + "\">" + item.label + "</div>" )
+.appendTo( ul );
+}
+
+
+
+
+
+$( "#inputB" )
+.on("click", function(event, ui){
+event.preventDefault()
+d3.select("#inputB").node().value = ""
+})
+.autocomplete({
+source: function( request, response ) {
+
+var words = request.term.toUpperCase().split(" ")
+// /^(?=.*?one)(?=.*?\btwo\b)(?=.*?\bthree\b).*$/
+
+words = words.map(function(w){ return "(?=.*?" + w + ")"  })
+
+var matcher = new RegExp(
+"^" + words.join("") + ".*$"
+);
+var rep = new Array(); 
+var maxRepSize = 5; // maximum response size  
+for (var i = 0; i < schoolNamesB.length; i++) {
+var o = schoolNamesB[i];
+var text = o.label,
+search = o.search.toUpperCase()
+val = o.value
+if ( text && ( !request.term || matcher.test(search) ) ){
+// add element to result array
+rep.push({
+"label" : text,
+"value": val,
+"option": ""
+});
+}
+else if(!matcher.test(search)){
+closeMenu()
+}
+if ( rep.length > maxRepSize ) {
+break;
+}
+}
+// send response
+response( rep);
+}, 
+// minLength: 5,
+delay: 0,
+appendTo: ".list.b",
+select: function(event, ui){
+// d3.select("#inputA").node().value = ui.label
+event.preventDefault()
+d3.select("#inputB").node().value = "Search by school and district"
+
+closeMenu()
+// if(getChooseSchoolStatus() == "closed"){
+// toggleChooseSchool()
+
+}
+
+})
+.data("ui-autocomplete")._renderItem = function( ul, item ) {
+//custom render function, adds classes to disable/custom style "more schools" option
+var maxSizeClass = (item.value == "maxRepSizeReached") ? " maxRepSizeReached ui-state-disabled" : ""
+return $( "<li>" )
+.addClass("ui-menu-item" + maxSizeClass)
+.append( "<div class = \"ui-menu-item-wrapper" + maxSizeClass + "\">" + item.label + "</div>" )
+.appendTo( ul );
+}
+
+
+
+
+
+
+
+$( "#inputC" )
+.on("click", function(event, ui){
+event.preventDefault()
+d3.select("#inputC").node().value = ""
+})
+.autocomplete({
+source: function( request, response ) {
+
+var words = request.term.toUpperCase().split(" ")
+words = words.map(function(w){ return "(?=.*?" + w + ")"  })
+
+var matcher = new RegExp(
+"^" + words.join("") + ".*$"
+);
+var rep = new Array(); 
+var maxRepSize = 5; // maximum response size  
+for (var i = 0; i < schoolNamesC.length; i++) {
+var o = schoolNamesC[i];
+var text = o.label,
+search = o.search.toUpperCase()
+val = o.value
+if ( text && ( !request.term || matcher.test(search) ) ){
+// add element to result array
+rep.push({
+"label" : text,
+"value": val,
+"option": ""
+});
+}
+else if(!matcher.test(search)){
+closeMenu()
+}
+if ( rep.length > maxRepSize ) {
+break;
+}
+}
+// send response
+response( rep);
+}, 
+// minLength: 5,
+delay: 0,
+appendTo: ".list.c",
+select: function(event, ui){
+event.preventDefault()
+d3.select("#inputC").node().value = "Search by school, city, and district"
+closeMenu()
+}
+})
+.data("ui-autocomplete")._renderItem = function( ul, item ) {
+//custom render function, adds classes to disable/custom style "more schools" option
+var maxSizeClass = (item.value == "maxRepSizeReached") ? " maxRepSizeReached ui-state-disabled" : ""
+return $( "<li>" )
+.addClass("ui-menu-item" + maxSizeClass)
+.append( "<div class = \"ui-menu-item-wrapper" + maxSizeClass + "\">" + item.label + "</div>" )
+.appendTo( ul );
+}
+
+
+
+
+
+
+
+$( "#inputD" )
+.on("click", function(event, ui){
+event.preventDefault()
+d3.select("#inputD").node().value = ""
+})
+.autocomplete({
+source: function( request, response ) {
+
+var words = request.term.toUpperCase().split(" ")
+words = words.map(function(w){ return "(?=.*?" + w + ")"  })
+
+var matcher = new RegExp(
+"^" + words.join("") + ".*$"
+);
+var rep = new Array(); 
+var maxRepSize = 5; // maximum response size  
+for (var i = 0; i < schoolNamesD.length; i++) {
+var o = schoolNamesD[i];
+var text = o.label,
+search = o.search.toUpperCase()
+val = o.value
+if ( text && ( !request.term || matcher.test(search) ) ){
+// add element to result array
+rep.push({
+"label" : text,
+"value": val,
+"option": ""
+});
+}
+else if(!matcher.test(search)){
+closeMenu()
+}
+if ( rep.length > maxRepSize ) {
+break;
+}
+}
+// send response
+response( rep);
+}, 
+// minLength: 5,
+delay: 0,
+appendTo: ".list.d",
+select: function(event, ui){
+event.preventDefault()
+d3.select("#inputD").node().value = "Search by school and county"
+closeMenu()
+}
+})
+.data("ui-autocomplete")._renderItem = function( ul, item ) {
+//custom render function, adds classes to disable/custom style "more schools" option
+var maxSizeClass = (item.value == "maxRepSizeReached") ? " maxRepSizeReached ui-state-disabled" : ""
+return $( "<li>" )
+.addClass("ui-menu-item" + maxSizeClass)
+.append( "<div class = \"ui-menu-item-wrapper" + maxSizeClass + "\">" + item.label + "</div>" )
+.appendTo( ul );
+}
+
+
+
+
+
+
+$( "#inputE" )
+.on("click", function(event, ui){
+event.preventDefault()
+d3.select("#inputE").node().value = ""
+})
+.autocomplete({
+source: function( request, response ) {
+
+var words = request.term.toUpperCase().split(" ")
+words = words.map(function(w){ return "(?=.*?" + w + ")"  })
+
+var matcher = new RegExp(
+"^" + words.join("") + ".*$"
+);
+var rep = new Array(); 
+var maxRepSize = 5; // maximum response size  
+for (var i = 0; i < schoolNamesE.length; i++) {
+var o = schoolNamesE[i];
+var text = o.label,
+search = o.search.toUpperCase()
+val = o.value
+if ( text && ( !request.term || matcher.test(search) ) ){
+// add element to result array
+rep.push({
+"label" : text,
+"value": val,
+"option": ""
+});
+}
+else if(!matcher.test(search)){
+closeMenu()
+}
+if ( rep.length > maxRepSize ) {
+break;
+}
+}
+// send response
+response( rep);
+}, 
+// minLength: 5,
+delay: 0,
+appendTo: ".list.e",
+select: function(event, ui){
+event.preventDefault()
+d3.select("#inputE").node().value = "Search by school, city, and county"
+closeMenu()
+}
+})
+.data("ui-autocomplete")._renderItem = function( ul, item ) {
+//custom render function, adds classes to disable/custom style "more schools" option
+var maxSizeClass = (item.value == "maxRepSizeReached") ? " maxRepSizeReached ui-state-disabled" : ""
+return $( "<li>" )
+.addClass("ui-menu-item" + maxSizeClass)
+.append( "<div class = \"ui-menu-item-wrapper" + maxSizeClass + "\">" + item.label + "</div>" )
+.appendTo( ul );
+}
+
+
+
+
+
+
+$( "#inputF" )
+.on("click", function(event, ui){
+event.preventDefault()
+d3.select("#inputF").node().value = ""
+})
+.autocomplete({
+source: function( request, response ) {
+
+var words = request.term.toUpperCase().split(" ")
+words = words.map(function(w){ return "(?=.*?" + w + ")"  })
+
+var matcher = new RegExp(
+"^" + words.join("") + ".*$"
+);
+var rep = new Array(); 
+var maxRepSize = 5; // maximum response size  
+for (var i = 0; i < schoolNamesF.length; i++) {
+var o = schoolNamesF[i];
+var text = o.label,
+search = o.search.toUpperCase()
+val = o.value
+if ( text && ( !request.term || matcher.test(search) ) ){
+// add element to result array
+rep.push({
+"label" : text,
+"value": val,
+"option": ""
+});
+}
+else if(!matcher.test(search)){
+closeMenu()
+}
+if ( rep.length > maxRepSize ) {
+break;
+}
+}
+// send response
+response( rep);
+}, 
+// minLength: 5,
+delay: 0,
+appendTo: ".list.f",
+select: function(event, ui){
+event.preventDefault()
+d3.select("#inputF").node().value = "Search by school, city, county, and district"
+closeMenu()
+}
+})
+.data("ui-autocomplete")._renderItem = function( ul, item ) {
+//custom render function, adds classes to disable/custom style "more schools" option
+var maxSizeClass = (item.value == "maxRepSizeReached") ? " maxRepSizeReached ui-state-disabled" : ""
+return $( "<li>" )
+.addClass("ui-menu-item" + maxSizeClass)
+.append( "<div class = \"ui-menu-item-wrapper" + maxSizeClass + "\">" + item.label + "</div>" )
+.appendTo( ul );
+}
+
+
+
+
+
+}
+
+
+
+  function preprocessSchoolData(schoolData, allDistrictData){
+    return schoolData.map(function (d, i) {
+      districtDatum = allDistrictData[d.districtId + "_" + d.level]
+      d.pop = +d.pop;
+      d.minority_pop = +d.minority_pop;
+      d.minority_percent = +d.minority_percent;
+      d.sci = +d.sci;
+      d.normSci = Math.abs(+d.minority_percent - districtDatum["M"])/districtDatum["sum"]
+      d.compareMedian = (+d.minority_percent < districtDatum["M"]) ? "below" : "above"
+      d.type = d.type;
+      d.schoolName = d.schoolName;
+      d.lon = +d.lon;
+      d.lat = +d.lat;
+      d.level = d.level;
+      d.allLevels= d.allLevels;
+      d.neighbor_minority_percent = +d.neighbor_minority_percent
+      d.displayCity = d.cityName + ", " + d.state;
+      d.cityName = d.cityName;
+      d.distName = d.distName;
+
+      return d;
+    }).sort(function(a, b){ return (a.schoolName < b.schoolName) ? -1 : 1 })
+  }
+
+
+
+function display(rawData) {
+      var schoolData = preprocessSchoolData(rawData[1], rawData[2])
+      var allDistrictData = rawData[2]
+
+      buildAutocompletes(schoolData, allDistrictData)    
+
+
+
+}
+
+d3.select("body").on("click", closeMenu)
+
+
+
+const dataFiles = ["data/charts/csv/wi_schools.csv", "data/charts/csv/all_schools.csv", "data/charts/json/all_districts.json"];
+const promises = [];
+
+dataFiles.forEach(function(url, index) {
+    promises.push(url.search(".csv") != -1 ? d3.csv(url) : d3.json(url))
+});
+
+Promise.all(promises)
+.then(function(data) {
+    display(data)
+    //any code that depends on 'data' goes here
+});
+
+
+
+</script>
+</body>
