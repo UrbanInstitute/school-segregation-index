@@ -25,7 +25,7 @@
         margins = getVMargins(section, size),
         baseH = (chooseSchoolStatus == "closed" || index > 5) ? 600 : 300;
         if(section == "choose") baseH = 300;
-        if(section == "explore") baseH = 530;
+        if(section == "explore") baseH = 570;
         height = baseH - margins.top - margins.bottom;
 
 

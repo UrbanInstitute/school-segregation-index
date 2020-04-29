@@ -115,8 +115,8 @@ var thresholdLarge = 10000;
 
 
 
-  exploreVHeight = 500;
-  exploreVWidth = 500;
+  exploreVHeight = 700;
+  exploreVWidth = 700;
 
   if ( IS_PHONE() ){ svgWidth = PHONE_VIS_WIDTH }
   else if ( IS_SHORT() ){ svgWidth = SHORT_VIS_WIDTH }

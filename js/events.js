@@ -328,6 +328,7 @@ function updateVoronoi(section, schools){
 }
 
 function updateExploreV(schools, district){
+    console.log(schools)
 		svg = d3.select("#exploreVChartContainer").select("svg g"),
 		vW = getVWidth("explore"),
 		vH = getVHeight("explore")
@@ -368,7 +369,7 @@ updateVoronoi("explore", schools)
         .attr("class",function(d){
           return d.type + " sid_" + d.schoolId;
         })
-        .classed("lollipop explore",true)
+        .classed("lollipop explore exploreBeeHide",true)
         .classed("belowMedian", function(d){
           return d.compareMedian == "below"
         })
@@ -574,6 +575,33 @@ function changeDistrict(districtId, level, schoolId){
 	updateExploreBars(district,schools)
 
 }
+function updateExploreLayout(layout){
+    var allDistrictData = getAllDistrictData(),
+        schoolData = getSchoolData(),
+        districtId = getActiveDistrict(),
+        level = getLevel(),
+        // level = getLevel()
+        districtKey = districtId + "_" + level;
+        district = allDistrictData[districtKey],
+        schools = d3.selectAll(".explore.dot").data().sort(function(a, b){ return (a.minority_percent < b.minority_percent) ? -1 : 1 })
+
+    if(layout == "bees"){
+        BEES(schools, "explore")
+    }else{
+        SEEB(schools)
+    }
+    
+
+}
+d3.select("#beetest").on("click", function(){
+    if(d3.select(this).classed("bees")){
+        updateExploreLayout("v")
+        d3.select(this).classed("bees", false)
+    }else{
+        updateExploreLayout("bees")
+        d3.select(this).classed("bees", true)
+    }
+})
 function changeLevel(level){
 	// var allDistrictData = getAllDistrictData(),
 	// 	schoolData = getSchoolData(),

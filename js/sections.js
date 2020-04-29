@@ -173,13 +173,13 @@ var districtMedian = TAMARACK_MEDIAN
       .attr("y2", chartPos.y1)
 
     gExplore.append("g")
-  .attr("class", "v explore y axis")
+  .attr("class", "v explore y axis exploreBeeHide")
   .attr("transform", "translate(" + vMargins.left + ",0)")
   // .style("opacity",0)
   .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
 
   gExplore.append("text")
-    .attr("class", "yaxis axis label y explore")
+    .attr("class", "yaxis axis label y explore exploreBeeHide")
     .attr("x",0)
     .attr("y", vMargins.top + 20)
     .text("Segregation Contribution Index")
@@ -230,7 +230,7 @@ var districtMedian = TAMARACK_MEDIAN
         .attr("class",function(d){
           return d.type + " sid_" + d.schoolId;
         })
-        .classed("lollipop explore",true)
+        .classed("lollipop explore exploreBeeHide",true)
         .classed("belowMedian", function(d){
           return d.compareMedian == "below"
         })
@@ -1513,6 +1513,11 @@ if(trigger == "scroll"){
   }
 
 
+
+
+
+
+
   function narrativeBeeSwarm(milwaukeeData, chartData, mapData,allDistrictData,trigger){
     // d3.select("#placeholderText").text("BEES")
 
@@ -1523,100 +1528,8 @@ if(trigger == "scroll"){
       .duration(700)
       .style("opacity",1)
 
-function BEES(data){
 
-  var margin = {top: 50, right: 50, bottom: 50, left: 50},
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom,
-      // padding between nodes
-      padding = 0,
-      maxRadius = 100000,
-      numberOfNodes = milwaukeeData.length;
-
-
-    var y = getVY("narrative", 9, milwaukeeData);
-    var x = getVX("narrative");
-
-  // Map the basic node data to d3-friendly format.
-  var nodes = data.map(function(node, index) {
-    return {
-      schoolId: node.schoolId,
-      minority_pop: node.minority_pop,
-      sci: node.sci,
-      type: node.type,
-      compareMedian: node.compareMedian,
-      minority_percent: node.minority_percent,
-      normSci: node.normSci,
-      pop: node.pop,
-      radius: NARRATIVE_DOT_SCALAR*Math.sqrt(node.pop),
-      x: x(node.minority_percent),
-      y: (getVHeight("narrative",9) - 20)
-    };
-  });
-
-    
-  var force = d3.forceSimulation(nodes)
-    .force('charge', d3.forceManyBody().strength(0))
-    // .force('center', d3.forceCenter(margin.left +width/2, height / 2))
-    // .force("center", d3.forceCenter().x(x(.5)).y(height/2))
-
-    .force('x', d3.forceX().x(function(d) {
-  return d.x;
-}))
-.force('y', d3.forceY().y(function(d) {
-  return (getVHeight("narrative",9) - 20);
-}))
-    .force('collide', d3.forceCollide(function(d){
-      return d.radius
-    }))
-    .on("tick", tick)
-    .stop();
-
-
-  /**
-   * On a tick, apply custom gravity, collision detection, and node placement.
-   */
-  function tick() {
-
-    for ( i = 0; i < nodes.length; i++ ) {
-      var node = nodes[i];
-      node.cx = node.x;
-      node.cy = node.y;
-    }
-  }
-
-
-  /**
-   * Run the force layout to compute where each node should be placed,
-   * then replace the loading text with the graph.
-   */
-  function renderGraph() {
-    // Run the layout a fixed number of times.
-    // The ideal number of times scales with graph complexity.
-    // Of course, don't run too long—you'll hang the page!
-    const NUM_ITERATIONS = 500;
-    force.tick(NUM_ITERATIONS);
-    force.stop();
-
-
-    d3.selectAll(".milwaukee.dot")
-      .data(nodes)
-    // .enter().append("circle")
-      .transition()
-      .duration(2500)
-      .delay(function(d,i){ return i*2})
-      .attr("cx", function(d) { return d.x} )
-      .attr("cy", function(d) { return d.y} )
-      .attr("r", function(d) { return d.radius } );
-
-  }
-  // setTimeout(renderGraph, 10);
-  renderGraph()
-  // Use a timeout to allow the rest of the page to load first.
-
-
-}
-  BEES(milwaukeeData)
+  BEES(milwaukeeData, "narrative")
 
 
 

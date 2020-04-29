@@ -1,3 +1,19 @@
+
+
+
+#beetest{
+
+width: fit-content;
+    padding: 10px;
+    top: -100px;
+    position: relative;
+    /* background: #fdbf11; */
+    /* border: 3px solid black; */
+    background: repeating-linear-gradient( 90deg, #fdbf11, #fdbf11 10px, #333 10px, #333 20px );
+    color: white;
+    cursor: pointer;
+    border-radius: 40px
+}
 /*#sections{
   pointer-events: none;
   opacity: 0;
@@ -870,16 +886,16 @@ color: #353535;
   display: inline-block;
   float: left;
   margin-right: 43px;
+  z-index: 2;
 }
 
 
 /********** MAPPPP **************/
 #mapComponentsContainer{
-  display: inline-block;
-  position: relative;
   height: 470px;
   width: 470px;
-  float: left;
+    position: absolute;
+    right: 49px;
 }
 #mapContainer{
 border: 2px solid #1E1E1E;
