@@ -14,7 +14,7 @@ features = data["features"]
 print(len(features))
 
 for f in features:
-    f["id"] = f["properties"]["GEOID"]
+    f["id"] = int(f["properties"]["GEOID"])
 
 data["features"] = features
 
