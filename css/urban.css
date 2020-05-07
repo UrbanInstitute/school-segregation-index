@@ -10,7 +10,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 body, html {
-     color: #000;
+     color: #353535;
      font-family: "Lato",sans-serif;
      font-size: 16px;
      height: 100%;
@@ -53,13 +53,13 @@ table {
 a{
  color:#1696d2;
  text-decoration: none;
-   
+
 }
 
 a:hover{
  color:#000;
- text-decoration: none;    
-    
+ text-decoration: none;
+
 }
 
 
@@ -71,12 +71,12 @@ h3{
 }
 
 .bold{
-    
+
     font-weight: 700;
 }
 
 .emphasis{
-    
+
    font-style: italic;
 }
 
@@ -105,7 +105,7 @@ h3{
     margin-top: 0px;
     padding-left: 24px;
     padding-top: 10px;
-    
+
 }
 
 
@@ -195,7 +195,7 @@ h1{
     font-weight: 600;
     padding-top: 0px;
     text-align: left;
-    color: #000;    
+    color: #000;
 }
 
 
@@ -236,7 +236,7 @@ h2 div{
     text-indent: 0px;
     text-align: left;
 
-    
+
 }
 
 #steps li{
@@ -244,7 +244,7 @@ h2 div{
     list-style: none;
     padding-left:0px;
     margin-bottom:0px;
-    margin-right: 30px;  
+    margin-right: 30px;
 }
 
 .step_button span{
@@ -259,13 +259,13 @@ h2 div{
 
 /***Ben, I'm just placing this here for now. I know you've already got the active coloring in the interactive *****/
 #steps li .active {
-   background-color: #0096d2; 
+   background-color: #0096d2;
      color:#fff;
 }
 
 .step_button span:hover{
     background-color:#000;
-  
+
 }
 
 
@@ -277,7 +277,7 @@ h2 div{
     height: 50px;
     background-color: #999;
     float: right;
-    
+
 }
 
 
@@ -285,7 +285,7 @@ h2 div{
 /********placeholder for charts********/
 .charts{
     margin-bottom:60px;
-    
+
 }
 
 /************** general text styles***************/
@@ -307,8 +307,8 @@ footer {
     bottom: 0;
    overflow: hidden;
      height:auto;
-     z-index: 10000;  
- 
+     z-index: 10000;
+
 }
 @media (max-height: 880px){
   footer{
@@ -316,11 +316,11 @@ footer {
   }
 }
 footer .content{
-  
+
     max-width: 1100px;
 
 }
-   
+
 
 h4 {
     font-size: 34px;
@@ -394,7 +394,7 @@ footer h2 {
 }
 
 footer h3, footer h4{
-   font-weight: 700; 
+   font-weight: 700;
 }
 
 .credits {
@@ -487,7 +487,7 @@ footer h3, footer h4{
 
 
 @media (max-width: 1000px) {
-   
+
     .subnav a{
         font-size:14px;
     }
@@ -509,7 +509,7 @@ footer h3, footer h4{
 
 /*browser windows smaller than 850px*/
 @media (max-width: 600px) {
-   .wrapper {padding-top:80px;} 
+   .wrapper {padding-top:80px;}
    .headerimage{ height:250px;}
     h1{font-size: 45px;padding-top: 100px;}
     .overhalf{width:100%;}

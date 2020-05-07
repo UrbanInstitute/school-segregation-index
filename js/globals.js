@@ -1,6 +1,6 @@
 const NARRATIVE_FIXED_R = 7,
-      NARRATIVE_DOT_SCALAR = .2,
-      MAP_DOT_SCALAR = .2,
+      NARRATIVE_DOT_SCALAR = .4,
+      MAP_DOT_SCALAR = .4,
       TAMARACK_ID = "A9703704",
       // TAMARACK_ID = "360096606069",
       MILWAUKEE_ID = "5509600",
@@ -9,7 +9,7 @@ const NARRATIVE_FIXED_R = 7,
       // DEFAULT_MAP_CENTER = [-73.700009,-74.25909,40/.477399]
       DEFAULT_MAP_ZOOM = 9.424957516747982,
       DEFAULT_LEVEL = "2",
-      
+
       MAP_SHOW_DOT_OPACITY = "100%",
       MAP_HIDE_DOT_OPACITY = "10%",
       MAP_SHOW_DOT_OPACITY_STROKE = 1,
@@ -78,7 +78,7 @@ var VIS_HEIGHT = 480;
 var DURATION = 800;
 
 
-var MARGIN = { top: 10, left: 40, bottom: 109, right: 20 };
+var MARGIN = { top: 10, left: 40, bottom: 120, right: 20 };
 var PHONE_MARGIN = { top: 110, left: 40, bottom: 30, right: 30 };
 
 
@@ -120,11 +120,11 @@ var thresholdLarge = 10000;
 
   if ( IS_PHONE() ){ svgWidth = PHONE_VIS_WIDTH }
   else if ( IS_SHORT() ){ svgWidth = SHORT_VIS_WIDTH }
-  else{ svgWidth = VIS_WIDTH} 
+  else{ svgWidth = VIS_WIDTH}
 
   if ( IS_PHONE() ){ svgHeight = PHONE_VIS_HEIGHT }
   else if ( IS_SHORT() ){ svgHeight = SHORT_VIS_HEIGHT }
-  else{ svgHeight = VIS_HEIGHT} 
+  else{ svgHeight = VIS_HEIGHT}
 
   // if ( IS_PHONE() ){ barsHeight = height*.5 }
   // else if ( IS_SHORT() ){ barsHeight = height*.65 }

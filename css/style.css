@@ -44,18 +44,18 @@ body{
 }
 #topText, #bottomContent{
   /*margin-top: -140px;*/
-  padding: 40px;
-  margin-bottom:30px;
-  font-size:21px;
-  font-weight:400;
-  color:#000;
-  background: #fff; 
-  z-index: 1000;
+  background: #fff;
+  color:#353535;
+  margin-bottom: 200px;
+  padding: 40px 80px;
   position: relative;
+  font-size: 18px;
+  font-weight:400;
+  z-index: 1000;
 }
 #bottomTitle{
   font-weight: bold;
-  margin-bottom: 10px;  
+  margin-bottom: 10px;
 }
 #bottomContent{
   width: 1150px;
@@ -84,13 +84,14 @@ p{
   z-index: 90;
   padding-bottom: 20px;
   pointer-events: auto;
+  margin-left: 40px;
 }
 
 .step {
   margin-bottom: 10vh;
   min-height: 80vh;
   font-family: "Lato";
-  font-size: 16px;
+  font-size: 18px;
   line-height: 23px;
   color: #000;
 }
@@ -130,12 +131,12 @@ p{
 #narrativeVizContainer.posFixed{
   position: fixed;
   top: 20px;
-  padding-left: 10px;
+  padding-left: 60px;
 }
 #narrativeVizContainer.posRelTop{
   position: relative;
   float: right;
-  padding-left: 10px;
+  padding-left: 60px;
     top: -295px !important;
     left: -29px !important;
 
@@ -156,7 +157,11 @@ p{
 #narrativeVizContainer.posRelTopSingleCol{
    position: absolute;
   float: inherit;
-  padding-left: 10px; 
+  padding-left: 10px;
+}
+
+.selectedSchool {
+  border-bottom: 2px solid #ec008b;
 }
 
 
@@ -194,13 +199,17 @@ p{
 
 /******************* V CHART COMPONENTS **************************/
 
-
 .v.x.axis path,
 .v.x.axis line {
   fill: none;
   stroke: #353535;
   shape-rendering: crispEdges;
 }
+
+.v.x.axis > g > line {
+  stroke: #adabac;
+}
+
 .axis.label{
     font-size: 12px;
     font-style: italic;
@@ -215,9 +224,11 @@ p{
   stroke: #dedddd;
 }
 .tick text{
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Lato";
 }
+
+
 
 .milwaukee.medianLine{
   stroke: #848081;
@@ -225,7 +236,7 @@ p{
 }
 .choose.medianLine{
    stroke: #fff;
-  stroke-dasharray: 2 3; 
+  stroke-dasharray: 2 3;
 }
 
 .choose.medianTextG{
@@ -453,7 +464,7 @@ p{
 
 
 /********header (below urban menu)**********/
-   
+
 
 .headerimage{
   position: relative;
@@ -504,9 +515,9 @@ p{
 }
 
 @media (max-width: 991px) {
-   
+
    .headerwrapper{padding-top:125px;}
-   
+
 }
 
 @media  (max-width: 480px) {
@@ -515,7 +526,7 @@ p{
    .headerimage{width: 100%; height: 300px;}
    .headerwrapper{padding-top:80px;}
    h1 { font-size:24px;}
- 
+
 }
 
 
@@ -555,7 +566,7 @@ p{
     margin-top: 23px;
 }
 
-#narrativeChooseSchoolHeader, #narrativeChooseSchoolTextContainer{    
+#narrativeChooseSchoolHeader, #narrativeChooseSchoolTextContainer{
     width: calc(100% - 20px);
     height: 30px;
     margin-left: 10px;
@@ -585,7 +596,7 @@ p{
 }
 #narrativeChooseSchoolContainer.teaser #narrativeChooseSchoolArrow{
   display: none;
-} 
+}
 #narrativeChooseSchoolName{
   margin-bottom: 15px;
   font-weight: 900;
@@ -718,12 +729,22 @@ font-size: 13px;
 
 /**************explore controls**************/
 #exploreHeading{
-    /*text-align: center;*/
-    font-size: 30px;
-    margin-bottom: 75px;
-    margin-top: 130px;
-    font-weight: bold;
+    color: #adabac;
+    font-size: 21px;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 100px;
+    margin-top: 200px;
+    text-align: center;
 }
+
+.endSymbol {
+  display: block;
+  margin: 250px auto 0 auto;
+  width: 40px;
+}
+
+
 .levelButton{
   font-size: 14px;
   display: inline-block;
@@ -766,7 +787,7 @@ background: #d2d2d2;
 
 }
 .radioContainer.active .radioButton{
-  
+
   background-image: url(../images/radio-active.png);
 
 }
@@ -834,7 +855,7 @@ background: #d2d2d2;
 }
 .tt-lvl.active{
   background: #EC008B;
-  color: #fff; 
+  color: #fff;
 }
 .tt-lvl.hidden{
   display: none;
