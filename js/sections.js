@@ -39,7 +39,7 @@ var scrollVis = function () {
   // y.domain([0, 18000]);
 
   // var dotY = d3.scaleLinear().rangeRound([height - dotMargin.bottom, barsHeight + dotMargin.top]);
-  // dotY.domain([dotMin, dotMax]);   
+  // dotY.domain([dotMin, dotMax]);
 
   // When scrolling to a new section
   // the activation function for that
@@ -93,7 +93,7 @@ var scrollVis = function () {
         .attr('transform', 'translate(' + vExploreMargin.left + ',' + vExploreMargin.top + ')');
 
 
-    
+
 
       // perform some preprocessing on raw data
       var milwaukeeData = preprocessMilwaukeeData(rawData[0], rawData[2]);
@@ -104,7 +104,7 @@ var scrollVis = function () {
       bindGlobalData(milwaukeeData, schoolData, null, allDistrictData);
 
       setupVis(milwaukeeData, schoolData, null, allDistrictData);
-      
+
       setupExploreVis(milwaukeeData, allDistrictData);
 
       setupSections(milwaukeeData, schoolData, null, allDistrictData);
@@ -145,7 +145,7 @@ function setupControls(){
         }
       })
     }
-    
+
     setSchoolTypes(newSchoolTypes)
   })
 }
@@ -161,7 +161,7 @@ function setupExploreVis(milwaukeeData, allDistrictData){
     var vW = getVWidth("explore")
     var vMargins = getVMargins("explore")
     var chartPos = getRelativeChartPositions("explore")
-  
+
 var districtMedian = TAMARACK_MEDIAN
 
     gExplore
@@ -270,8 +270,8 @@ var districtMedian = TAMARACK_MEDIAN
 
     // d3.select(adClone).classed("beeHide", true).datum(activeDot.datum())
     // d3.select(alClone).classed("beeHide", true).datum(activeLine.datum())
-    
-    
+
+
     // activeDot.node().parentNode.appendChild(adClone)
     // activeDot.node().parentNode.appendChild(alClone)
 
@@ -313,8 +313,8 @@ words = words.map(function(w){ return "(?=.*?" + w + ")"  })
 var matcher = new RegExp(
 "^" + words.join("") + ".*$"
 );
-var rep = new Array(); 
-var maxRepSize = 5; // maximum response size  
+var rep = new Array();
+var maxRepSize = 5; // maximum response size
 for (var i = 0; i < schoolNames.length; i++) {
 var o = schoolNames[i];
 var text = o.label,
@@ -343,7 +343,7 @@ break;
 }
 // send response
 response( rep);
-}, 
+},
 // minLength: 5,
 delay: 0,
 appendTo: "#narrativeChooseSchoolList",
@@ -393,8 +393,8 @@ words = words.map(function(w){ return "(?=.*?" + w + ")"  })
 var matcher = new RegExp(
 "^" + words.join("") + ".*$"
 );
-var rep = new Array(); 
-var maxRepSize = 5; // maximum response size  
+var rep = new Array();
+var maxRepSize = 5; // maximum response size
 for (var i = 0; i < schoolNames.length; i++) {
 var o = schoolNames[i];
 var text = o.label,
@@ -423,7 +423,7 @@ break;
 }
 // send response
 response( rep);
-}, 
+},
 // minLength: 5,
 delay: 0,
 appendTo: "#exploreSchoolList",
@@ -476,7 +476,7 @@ return $( "<li>" )
 
 
 
-    buildAutocompletes(schoolData, allDistrictData)    
+    buildAutocompletes(schoolData, allDistrictData)
     g.append("text")
       .attr("id", "placeholderText")
     // x domain
@@ -611,10 +611,12 @@ console.log(TAMARACK_MEDIAN)
     .attr("transform", "translate(" + x(.34) + "," + 139.5 + ")")
     .style("opacity",0)
   overSci.append("rect")
-    .attr("width", 100)
-    .attr("height",32.5)
-  overSci.append("text")
+    .attr("width", 73)
+    .attr("height",2)
     .attr("x", 17)
+    .attr("y", 25)
+  overSci.append("text")
+    .attr("x", 19)
     .attr("y", 21)
     .text("50% of SCI")
 
@@ -623,10 +625,12 @@ console.log(TAMARACK_MEDIAN)
     .attr("transform", "translate(" + x(.34) + "," + 329.5 + ")")
     .style("opacity",0)
   underSci.append("rect")
-    .attr("width", 100)
-    .attr("height",32.5)
-  underSci.append("text")
+    .attr("width", 73)
+    .attr("height",2)
     .attr("x", 17)
+    .attr("y", 25)
+  underSci.append("text")
+    .attr("x", 19)
     .attr("y", 21)
     .text("50% of SCI")
 
@@ -637,10 +641,12 @@ console.log(TAMARACK_MEDIAN)
     .attr("transform", "translate(" + x(.17) + "," + 479.5 + ")")
     .style("opacity",0)
   underPop.append("rect")
-    .attr("width", 205)
-    .attr("height",32.5)
-  underPop.append("text")
+    .attr("width", 175)
+    .attr("height",2)
     .attr("x", 17)
+    .attr("y", 25)
+  underPop.append("text")
+    .attr("x", 19)
     .attr("y", 21)
     .text("30% of students, 55 schools")
 
@@ -650,10 +656,12 @@ console.log(TAMARACK_MEDIAN)
     .attr("transform", "translate(" + x(.7) + "," + 452.5 + ")")
     .style("opacity",0)
   overPop.append("rect")
-    .attr("width", 208)
-    .attr("height",32.5)
-  overPop.append("text")
+    .attr("width", 183)
+    .attr("height",2)
     .attr("x", 17)
+    .attr("y", 25)
+  overPop.append("text")
+    .attr("x", 19)
     .attr("y", 21)
     .text("70% of students, 116 schools")
 
@@ -669,11 +677,11 @@ console.log(TAMARACK_MEDIAN)
 
     d3.select(tdClone).classed("beeHide", true).datum(tamarackDot.datum())
     d3.select(tlClone).classed("beeHide", true).datum(tamarackLine.datum())
-    
-    
+
+
     tamarackDot.node().parentNode.appendChild(tdClone)
     tamarackDot.node().parentNode.appendChild(tlClone)
-    
+
 
 
     setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
@@ -731,7 +739,7 @@ console.log(TAMARACK_MEDIAN)
   * user may be scrolling up or down).
   *
   */
- 
+
 
 
   function showChooseSchool(){
@@ -754,7 +762,7 @@ console.log(TAMARACK_MEDIAN)
       d3.select("#narrativeChooseSchoolList")
         .classed("open", (getChooseSchoolStatus() == "open"))
         .classed("teaser", !(getChooseSchoolStatus() == "open"))
-      dispatch.call("reset")  
+      dispatch.call("reset")
     }else{
 svg.transition()
       .style("margin-top","0px")
@@ -764,7 +772,7 @@ svg.transition()
         .classed("teaser",false)
         .transition()
         .style("height", containerHeight)
-      dispatch.call("reset")  
+      dispatch.call("reset")
 
     }
 
@@ -865,14 +873,14 @@ d3.selectAll(".medianLine.narrative.milwaukee")
 
 
 
-  
+
 
   function squishCharts(){
     var   data = d3.selectAll(".milwaukee.dot").data(),
           y = getVY("narrative", activeIndex, data),
           vW = getVWidth("narrative"),
           margins = getVMargins("narrative")
-    
+
 
     // if(activeIndex == 1 ){
 
@@ -953,7 +961,7 @@ activateFunctions[activeIndex]("squish")
       .attr("y2", chartPos.y1)
       .attr("y1", chartPos.y1)
 
-      
+
 
     d3.selectAll(".medianTextG")
     .transition()
@@ -967,8 +975,8 @@ activateFunctions[activeIndex]("squish")
 
         updateChooseText(activeIndex)
 
-      
-  
+
+
   }
 
   function showMedian(milwaukeeData, chartData, mapData,allDistrictData,trigger){
@@ -985,7 +993,7 @@ updateChooseText(activeIndex)
         var yC = getVY("choose", 2, districtData)
         var x = getVX("narrative");
         var chartPos = getRelativeChartPositions("narrative",2)
-        
+
         d3.selectAll(".dot.narrative")
         .transition()
         .attr("cy", function(d){
@@ -993,7 +1001,7 @@ updateChooseText(activeIndex)
             // if(d3.select(this).classed("choose")){
               return chartPos.y1 + 20
             // }
-          } 
+          }
         })
 
       d3.selectAll(".medianLine"  + chartSelector)
@@ -1162,7 +1170,7 @@ d3.selectAll(".y.axis.label.main")
 
 
 
-  
+
 d3.selectAll(".v.y.axis")
   .transition()
   .delay(1500)
@@ -1211,7 +1219,7 @@ if(trigger == "scroll"){
     var vW = getVWidth("narrative");
     var chartPos = getRelativeChartPositions("narrative",5)
     var margins = getVMargins("narrative")
-    
+
     var districtData = d3.selectAll(".choose.dot").data()
 
     var yC = getVY("choose", 4, districtData)
@@ -1377,7 +1385,7 @@ if(trigger == "scroll"){
       var ySquish = getVY("narrative", 7.5, milwaukeeData);
       var vW = getVWidth("narrative");
       var vMargins = getVMargins("narrative")
-         
+
         var totalY = 0;
         var prevY = false;
 
@@ -1438,7 +1446,7 @@ if(trigger == "scroll"){
                           .attr("x1", 200)
               .attr("x2", 200)
             // .ease(d3.easeBounce)
-            
+
             .attr("y1", function(d,i){
               if(prevY == false){
                 prevY = true;
@@ -1451,7 +1459,7 @@ if(trigger == "scroll"){
                 // totalY += prevY
                 return ySquish(returnVal)
               }
-              // totalY += 
+              // totalY +=
               // return totalY
 
 
@@ -1538,7 +1546,7 @@ if(trigger == "scroll"){
    function lastSection(){
     // dispatch.call("changeDistrict", this, getActiveDistrict());
     setActiveDistrict(getActiveDistrict(), getLevel(), getActiveSchool())
-   } 
+   }
 
 
 
@@ -1671,7 +1679,7 @@ function display(rawData) {
     d3.selectAll('.step')
       .style('opacity', function (d, i) { return i === index ? 1 : offOpacity; });
     // activate current section
-    plot.activate(index);  
+    plot.activate(index);
 
   });
 

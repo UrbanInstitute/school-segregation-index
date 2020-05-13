@@ -31,9 +31,6 @@ body{
   margin: 0 auto;
 }
 
-#graphic {
-  padding-top: 60px;
-}
 
 #topTitle{
     font-size: 40px;
@@ -46,10 +43,10 @@ body{
   /*margin-top: -140px;*/
   background: #fff;
   color:#353535;
-  margin-bottom: 200px;
+  margin-bottom: 300px;
   padding: 40px 80px;
   position: relative;
-  font-size: 18px;
+  font-size: 21px;
   font-weight:400;
   z-index: 1000;
 }
@@ -131,6 +128,7 @@ p{
 #narrativeVizContainer.posFixed{
   position: fixed;
   top: 20px;
+  /*want more space between words and chart, but i think changing this made your chart jump-sorry*/
   padding-left: 60px;
 }
 #narrativeVizContainer.posRelTop{
@@ -162,6 +160,14 @@ p{
 
 .selectedSchool {
   border-bottom: 2px solid #ec008b;
+}
+
+.belowAvgSchool {
+  border-bottom: 2px solid #fdbf11;
+}
+
+.aboveAvgSchool {
+  border-bottom: 2px solid #55b748;
 }
 
 
@@ -211,7 +217,7 @@ p{
 }
 
 .axis.label{
-    font-size: 12px;
+    font-size: 14px;
     font-style: italic;
 }
 .axis.label.choose{
@@ -277,7 +283,6 @@ p{
   fill: #fdbf11
 }
 .directLabel text{
-  fill: #fff;
   font-size: 14px;
 }
 
@@ -479,7 +484,7 @@ p{
 }
 
 #heroimage{
-   background-image: url("../images/header-illo2-01.jpg");
+   background-image: url("../images/header-illo4.jpg");
    background-position: bottom;
      background-size: cover;
     background-repeat: no-repeat;
@@ -623,6 +628,7 @@ p{
 }
 
 #narrativeChooseSchoolTextContainer{
+  margin-left: 50px;
   margin-top: 31px;
   width: 400px;
 }
@@ -729,8 +735,8 @@ font-size: 13px;
 
 /**************explore controls**************/
 #exploreHeading{
-    color: #adabac;
-    font-size: 21px;
+    color: #000000;
+    font-size: 18px;
     font-weight: 400;
     font-style: italic;
     margin-bottom: 100px;
