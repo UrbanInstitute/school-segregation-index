@@ -15,7 +15,7 @@ function setActiveDistrict(districtId, level, schoolId){
   // var level = (typeof level == "undefined") ? getLevel() : level;
 
   var district = getSchoolData().filter(function(o){ return o.districtId == districtId && o.level == level })
-  
+
   dispatch.call("changeLevel", null, level)
   dispatch.call("changeDistrict", null, districtId, level, schoolId)
 }
@@ -24,7 +24,7 @@ function setActiveSchool(school, oldDistrictId){
   dispatch.call("changeSchool", null, school, oldDistrictId)
 }
 function setLevel(level){
-  
+
   dispatch.call("changeLevel", null, level)
 }
 function setSchoolTypes(schoolTypes){
@@ -56,7 +56,7 @@ function updateChooseText(section){
 		return ""
 	}
 })
-      
+
 
 
 }
@@ -93,12 +93,12 @@ d3.select("#narrativeChooseSchoolChartContainer svg g")
 
 
 	var gChoose = d3.select("#narrativeChooseSchoolChartContainer svg").append("g")
-	
+
 	gChoose.style("opacity",0)
 	.attr("transform", "translate(" + vMargins.left + ",0)")
 	.transition()
 	.style("opacity",1)
-	
+
 
 
 
@@ -173,7 +173,7 @@ d3.select("#narrativeChooseSchoolChartContainer svg g")
 
 
 	var lollipopY2;
-	if(section < 4) lollipopY2 = function(d){ return y(0) } 
+	if(section < 4) lollipopY2 = function(d){ return y(0) }
 	else if(section == 4) lollipopY2 = function(d){ return y(d.normSci)}
 	else lollipopY2 = function(d){ return y(d.sci) }
 
@@ -203,7 +203,7 @@ d3.select("#narrativeChooseSchoolChartContainer svg g")
 
 
 	var dotY;
-	if(section < 4) dotY = function(d){ return chartPos.dot } 
+	if(section < 4) dotY = function(d){ return chartPos.dot }
 	else if(section == 4) dotY = function(d){ return y(d.normSci)}
 	else dotY = function(d){ return y(d.sci) }
 
@@ -251,8 +251,8 @@ d3.select("#narrativeChooseSchoolChartContainer svg g")
 
     // d3.select(adClone).classed("beeHide", true).datum(activeDot.datum())
     // d3.select(alClone).classed("beeHide", true).datum(activeLine.datum())
-    
-    
+
+
     // activeDot.node().parentNode.appendChild(adClone)
     // activeDot.node().parentNode.appendChild(alClone)
 
@@ -260,7 +260,7 @@ d3.select("#narrativeChooseSchoolChartContainer svg g")
 
 
     var school = districtData.filter(function(o){ return o.schoolId == schoolId})[0]
-    
+
     d3.select("#narrativeChooseSchoolName").text(school.schoolName)
 
     var levels = school.allLevels.split(" ")
@@ -355,7 +355,7 @@ updateVoronoi("explore", schools)
 		.style("opacity",0)
 		.on("end", function(d,i){
 			d3.select(this).remove()
-			
+
 			if(i == (dotCount-1)){
 
 					svg
@@ -590,7 +590,7 @@ function updateExploreLayout(layout){
     }else{
         SEEB(schools)
     }
-    
+
 
 }
 d3.select("#beetest").on("click", function(){
@@ -711,5 +711,5 @@ updateVoronoi("explore", schools)
 
 
 // dispatch.on("changeDistrict", function(districtId){
-	
+
 // })

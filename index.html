@@ -146,7 +146,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         To determine whether a school is segregated, rather than looking only at its share of Black or Hispanic students, we can consider how changing that share would affect integration in the district. Our SCI, derived from the dissimilarity index, assigns each school a percentage that shows how much segregation in the district would fall if that school’s racial composition matched the district’s.
         </p>
         <p>
-        If all schools in a district were the same size, their SCI percentages would directly correlate to how far away their shares of Black or Hispanic students are from the district’s share, whether <span class="aboveAvgSchool">above</span> or <span class="belowAvgSchool">below</span>.
+        If all schools in a district were the same size, their SCI percentages would directly correlate to how much <span class="belowAvgSchool">smaller</span> or <span class="aboveAvgSchool">larger</span> their shares of Black or Hispanic students are from the district’s share.
         </p>
       </section>
       <section class="step">
@@ -202,7 +202,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div id = "narrativeChooseSchoolContainer">
   <div id = "narrativeSchoolSelectorContainer">
     <div id = "narrativeChooseSchoolHeader">
-    <div class = "instructions teaser">Want to follow along with your own school? Search in the box below to see how your school contributes to districtwide segregation.</div>
+    <div class = "instructions teaser">
+      <p>Want to follow along with your own school?</p>
+      <p>Search in the box below to see how your school contributes to districtwide segregation.</p>
+    </div>
 
 
       <input id = "narrativeChooseSchoolInput" value = "Search for a school"/>
@@ -224,7 +227,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   </div>
 </div>
-<div id = "bottomContent">
+<div class="endText">
   <p>
   Of course, neighborhoods are often severely racially segregated, which drives a large part of school segregation patterns. But residential segregation doesn’t explain everything. In many cases, the racial composition of students who attend schools in the area around a given school is vastly different from that school’s enrollment. Among the schools within one mile of Tamarack, 82 percent of middle school students are Black or Hispanic.
   </p>
@@ -234,11 +237,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <p>
   To drive greater change, policymakers and district officials concerned about segregation can use this improved measure to target desegregation efforts at schools where changes would have the biggest impact on the district, and at structural factors that may impede integration.
   </p>
-  <img class="endSymbol" src="http://www.urban.org/sites/all/themes/urban/images/logo-mini-dark.png" alt="">
-  <div id = "exploreContainer">
-    <div id = "exploreHeading">See How Schools Contribute to Segregation in Your District  &#10230;</div>
-
+</div>
+<!-- <img class="endSymbol" src="http://www.urban.org/sites/all/themes/urban/images/logo-mini-dark.png"> -->
+  <div id="exploreHeaderBar">
+    <div id="exploreBarContentWrapper">
+    <div id = "exploreHeading">See How Schools Contribute to Segregation in Your District</div>
     <input id = "exploreSchoolInput" value = "Search for a school"/>
+    </div>
+  </div>
+<div id = "bottomContent">
+  <div id = "exploreContainer">
     <div id = "exploreSchoolList"></div>
     <div id = "tt-container" class = "">
       <div id = "tt-nameContainer">

@@ -39,12 +39,12 @@ body{
     margin-bottom: 50px;
     text-align: center;
 }
-#topText, #bottomContent{
+#topText, #bottomContent, .endText {
   /*margin-top: -140px;*/
   background: #fff;
   color:#353535;
   margin-bottom: 300px;
-  padding: 40px 80px;
+  padding: 80px 80px 40px 80px;
   position: relative;
   font-size: 21px;
   font-weight:400;
@@ -417,7 +417,7 @@ p{
   .lastStep{
     opacity: 0 !important;
   }
-  #bottomContent {
+  #bottomContent, #exploreBarContentWrapper {
       width: calc(100% - 80px);
   }
   .step.lastStep{
@@ -484,7 +484,7 @@ p{
 }
 
 #heroimage{
-   background-image: url("../images/header-illo4.jpg");
+   background-image: url("../images/header-illo-dark.jpg");
    background-position: bottom;
      background-size: cover;
     background-repeat: no-repeat;
@@ -540,6 +540,11 @@ p{
 /************* NARRATIVE CHOOSE SCHOOL *****************/
 /********************************************************/
 
+#narrativeSchoolSelectorContainer {
+  margin: 0 auto;
+  width: 1180px;
+}
+
 #narrativeChooseSchoolContainer{
   position: fixed;
   z-index: 1000;
@@ -550,6 +555,7 @@ p{
   background: #5C5859;
   border-top: 1px solid #332D2F;
   color: #fff;
+  padding-left: 80px;
 }
 #narrativeChooseSchoolContainer.teaser .instructions.teaser{
   display: block;
@@ -561,20 +567,31 @@ p{
 #narrativeChooseSchoolContainer.open svg{
   opacity: 1;
 }
-.instructions.teaser
-{
+.instructions.teaser {
   display: none;
-  font-size: 23px;
-    font-style: italic;
-    font-weight: bold;
-    margin-bottom: 18px;
-    margin-top: 23px;
+  font-size: 24px;
+  font-style: italic;
+  font-weight: bold;
+  margin-bottom: 22px;
+  margin-top: 10px;
 }
+
+.instructions.teaser > p {
+  margin-bottom: 0 !important;
+}
+
+.instructions.teaser > p:nth-child(2) {
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  margin-top: 2px;
+}
+
+
 
 #narrativeChooseSchoolHeader, #narrativeChooseSchoolTextContainer{
     width: calc(100% - 20px);
     height: 30px;
-    margin-left: 10px;
     margin-top: 10px;
 }
 #narrativeChooseSchoolLabel{
@@ -628,7 +645,6 @@ p{
 }
 
 #narrativeChooseSchoolTextContainer{
-  margin-left: 50px;
   margin-top: 31px;
   width: 400px;
 }
@@ -663,18 +679,17 @@ p{
   top: -143px;
 }
 
-
 #exploreSchoolInput{
-    color: #020202;
-    background: #fff;
-    border: 1px solid #020202;
+    color: #ffffff;
+    background: #5C5859;
+    border: 1px solid #ffffff;
     padding: 8px 11px;
     font-weight: normal;
     font-style: italic;
     font-size: 17px;
     font-family: Lato;
     width: 363px;
-    margin-bottom: 30px;
+/*    margin-bottom: 30px;*/
 }
 
 #exploreSchoolList{
@@ -735,21 +750,29 @@ font-size: 13px;
 
 /**************explore controls**************/
 #exploreHeading{
-    color: #000000;
-    font-size: 18px;
-    font-weight: 400;
-    font-style: italic;
-    margin-bottom: 100px;
-    margin-top: 200px;
-    text-align: center;
+  color: #ffffff;
+  font-size: 21px;
+  font-style: italic;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#exploreHeaderBar {
+  background-color: #5C5859;
+  border-bottom: 1px solid #d2d2d2;
+  padding: 20px 0;
+}
+
+#exploreBarContentWrapper {
+  width: 1150px;
+  margin: 0 auto;
 }
 
 .endSymbol {
   display: block;
-  margin: 250px auto 0 auto;
+  margin: 0px auto 250px auto;
   width: 40px;
 }
-
 
 .levelButton{
   font-size: 14px;

@@ -431,6 +431,7 @@ select: function(event, ui){
 // d3.select("#narrativeChooseSchoolInput").node().value = ui.label
 event.preventDefault()
 d3.select("#exploreSchoolInput").node().value = "Search for a school"
+d3.select("#exploreContainer").style("display", "block")
 
 var schoolDatum = schoolData.filter(function(o){ return o.schoolId == ui.item.value })[0]
 var districtData = schoolData.filter(function(o){ return o.districtId == schoolDatum.districtId && o.level == schoolDatum.level })
