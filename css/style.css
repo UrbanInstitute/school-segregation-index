@@ -587,7 +587,10 @@ p{
   margin-top: 2px;
 }
 
-
+p.missingDataNote {
+  display: none;
+  font-size: 12px;
+}
 
 #narrativeChooseSchoolHeader, #narrativeChooseSchoolTextContainer{
     width: calc(100% - 20px);
