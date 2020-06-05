@@ -2,7 +2,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZ
 //initialize map. Zoom and center set to show Milwaukee district, by default
 var map = new mapboxgl.Map({
 	container: 'mapContainer',
-	style: 'mapbox://styles/urbaninstitute/ck87c4ck101yl1jp7d5visna5',
+	style: 'mapbox://styles/urbaninstitute/ckaycex1c07uq1ipe0tin2xni',
 	center: DEFAULT_MAP_CENTER,
 	zoom: DEFAULT_MAP_ZOOM,
 	minZoom: 6
@@ -25,10 +25,49 @@ map.on("zoom", function(){
 })
 map.on("click","schooldistricts-fill", function(e){
 	var districtId = e.features[0].id
+	console.log(districtId)
 	if(districtId != getActiveDistrict()){
-		setActiveDistrict(e.features[0].id)
+		setActiveDistrict(e.features[0].id, getLevel())
 	}
 })
+
+var hoveredDist  = false;
+map.on('mousemove', 'schooldistricts-fill', function(e) {
+	if(e.features[0].id == getActiveDistrict()){
+		if (hoveredDist) {
+			map.setFeatureState(
+				hoveredDist,
+				{ active: false }
+			);
+		}
+		hoveredDist = false;
+
+		return false;
+	}
+	if (e.features.length > 0) {
+		if (hoveredDist) {
+			map.setFeatureState(
+				hoveredDist,
+				{ active: false }
+			);
+		}
+		hoveredDist = e.features[0];
+		map.setFeatureState(
+			hoveredDist,
+			{ active: true }
+		);
+	}
+});
+map.on('mouseout', 'schooldistricts-fill', function(e) {
+		if (hoveredDist) {
+			map.setFeatureState(
+				hoveredDist,
+				{ active: false }
+			);
+		}
+		hoveredDist = false;
+});
+
 
 
 //get layernames for selected level and school type
@@ -97,6 +136,9 @@ map.on("load", function(e){
 
 
 
+    setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
+    // setActiveSchool(milwaukeeData, false)
+    setSchoolTypes(ALL_SCHOOL_TYPES)
 
 
 	// map.setFeatureState(
@@ -226,6 +268,8 @@ map.on("load", function(e){
 		for(var i = 0; i < ALL_SCHOOL_TYPES.length; i++){
 			var schoolType = ALL_SCHOOL_TYPES[i]
 			var layerName = "lvl_" + level + "_" + schoolType
+
+			console.log(layerName)
 
 			//If layer does not match schoolTypes, set to low opacity and turn off mouse events
 			if(schoolTypes.indexOf(schoolType) == -1){

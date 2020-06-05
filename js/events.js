@@ -560,7 +560,7 @@ function changeDistrict(districtId, level, schoolId){
 		districtKey = districtId + "_" + level;
 		district = allDistrictData[districtKey],
 		schools = schoolData.filter(function(o){ return o.districtId == districtId && o.level == level })
-
+console.log(districtId, level, schoolId)
 
 	d3.selectAll(".tt-lvl")
 		.classed("active", function(){
