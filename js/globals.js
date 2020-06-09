@@ -9,7 +9,6 @@ const NARRATIVE_FIXED_R = 7,
       // DEFAULT_MAP_CENTER = [-73.700009,-74.25909,40/.477399]
       DEFAULT_MAP_ZOOM = 9.424957516747982,
       DEFAULT_LEVEL = "2",
-
       MAP_SHOW_DOT_OPACITY = "100%",
       MAP_HIDE_DOT_OPACITY = "10%",
       MAP_SHOW_DOT_OPACITY_STROKE = 1,
@@ -21,14 +20,6 @@ const NARRATIVE_FIXED_R = 7,
 let ALL_SCHOOL_TYPES = ["tps","private","charter","magnet"],
     ALL_LEVELS = [null,"Elementary school","Middle school","High school"],
     ALL_SCHOOL_TYPES_FULL = {"tps": "traditional public", "private": "private", "charter": "charter", "magnet": "magnet"}
-
-
-
-
-
-
-
-
 
 var IS_SHORT = function(){
   return (d3.select("#isShort").style("display") == "block")
@@ -42,29 +33,23 @@ var IS_MOBILE = function(){
 var SECTION_INDEX = function(){
   return d3.select("#sectionIndex").attr("data-index")
 }
-
 var IS_IE = false;
-function getInternetExplorerVersion()
-{
+function getInternetExplorerVersion(){
   var rv = -1;
-  if (navigator.appName == 'Microsoft Internet Explorer')
-  {
+  if (navigator.appName == 'Microsoft Internet Explorer'){
     var ua = navigator.userAgent;
     var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
     if (re.exec(ua) != null)
-      rv = parseFloat( RegExp.$1 );
+    rv = parseFloat( RegExp.$1 );
   }
-  else if (navigator.appName == 'Netscape')
-  {
+  else if (navigator.appName == 'Netscape'){
     var ua = navigator.userAgent;
     var re  = new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
     if (re.exec(ua) != null)
-      rv = parseFloat( RegExp.$1 );
+    rv = parseFloat( RegExp.$1 );
   }
   return rv;
 }
-
-
 
 var PHONE_VIS_WIDTH = 230;
 var PHONE_VIS_HEIGHT = 400;
@@ -74,68 +59,36 @@ var SHORT_SCATTER_WIDTH = 480;
 var PHONE_SCATTER_WIDTH = 235
 var VIS_WIDTH = 600;
 var VIS_HEIGHT = 480;
-
 var DURATION = 800;
-
-
 var MARGIN = { top: 10, left: 40, bottom: 120, right: 20 };
 var PHONE_MARGIN = { top: 110, left: 40, bottom: 30, right: 30 };
-
-
 var DOT_MARGIN = {top: 80, bottom: 0}
 var PHONE_DOT_MARGIN = {top: 60, bottom: 70}
-
 var ANIMATION_DELAY = true;
-
 var DOLLARS = d3.format("$,.0f")
 var RATIOS = d3.format(".2f")
-
 var dotMin = 1;
 var dotMax = 1.4;
-
 var thresholdSmall = 6000;
 var thresholdLarge = 10000;
+var svgWidth,
+    svgHeight,
+    exploreVWidth,
+    exploreVHeight,
+    TAMARACK_MEDIAN,
+    MILWAUKEE_SUM;
 
 
+exploreVHeight = 700;
+exploreVWidth = 700;
 
+if ( IS_PHONE() ){ svgWidth = PHONE_VIS_WIDTH }
+else if ( IS_SHORT() ){ svgWidth = SHORT_VIS_WIDTH }
+else{ svgWidth = VIS_WIDTH}
 
+if ( IS_PHONE() ){ svgHeight = PHONE_VIS_HEIGHT }
+else if ( IS_SHORT() ){ svgHeight = SHORT_VIS_HEIGHT }
+else{ svgHeight = VIS_HEIGHT}
 
-
-
-  var svgWidth,
-      svgHeight,
-      exploreVWidth,
-      exploreVHeight,
-      TAMARACK_MEDIAN,
-      MILWAUKEE_SUM;
-
-  // var SMALL_RADIUS = (IS_PHONE()) ? 3 : 5;
-  // var LARGE_RADIUS = (IS_PHONE()) ? 3 : 10;
-
-
-
-
-  exploreVHeight = 700;
-  exploreVWidth = 700;
-
-  if ( IS_PHONE() ){ svgWidth = PHONE_VIS_WIDTH }
-  else if ( IS_SHORT() ){ svgWidth = SHORT_VIS_WIDTH }
-  else{ svgWidth = VIS_WIDTH}
-
-  if ( IS_PHONE() ){ svgHeight = PHONE_VIS_HEIGHT }
-  else if ( IS_SHORT() ){ svgHeight = SHORT_VIS_HEIGHT }
-  else{ svgHeight = VIS_HEIGHT}
-
-  // if ( IS_PHONE() ){ barsHeight = height*.5 }
-  // else if ( IS_SHORT() ){ barsHeight = height*.65 }
-  // else{ barsHeight = height*.65}
-
-  // if(IS_PHONE()){ recaptureContainerX = 3; recaptureContainerY = 15000;}
-  // else{ recaptureContainerX = 11; recaptureContainerY = 16300;}
-
-  // // var barsHeight = ( IS_PHONE() ) ? height*.5 : height*.65;
-
-  svgMargin = ( IS_PHONE() ) ? PHONE_MARGIN : MARGIN;
-  var vExploreMargin = { top: 0, left: 10, bottom: 0, right: 50 };
-
-
+svgMargin = ( IS_PHONE() ) ? PHONE_MARGIN : MARGIN;
+var vExploreMargin = { top: 0, left: 10, bottom: 0, right: 50 };

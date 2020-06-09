@@ -11,42 +11,38 @@
 	- small tooltip, click to select
 
 
-
-
 Use clean city names
 
 Top section, main:
-- bar chart x axis label reposition on drawer open
+- bar chart x axis label reposition on drawer open when scrolling up and it reopens
+- bar chart x axis label in general
 - Fix beeswarm position
 - fix upward fast scroll
 - school name tooltip
 - jumpy at bottom scroll unfixed
+- when squishing early sections adjust median line/label
 
 Top section, choose:
-- Vertical line and x axis label position
 - style drawer arrow
-- Search school, city, state
 - school changes when changing school level eg. AD PRIMA CHARTER SCHOOL
+- autocomplete menu position
+- pink dot to front
 
 Bottom search
-- Search school, city, state
 - fix menu position
 
 Explore section
 - school lvl buttons not clickable when sticky
-- long school names
-- long district names
-
 
 Explore V chart
 - sticky click for schools
-- voronoi should extend to cover dots on margins/edges
-- v chart vertical line
 
 Map
 - when clicking district have shorter animation
 - deal with overlappind dists
 - if user loads page on map view load Tamarack district? (maybe like a "select a school" coverup on the map, and goes away when dist select is called)
+- don't allow hover or click on invalid districts
+- nyc?
 
 
 Bar charts

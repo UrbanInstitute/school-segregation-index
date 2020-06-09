@@ -236,7 +236,7 @@ p{
 
 
 
-.milwaukee.medianLine{
+.milwaukee.medianLine, .explore.medianLine{
   stroke: #848081;
   stroke-dasharray: 2 3;
 }
@@ -262,6 +262,9 @@ p{
 .dot.highlight, .dot.active{
   fill: #ec008b;
   opacity: 1;
+}
+.dot, .lollipop{
+  pointer-events: none;
 }
 .lollipop{
   stroke-width: 1px;
@@ -752,6 +755,9 @@ font-size: 13px;
 
 
 /**************explore controls**************/
+.exploreMedianText{
+  font-size: 16px;
+}
 #exploreHeading{
   color: #ffffff;
   font-size: 21px;
@@ -872,6 +878,7 @@ background: #d2d2d2;
     text-transform: uppercase;
     display: block;
     margin-bottom: 12px;
+    width: 436px; 
 }
 .tt-lvl{
     display: inline-block;
