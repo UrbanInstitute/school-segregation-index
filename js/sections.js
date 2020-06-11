@@ -108,7 +108,7 @@ var scrollVis = function () {
       else{
         d3.selectAll(".tt-lvl").classed("active",false)
         d3.select(this).classed("active",true)
-        setActiveDistrict(getActiveDistrict(), level, getActiveSchool())
+        setActiveDistrict(getActiveDistrict(), level, getActiveSchool(), "clickLevel")
       }
     })
 
@@ -267,7 +267,6 @@ var scrollVis = function () {
   }
 
   function buildAutocompletes(schoolData, allDistrictData){
-
     var schoolNames = schoolData
       .map(function(o){
         return {
@@ -276,6 +275,7 @@ var scrollVis = function () {
           "search": o.schoolName + " " + o.displayCity + ", " + o.state
         }
       })
+
 
     $( "#narrativeChooseSchoolInput" )
       .on("click", function(event, ui){
@@ -292,20 +292,21 @@ var scrollVis = function () {
             "^" + words.join("") + ".*$"
           );
           var rep = new Array();
-          var maxRepSize = 5; // maximum response size
-          
+          var maxRepSize = Math.round(window.innerHeight/ 111); // maximum response size
+          var vals = []
           for (var i = 0; i < schoolNames.length; i++) {
             var o = schoolNames[i];
             var text = o.label,
             search = o.search.toUpperCase()
             val = o.value
-            if ( text && ( !request.term || matcher.test(search) ) ){
+            if ( vals.indexOf(val) == -1 && text && ( !request.term || matcher.test(search) ) ){
               // add element to result array
               rep.push({
                 "label" : text,
                 "value": val,
                 "option": ""
               });
+              vals.push(val)
             }
             else if(!matcher.test(search)){
               closeChooseMenu()
@@ -345,7 +346,6 @@ var scrollVis = function () {
       .data("ui-autocomplete")._renderItem = function( ul, item ) {
         //custom render function, adds classes to disable/custom style "more schools" option
         var maxSizeClass = (item.value == "maxRepSizeReached") ? " maxRepSizeReached ui-state-disabled" : ""
-        
         return $( "<li>" )
           .addClass("ui-menu-item" + maxSizeClass)
           .append( "<div class = \"ui-menu-item-wrapper" + maxSizeClass + "\">" + item.label + "</div>" )
@@ -374,19 +374,20 @@ var scrollVis = function () {
 
           var rep = new Array();
           var maxRepSize = 5; // maximum response size
-          
+          var vals = []
           for (var i = 0; i < schoolNames.length; i++) {
             var o = schoolNames[i];
             var text = o.label,
                 search = o.search.toUpperCase()
                 val = o.value
-            if ( text && ( !request.term || matcher.test(search) ) ){
+            if ( vals.indexOf(val) == -1 && text && ( !request.term || matcher.test(search) ) ){
               // add element to result array
               rep.push({
                 "label" : text,
                 "value": val,
                 "option": ""
               });
+              vals.push(val)
             }
             else if(!matcher.test(search)){
               closeExploreMenu()

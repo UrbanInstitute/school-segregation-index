@@ -2,7 +2,7 @@ function SEEB(data){
   d3.selectAll(".exploreBeeHide").transition().duration(2500).style("opacity",1)  
 
   var x = getVX("explore");
-  var y = getVY("explore", 1, schools);
+  var y = getVY("explore", 1, data);
 
   var section = "explore"
   d3.selectAll(".dot.explore")
@@ -55,7 +55,8 @@ function BEES(data, section){
       return d.x;
     }))
     .force('y', d3.forceY().y(function(d) {
-      return (getVHeight(section,9) -20)*.5;
+      var scalar = (section == "narrative") ? 1 : .5
+      return (getVHeight(section,9) -20)*scalar;
     }))
     .force('collide', d3.forceCollide(function(d){
       return d.radius

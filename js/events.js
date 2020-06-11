@@ -6,16 +6,16 @@ function bindGlobalData(milwaukeeData, schoolData, mapData, allDistrictData){
     d3.select("#allDistrictDataContainer").datum(allDistrictData)
 }
 
-function setActiveDistrict(districtId, level, schoolId){
+function setActiveDistrict(districtId, level, schoolId, eventType){
     d3.select("#activeDistrict").datum(districtId)
     d3.select("#activeLevel").datum(level)
 
     var district = getSchoolData().filter(function(o){ return o.districtId == districtId && o.level == level })
 
     dispatch.call("changeLevel", null, level)
-    dispatch.call("changeDistrict", null, districtId, level, schoolId)
+    dispatch.call("changeDistrict", null, districtId, level, schoolId, eventType)
 }
-function setActiveSchool(school, oldDistrictId){
+function setActiveSchool(school, oldDistrictId, eventType){
     d3.select("#activeSchool").datum(school.schoolId)
     dispatch.call("changeSchool", null, school, oldDistrictId)
 }
@@ -214,6 +214,17 @@ function setupChooseVis(districtData, schoolId, districtDatum){
                         return (d.schoolId == schoolId || section > 2) ? 1 : V_SHOW_DOT_OPACITY;
                     })
 
+            var chosenDot = d3.select(".dot.choose.highlight"),
+            chosenLine = d3.select(".lollipop.choose.highlight"),
+            cdClone = chosenDot.node().cloneNode(true),
+            clClone = chosenLine.node().cloneNode(true)
+
+            d3.select(cdClone).datum(chosenDot.datum())
+            d3.select(clClone).datum(chosenLine.datum())
+
+            chosenDot.node().parentNode.appendChild(cdClone)
+            chosenDot.node().parentNode.appendChild(clClone)
+
         })
 
     d3.selectAll(".choose-lvl").remove()
@@ -239,7 +250,8 @@ function setupChooseVis(districtData, schoolId, districtDatum){
         .on("click", function(){
             var level = d3.select(this).attr("data-lvl")
             if(level == getLevel()) return false
-            setActiveDistrict(getActiveDistrict(), level)
+
+            setActiveDistrict(getActiveDistrict(), level, getActiveSchool())
         })
     }
 }
@@ -274,12 +286,17 @@ function updateVoronoi(section, schools){
             .attr("d", function(d) { return d ? "M" + d.join("L") + "Z" : null; })
             .on("mouseover", function(d){
                 if(section == "explore"){
-                    setActiveSchool(d.data)
+                    setActiveSchool(d.data, "hover")
+                }
+            })
+            .on("click", function(d){
+                if(section == "explore"){
+                    setActiveSchool(d.data, "click")
                 }
             })
 }
 
-function updateExploreV(schools, district){
+function updateExploreV(schools, district, callback){
     var svg = d3.select("#exploreVChartContainer").select("svg g"),
         vW = getVWidth("explore"),
         vH = getVHeight("explore"),
@@ -371,6 +388,13 @@ function updateExploreV(schools, district){
                                 .style("opacity", function(d){
                                     return (getSchoolTypes().indexOf(d.type) == -1) ? V_HIDE_DOT_OPACITY : V_SHOW_DOT_OPACITY;
                                 })
+                                .on("end", function(d,i){
+                                    // callback
+                                    // console.log(i, schools.length)
+                                    if(i == schools.length - 1){
+                                        callback()
+                                    }
+                                })
 
                 }
 
@@ -411,7 +435,13 @@ function updateExploreBars(d, schools){
                 return ((s.pop/d.totalPop) * W) + "px"
             })
             .on("mouseover", function(s){
-                setActiveSchool(s)
+                setActiveSchool(s, "hover")
+            })
+            .on("click", function(s){
+                setActiveSchool(s, "click")
+            })
+            .on("mouseout", function(s){
+                setActiveSchool(false, "mouseout")
             })
 
     d3.select(".breakdownRaceBar.over").selectAll(".mouseSubBar")
@@ -425,7 +455,13 @@ function updateExploreBars(d, schools){
                 return ((s.pop/d.totalPop) * W) + "px"
             })
             .on("mouseover", function(s){
-                setActiveSchool(s)
+                setActiveSchool(s, "hover")
+            })
+            .on("click", function(s){
+                setActiveSchool(s, "click")
+            })
+            .on("mouseout", function(s){
+                setActiveSchool(false, "mouseout")
             })
 
     ALL_SCHOOL_TYPES.forEach(function(st){
@@ -440,7 +476,13 @@ function updateExploreBars(d, schools){
                     return ((s.pop/d.totalPop) * W) + "px"
                 })
                 .on("mouseover", function(s){
-                    setActiveSchool(s)
+                    setActiveSchool(s, "hover")
+                })
+                .on("click", function(s){
+                    setActiveSchool(s, "click")
+                })
+                .on("mouseout", function(s){
+                    setActiveSchool(false, "mouseout")
                 })
 
         d3.select(".subBar.sci." + st + ".active").selectAll(".mouseSubBar")
@@ -454,7 +496,13 @@ function updateExploreBars(d, schools){
                     return ((s.sci/d[st]["sci"]) * W) + "px"
                 })
                 .on("mouseover", function(s){
-                    setActiveSchool(s)
+                    setActiveSchool(s, "hover")
+                })
+                .on("click", function(s){
+                    setActiveSchool(s, "click")
+                })
+                .on("mouseout", function(s){
+                    setActiveSchool(false, "mouseout")
                 })
     })
 
@@ -522,11 +570,14 @@ function changeDistrict(districtId, level, schoolId){
     return +d3.select(this).attr("data-lvl") == +level
     })
 
-    var sid = (typeof(schoolId) == "undefined") ? schools[0].schoolId : schoolId
+
+    var sid = (typeof(schoolId) == "undefined" || schoolId == false) ? schools[0].schoolId : schoolId
     setupChooseVis(schools, sid, district)
-    setActiveSchool(schools.filter(function(o){ return o.schoolId == sid })[0])
+    
     d3.select("#activeSchool").datum(sid)
-    updateExploreV(schools, district)
+    updateExploreV(schools, district, function(){
+        setActiveSchool(schools.filter(function(o){ return o.schoolId == sid })[0], "change")
+    })
     updateExploreBars(district,schools)
 
 }
@@ -650,12 +701,10 @@ function changeSchoolTypes(schoolTypes){
     })
 }
 
-d3.select("#beetest").on("click", function(){
-    if(d3.select(this).classed("bees")){
-        updateExploreLayout("v")
-        d3.select(this).classed("bees", false)
+d3.select("#beeswitch").on("input", function(){
+    if(this.checked){
+        updateExploreLayout("bees")        
     }else{
-        updateExploreLayout("bees")
-        d3.select(this).classed("bees", true)
+        updateExploreLayout("v")
     }
 })
