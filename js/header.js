@@ -1,9 +1,7 @@
 function toggle_visibility(id) {
     var e = document.getElementById(id);
-    if (e.style.display == 'inline-block')
-        e.style.display = 'none';
-    else
-        e.style.display = 'inline-block';
+    if (e.style.display == 'inline-block') e.style.display = 'none';
+    else e.style.display = 'inline-block';
 }
 
 $(function () {
@@ -12,7 +10,7 @@ $(function () {
         var scroll = getCurrentScroll();
         if (scroll >= shrinkHeader) {
             $('#header-pinned').addClass('is-visible');
-        } else {
+        }else {
             $('#header-pinned').removeClass('is-visible');
         }
     });

@@ -57,12 +57,14 @@ f2.close()
 sourceReader = csv.reader(open("data/charts/source/combined_source.csv","r"))
 blankTownReader = csv.reader(open("data/cleaning/blankTownFinal.csv","r"), delimiter="\t")
 namesReader = csv.reader(open("data/cleaning/cleanNames.csv","r"))
+distsReader = csv.reader(open("data/cleaning/cleanDistricts.csv","r"))
 
 finalWriter = csv.writer(open("data/cleaned_source.csv","w"))
 
 blankTownHeader = next(blankTownReader)
 sourceHeader = next(sourceReader)
 namesHeader = next(namesReader)
+distsHeader = next(distsReader)
 
 
 finalWriter.writerow(sourceHeader)
@@ -76,18 +78,42 @@ for rowList in blankTownReader:
 namesDict = {}
 for rowList in namesReader:
     row = rowToObject(rowList, namesHeader)
-    namesDict[row["schid"]] = row["clean_name"]
+    namesDict[row["schid"]] = row["clean_name"].title().strip()
 
+distsDict = {}
+for rowList in distsReader:
+    row = rowToObject(rowList, distsHeader)
+    clean = row["clean_name"].title().strip()
+
+    distsDict[row["distName"]] = clean
 
 
 # print(blankDict)
 for rowList in sourceReader:
     row = rowToObject(rowList, sourceHeader)
     schid = row["schid"]
+    dist = row["gleaname"]
+    name = row["school_name"]
+
+    cityIndex = sourceHeader.index("REV_City")
+    namesIndex = sourceHeader.index("school_name")
+    distIndex = sourceHeader.index("gleaname")
+
     if schid in blankDict:
-        cityIndex = sourceHeader.index("REV_City")
         rowList[cityIndex] = blankDict[schid]
     if schid in namesDict:
-        namesIndex = sourceHeader.index("school_name")
         rowList[namesIndex] = namesDict[schid]
+    else:
+        rowList[namesIndex] = name.title()
+    if dist in distsDict:
+        rowList[distIndex] = distsDict[dist]
+    else:
+        if(dist.find("District") == -1):
+            rowList[distIndex] = dist.title() + " School District"
+        else:
+            rowList[distIndex] = dist.title()
+
+
+
+
     finalWriter.writerow(rowList)

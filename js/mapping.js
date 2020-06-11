@@ -1,8 +1,8 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZTy4hI_PWXw3C3UFbDQ';
-//initialize map. Zoom and center set to show Milwaukee district, by default
+
 var map = new mapboxgl.Map({
 	container: 'mapContainer',
-	style: 'mapbox://styles/urbaninstitute/ck87c4ck101yl1jp7d5visna5',
+	style: 'mapbox://styles/urbaninstitute/ckaycex1c07uq1ipe0tin2xni',
 	center: DEFAULT_MAP_CENTER,
 	zoom: DEFAULT_MAP_ZOOM,
 	minZoom: 6
@@ -23,12 +23,53 @@ map.addControl(new mapboxgl.NavigationControl());
 map.on("zoom", function(){
 	schoolDotMarker.style("opacity",0)
 })
+
 map.on("click","schooldistricts-fill", function(e){
 	var districtId = e.features[0].id
 	if(districtId != getActiveDistrict()){
-		setActiveDistrict(e.features[0].id)
+	setActiveDistrict(e.features[0].id, getLevel())
 	}
 })
+
+var hoveredDist  = false;
+
+map.on('mousemove', 'schooldistricts-fill', function(e) {
+	if(e.features[0].id == getActiveDistrict()){
+		if (hoveredDist) {
+			map.setFeatureState(
+				hoveredDist,
+				{ active: false }
+			);
+		}
+		hoveredDist = false;
+
+		return false;
+	}
+	if (e.features.length > 0) {
+		if (hoveredDist) {
+			map.setFeatureState(
+				hoveredDist,
+				{ active: false }
+			);
+		}
+		hoveredDist = e.features[0];
+		map.setFeatureState(
+			hoveredDist,
+			{ active: true }
+		);
+	}
+});
+
+map.on('mouseout', 'schooldistricts-fill', function(e) {
+	if (hoveredDist) {
+		map.setFeatureState(
+			hoveredDist,
+			{ active: false }
+		);
+	}
+	hoveredDist = false;
+});
+
 
 
 //get layernames for selected level and school type
@@ -36,6 +77,7 @@ function getActiveLayers(){
 	var level = getLevel(),
 		schoolTypes = getSchoolTypes(),
 		activeLayers = []
+	
 	for(var i = 0; i < schoolTypes.length; i++){
 		activeLayers.push("lvl_" + level + "_" + schoolTypes[i])
 	}
@@ -60,6 +102,7 @@ function hoverOnSchool(e){
 setTimeout(function(){
 	//turn on mouse handlers for default layers
 	defaultLayers = getActiveLayers();
+	
 	for (var i = 0; i < defaultLayers.length; i++){
 		map.on('mouseenter', defaultLayers[i], hoverOnSchool)	
 	}
@@ -71,60 +114,30 @@ map.on("load", function(e){
 	//fly to locatino
 	var geoid = MILWAUKEE_ID
 	var f = map.queryRenderedFeatures({layer: "schooldistricts-fill"}).filter(function(o){
-		// if(typeof(o.properties.class) == "undefined") console.log(o)
-		// console.log(o.layer.id)
-		// if(o.layer.id == "schooldistricts-fill") console.log(o)
 		return o.id == geoid
 	})[0]
-	console.log(f, geoid)
-
-
-
-
-
-	// map.setFeatureState(
-	// f,
-	// { "active": true })
-
-
-
-
-
 
 	var fs = map.queryRenderedFeatures({layer: "schooldistricts-stroke"}).filter(function(o){
 		return o.id == geoid
 	})[0]
 
+	setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
+	setSchoolTypes(ALL_SCHOOL_TYPES)
 
-
-
-
-	// map.setFeatureState(
-	// 	fs,
-	// 	{ "active": true }
-	// )
-
-
-	
-// console.log(f, fs)
 	//dispatch handlers for mapping events are here, since they need to be defined after
 	//map has loaded. See events.js for further dispatch functions
 	//(called as `changeSchpol(schoolId, oldDistrictId)`,`changeLevel(level)` etc.)
 	dispatch.on("changeSchool", function(school, oldDistrictId){
 		changeSchool(school.schoolId, oldDistrictId)
-		// var school = getSchoolData().filter(function(o){
-		// 	return o.schoolId == schoolId && o.level == getLevel()
-		// })[0]
 		var popLabel = school.hasOwnProperty("pop") ? "pop" : "population"
 
-	
 		var coords = map.project([school.lon, school.lat])
+		
 		schoolDotMarker
-		.style("opacity",1)
-		.attr("cx", coords.x)
-		.attr("cy", coords.y)
-		.attr("r", Math.sqrt(school[popLabel]) * MAP_DOT_SCALAR)
-
+			.style("opacity",1)
+			.attr("cx", coords.x)
+			.attr("cy", coords.y)
+			.attr("r", Math.sqrt(school[popLabel]) * MAP_DOT_SCALAR)
 	})
 
 	dispatch.on("changeLevel", function(level){
@@ -134,10 +147,10 @@ map.on("load", function(e){
 		//loop through all dot layers for all levels and school types
 		var schoolTypes = getSchoolTypes()
 		var allLevels = ["1","2","3"]
+		
 		for(var i = 0; i < allLevels.length; i++){
 			for(var j = 0; j < ALL_SCHOOL_TYPES.length; j++){
 				var layerName = "lvl_" + allLevels[i] + "_" + ALL_SCHOOL_TYPES[j]
-				
 				// If layer does not match new level, hide it completely
 				//and turn off mouse events
 				if(level != allLevels[i]){
@@ -186,13 +199,13 @@ map.on("load", function(e){
 					)
 
 					map.off('mouseenter', layerName, hoverOnSchool)	
-				//If layer matches both level and current school types, show it
-				//and turn on mouse events
+					//If layer matches both level and current school types, show it
+					//and turn on mouse events
 				}else{
 					map.setPaintProperty(
 						layerName,
 						"circle-color",
-							[
+						[
 							"match",
 							["get", "compareMedian"],
 							["below"],
@@ -227,6 +240,7 @@ map.on("load", function(e){
 			var schoolType = ALL_SCHOOL_TYPES[i]
 			var layerName = "lvl_" + level + "_" + schoolType
 
+
 			//If layer does not match schoolTypes, set to low opacity and turn off mouse events
 			if(schoolTypes.indexOf(schoolType) == -1){
 				map.setPaintProperty(
@@ -239,7 +253,7 @@ map.on("load", function(e){
 						"hsla(44, 98%, 53%," + MAP_HIDE_DOT_OPACITY + ")",
 						["above"],
 						"hsla(113, 44%, 50%," + MAP_HIDE_DOT_OPACITY + ")",
-						"hsla(0, 0%, 0%," + MAP_HIDE_DOT_OPACITY + ")",
+						"hsla(0, 0%, 0%," + MAP_HIDE_DOT_OPACITY + ")"
 					]
 				)
 				map.setPaintProperty(
@@ -247,9 +261,9 @@ map.on("load", function(e){
 					"circle-stroke-color",
 					"rgba(255,255,255," + MAP_HIDE_DOT_OPACITY_STROKE + ")"
 				)
-				
+
 				map.off('mouseenter', layerName, hoverOnSchool)
-			//If layer matches schoolTypes, show it and turn on mouse events
+				//If layer matches schoolTypes, show it and turn on mouse events
 			}else{
 				map.setPaintProperty(
 					layerName,
@@ -261,7 +275,7 @@ map.on("load", function(e){
 						"hsla(44, 98%, 53%," + MAP_SHOW_DOT_OPACITY + ")",
 						["above"],
 						"hsla(113, 44%, 50%," + MAP_SHOW_DOT_OPACITY + ")",
-						"hsla(0, 0%, 0%," + MAP_SHOW_DOT_OPACITY + ")",
+						"hsla(0, 0%, 0%," + MAP_SHOW_DOT_OPACITY + ")"
 					]
 				)
 				map.setPaintProperty(
@@ -285,12 +299,11 @@ map.on("load", function(e){
 	//District boundaries are precalculated in `scripts/mapping/schoolDistricts/get_feature_boundaries.py`
 	//and stored in lightweight csv.
 	d3.csv("data/mapping/schoolDistricts/boundaries/boundaries.csv").then(function(boundaries){
-
 		//Dispatch handler inside d3 promise, in order to get district boundaries
 		dispatch.on("changeDistrict", function(districtId, level, schoolId){
 			//handle events for non map charts (see events.js)
 			changeDistrict(districtId, level, schoolId)
-			
+
 			//get the boundaries for the new district
 			var boundary = boundaries.filter(function(o){ return o.geoid == districtId})[0]
 
@@ -334,7 +347,7 @@ map.on("load", function(e){
 			setTimeout(function(){
 				//add the overlay layer back
 				map.setLayoutProperty('schooldistricts-fill', 'visibility', 'visible');
-					
+
 				//show/set active the new district
 				var f2 = map.queryRenderedFeatures({"source": "composite", "layer": "schooldistricts-fill"}).filter(function(o){
 					return o.id == geoid
@@ -348,10 +361,6 @@ map.on("load", function(e){
 				for(var i = 0; i < fs2.length; i++){
 					map.setFeatureState(fs2[i], { "active": true })
 				}
-
-				// Useful to define `DEFAULT_MAP_CENTER` and `DEFAULT_MAP_ZOOM`
-				// console.log(map.getCenter())
-				// console.log(map.getZoom())
 
 			},3000)
 		})
