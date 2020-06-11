@@ -90,7 +90,7 @@ body{
     margin-right: auto;
 }
 #topText, #bottomContent, .endText {
-  margin-top: -50px;
+  margin-top: -70px;
   background: #fff;
   color:#353535;
   margin-bottom: 300px;
@@ -286,6 +286,7 @@ p{
 .axis.label{
     font-size: 14px;
     font-style: italic;
+    fill: #9D9D9D;
 }
 .axis.label.choose{
   fill: #fff;
@@ -301,7 +302,9 @@ p{
   font-family: "Lato";
 }
 
-
+text.milwaukee.districtAverage.label.narrative {
+  font-size: 14px;
+}
 
 .milwaukee.medianLine, .explore.medianLine{
   stroke: #848081;
@@ -822,7 +825,6 @@ font-size: 13px;
 
 /**************explore controls**************/
 .exploreMedianText{
-  fill: #696969;
   font-size: 14px;
 }
 #exploreHeading{
@@ -1033,7 +1035,7 @@ color: #353535;
     right: 49px;
 }
 #mapContainer{
-border: 2px solid #1E1E1E;
+border: 1px solid #9D9D9D;
 }
 
 #mapContainer, #mapDotSvgContainer{
