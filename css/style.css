@@ -38,13 +38,16 @@ body{
     /*margin-top: 100px;*/
     margin-bottom: 50px;
     text-align: center;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
 }
 #topText, #bottomContent, .endText {
   /*margin-top: -140px;*/
   background: #fff;
   color:#353535;
   margin-bottom: 300px;
-  padding: 80px 80px 40px 80px;
+  padding: 20px 80px 40px 80px;
   position: relative;
   font-size: 21px;
   font-weight:400;
@@ -484,7 +487,7 @@ p{
 }
 
 #heroimage{
-   background-image: url("../images/header-illo-dark.jpg");
+   background-image: url("../images/header-illo6-05.jpg");
    background-position: bottom;
      background-size: cover;
     background-repeat: no-repeat;
