@@ -2,18 +2,63 @@
 
 
 #beetest{
-
-width: fit-content;
-    padding: 10px;
-    top: -100px;
-    position: relative;
-    /* background: #fdbf11; */
-    /* border: 3px solid black; */
-    background: repeating-linear-gradient( 90deg, #fdbf11, #fdbf11 10px, #333 10px, #333 20px );
-    color: white;
-    cursor: pointer;
-    border-radius: 40px
+  position: absolute;
+  top: 0px;
+  right: 210px;
 }
+#beeLabel{
+  display: inline-block;
+  top: 19px;
+  font-size: 14px;
+  left: 2px;
+  position: relative;
+}
+
+input[type=checkbox]{
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label {
+  top: 26px;
+  display: inline-block;
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 40px;
+  height: 20px;
+  background: #d3d3d3;
+  border-radius: 100px;
+  position: relative;
+}
+
+label:after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  background: #1696d2;
+}
+
+input:checked + label:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 12px;
+}
+
+
+
 /*#sections{
   pointer-events: none;
   opacity: 0;
@@ -673,7 +718,7 @@ p.missingDataNote {
 }
 #narrativeChooseSchoolList {
     position: fixed;
-    left: 10px;
+    /*left: 10px;*/
     display: block;
     top: -43px;
     height: 100%;
@@ -711,17 +756,16 @@ p.missingDataNote {
     color: #fff;
     width: 278px !important;
     list-style: none;
-    top: -30px !important;
+    top: -71px !important;
     z-index: 200;
 }
 
 #narrativeChooseSchoolList ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front{
     display: block !important;
     position: absolute;
-    width: 131px;
-    /* top: 270px !important; */
     left: 0px !important;
-    bottom: 0px;
+    margin-left: 0px !important;
+    bottom: -5px;
     height: fit-content;
     top: unset !important;
     color: #fff;
@@ -857,6 +901,7 @@ background: #d2d2d2;
     top: 49px;
     position: fixed;
     z-index: 200;
+    pointer-events: none;
 }
 #tt-container.fixed .tt-datumContainer.district {
     width: 15%;
@@ -943,6 +988,7 @@ color: #353535;
 /****************explore v********************/
 
 #exploreVChartContainer{
+  position: relative;
   display: inline-block;
   float: left;
   margin-right: 43px;

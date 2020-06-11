@@ -6,14 +6,14 @@ function bindGlobalData(milwaukeeData, schoolData, mapData, allDistrictData){
     d3.select("#allDistrictDataContainer").datum(allDistrictData)
 }
 
-function setActiveDistrict(districtId, level, schoolId){
+function setActiveDistrict(districtId, level, schoolId, eventType){
     d3.select("#activeDistrict").datum(districtId)
     d3.select("#activeLevel").datum(level)
 
     var district = getSchoolData().filter(function(o){ return o.districtId == districtId && o.level == level })
 
     dispatch.call("changeLevel", null, level)
-    dispatch.call("changeDistrict", null, districtId, level, schoolId)
+    dispatch.call("changeDistrict", null, districtId, level, schoolId, eventType)
 }
 function setActiveSchool(school, oldDistrictId){
     d3.select("#activeSchool").datum(school.schoolId)
@@ -214,6 +214,17 @@ function setupChooseVis(districtData, schoolId, districtDatum){
                         return (d.schoolId == schoolId || section > 2) ? 1 : V_SHOW_DOT_OPACITY;
                     })
 
+            var chosenDot = d3.select(".dot.choose.highlight"),
+            chosenLine = d3.select(".lollipop.choose.highlight"),
+            cdClone = chosenDot.node().cloneNode(true),
+            clClone = chosenLine.node().cloneNode(true)
+
+            d3.select(cdClone).datum(chosenDot.datum())
+            d3.select(clClone).datum(chosenLine.datum())
+
+            chosenDot.node().parentNode.appendChild(cdClone)
+            chosenDot.node().parentNode.appendChild(clClone)
+
         })
 
     d3.selectAll(".choose-lvl").remove()
@@ -239,7 +250,8 @@ function setupChooseVis(districtData, schoolId, districtDatum){
         .on("click", function(){
             var level = d3.select(this).attr("data-lvl")
             if(level == getLevel()) return false
-            setActiveDistrict(getActiveDistrict(), level)
+
+            setActiveDistrict(getActiveDistrict(), level, getActiveSchool())
         })
     }
 }
@@ -522,7 +534,8 @@ function changeDistrict(districtId, level, schoolId){
     return +d3.select(this).attr("data-lvl") == +level
     })
 
-    var sid = (typeof(schoolId) == "undefined") ? schools[0].schoolId : schoolId
+
+    var sid = (typeof(schoolId) == "undefined" || schoolId == false) ? schools[0].schoolId : schoolId
     setupChooseVis(schools, sid, district)
     setActiveSchool(schools.filter(function(o){ return o.schoolId == sid })[0])
     d3.select("#activeSchool").datum(sid)
@@ -650,12 +663,10 @@ function changeSchoolTypes(schoolTypes){
     })
 }
 
-d3.select("#beetest").on("click", function(){
-    if(d3.select(this).classed("bees")){
-        updateExploreLayout("v")
-        d3.select(this).classed("bees", false)
+d3.select("#beeswitch").on("input", function(){
+    if(this.checked){
+        updateExploreLayout("bees")        
     }else{
-        updateExploreLayout("bees")
-        d3.select(this).classed("bees", true)
+        updateExploreLayout("v")
     }
 })

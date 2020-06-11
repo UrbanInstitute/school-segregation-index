@@ -11,25 +11,14 @@
 	- small tooltip, click to select
 
 
-Use clean city names
 
 Top section, main:
-- bar chart x axis label reposition on drawer open when scrolling up and it reopens
-- bar chart x axis label in general
-- Fix beeswarm position
-- fix upward fast scroll
 - school name tooltip
 - jumpy at bottom scroll unfixed
-- when squishing early sections adjust median line/label
+- jumpy at top when fixed
 
 Top section, choose:
-- style drawer arrow
-- school changes when changing school level eg. AD PRIMA CHARTER SCHOOL
-- autocomplete menu position
-- pink dot to front
-
-Bottom search
-- fix menu position
+- style drawer arrow and hitbox
 
 Explore section
 - school lvl buttons not clickable when sticky
@@ -38,7 +27,6 @@ Explore V chart
 - sticky click for schools
 
 Map
-- when clicking district have shorter animation
 - deal with overlappind dists
 - if user loads page on map view load Tamarack district? (maybe like a "select a school" coverup on the map, and goes away when dist select is called)
 - don't allow hover or click on invalid districts

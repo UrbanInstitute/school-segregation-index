@@ -25,16 +25,28 @@ map.on("zoom", function(){
 })
 
 map.on("click","schooldistricts-fill", function(e){
+	var add = getAllDistrictData()
+	if(!add.hasOwnProperty(e.features[0].id + "_1") && !add.hasOwnProperty(e.features[0].id + "_2") && !add.hasOwnProperty(e.features[0].id + "_3")){
+		return false
+	}
 	var districtId = e.features[0].id
 	if(districtId != getActiveDistrict()){
-	setActiveDistrict(e.features[0].id, getLevel())
+	setActiveDistrict(e.features[0].id, getLevel(), false, "mapclick")
 	}
 })
 
 var hoveredDist  = false;
+let isTransitioning = false;
 
 map.on('mousemove', 'schooldistricts-fill', function(e) {
-	if(e.features[0].id == getActiveDistrict()){
+	var add = getAllDistrictData()
+	if(!add.hasOwnProperty(e.features[0].id + "_1") && !add.hasOwnProperty(e.features[0].id + "_2") && !add.hasOwnProperty(e.features[0].id + "_3")){
+		return false
+	}
+	if(isTransitioning){
+		return false
+	}
+	if(+e.features[0].id == +d3.select(".dot.explore").data()[0].districtId){
 		if (hoveredDist) {
 			map.setFeatureState(
 				hoveredDist,
@@ -300,7 +312,7 @@ map.on("load", function(e){
 	//and stored in lightweight csv.
 	d3.csv("data/mapping/schoolDistricts/boundaries/boundaries.csv").then(function(boundaries){
 		//Dispatch handler inside d3 promise, in order to get district boundaries
-		dispatch.on("changeDistrict", function(districtId, level, schoolId){
+		dispatch.on("changeDistrict", function(districtId, level, schoolId, eventType){
 			//handle events for non map charts (see events.js)
 			changeDistrict(districtId, level, schoolId)
 
@@ -330,19 +342,43 @@ map.on("load", function(e){
 
 
 			//Nice built in function (thanks, Mapbox!) to flyTo new location, based
-			map.fitBounds(
-				[
-					[boundary.lon1, boundary.lat1],
-					[boundary.lon2, boundary.lat2],
-				],
-				{
-					"padding": {"top": 10, "bottom":25, "left": 10, "right": 10}, // padding around district, a bit more on bottom to accomodate logo
-					"duration": 4000,
-					"essential": true, // If true , then the animation is considered essential and will not be affected by prefers-reduced-motion .
-					"minZoom": 0 // don't hit the minZoom 6 ceiling for the map, so for large distances the flyTo arc isn't truncated
-				}
-			);
+			var timeOutLength;
+			if(eventType == "clickLevel"){
+				console.log("sadfasdf")
+				timeOutLength = 0;
+			}
+			else if(eventType != "mapclick"){
+				timeOutLength = 3000;
+				map.fitBounds(
+					[
+						[boundary.lon1, boundary.lat1],
+						[boundary.lon2, boundary.lat2],
+					],
+					{
+						"padding": {"top": 10, "bottom":25, "left": 10, "right": 10}, // padding around district, a bit more on bottom to accomodate logo
+						"duration": 4000,
+						"essential": true, // If true , then the animation is considered essential and will not be affected by prefers-reduced-motion .
+						"minZoom": 0 // don't hit the minZoom 6 ceiling for the map, so for large distances the flyTo arc isn't truncated
+					}
+				);
+			}else{
+				timeOutLength = 2000;
+				map.fitBounds(
+					[
+						[boundary.lon1, boundary.lat1],
+						[boundary.lon2, boundary.lat2],
+					],
+					{
+						"padding": {"top": 10, "bottom":25, "left": 10, "right": 10}, // padding around district, a bit more on bottom to accomodate logo
+						"duration": 1000,
+						"linear": true,
+						"essential": true, // If true , then the animation is considered essential and will not be affected by prefers-reduced-motion .
+						"minZoom": 0 // don't hit the minZoom 6 ceiling for the map, so for large distances the flyTo arc isn't truncated
+					}
+				);
 
+			}
+			isTransitioning = true;
 			//as flyTo is finishing, set new district state to active/visible
 			setTimeout(function(){
 				//add the overlay layer back
@@ -361,8 +397,9 @@ map.on("load", function(e){
 				for(var i = 0; i < fs2.length; i++){
 					map.setFeatureState(fs2[i], { "active": true })
 				}
+				isTransitioning = false;
 
-			},3000)
+			},timeOutLength)
 		})
 	})
 })
