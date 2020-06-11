@@ -374,19 +374,20 @@ var scrollVis = function () {
 
           var rep = new Array();
           var maxRepSize = 5; // maximum response size
-          
+          var vals = []
           for (var i = 0; i < schoolNames.length; i++) {
             var o = schoolNames[i];
             var text = o.label,
                 search = o.search.toUpperCase()
                 val = o.value
-            if ( text && ( !request.term || matcher.test(search) ) ){
+            if ( vals.indexOf(val) == -1 && text && ( !request.term || matcher.test(search) ) ){
               // add element to result array
               rep.push({
                 "label" : text,
                 "value": val,
                 "option": ""
               });
+              vals.push(val)
             }
             else if(!matcher.test(search)){
               closeExploreMenu()

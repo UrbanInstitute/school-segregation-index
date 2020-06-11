@@ -15,7 +15,7 @@ function setActiveDistrict(districtId, level, schoolId, eventType){
     dispatch.call("changeLevel", null, level)
     dispatch.call("changeDistrict", null, districtId, level, schoolId, eventType)
 }
-function setActiveSchool(school, oldDistrictId){
+function setActiveSchool(school, oldDistrictId, eventType){
     d3.select("#activeSchool").datum(school.schoolId)
     dispatch.call("changeSchool", null, school, oldDistrictId)
 }
@@ -286,12 +286,17 @@ function updateVoronoi(section, schools){
             .attr("d", function(d) { return d ? "M" + d.join("L") + "Z" : null; })
             .on("mouseover", function(d){
                 if(section == "explore"){
-                    setActiveSchool(d.data)
+                    setActiveSchool(d.data, "hover")
+                }
+            })
+            .on("click", function(d){
+                if(section == "explore"){
+                    setActiveSchool(d.data, "click")
                 }
             })
 }
 
-function updateExploreV(schools, district){
+function updateExploreV(schools, district, callback){
     var svg = d3.select("#exploreVChartContainer").select("svg g"),
         vW = getVWidth("explore"),
         vH = getVHeight("explore"),
@@ -383,6 +388,13 @@ function updateExploreV(schools, district){
                                 .style("opacity", function(d){
                                     return (getSchoolTypes().indexOf(d.type) == -1) ? V_HIDE_DOT_OPACITY : V_SHOW_DOT_OPACITY;
                                 })
+                                .on("end", function(d,i){
+                                    // callback
+                                    // console.log(i, schools.length)
+                                    if(i == schools.length - 1){
+                                        callback()
+                                    }
+                                })
 
                 }
 
@@ -423,7 +435,13 @@ function updateExploreBars(d, schools){
                 return ((s.pop/d.totalPop) * W) + "px"
             })
             .on("mouseover", function(s){
-                setActiveSchool(s)
+                setActiveSchool(s, "hover")
+            })
+            .on("click", function(s){
+                setActiveSchool(s, "click")
+            })
+            .on("mouseout", function(s){
+                setActiveSchool(false, "mouseout")
             })
 
     d3.select(".breakdownRaceBar.over").selectAll(".mouseSubBar")
@@ -437,7 +455,13 @@ function updateExploreBars(d, schools){
                 return ((s.pop/d.totalPop) * W) + "px"
             })
             .on("mouseover", function(s){
-                setActiveSchool(s)
+                setActiveSchool(s, "hover")
+            })
+            .on("click", function(s){
+                setActiveSchool(s, "click")
+            })
+            .on("mouseout", function(s){
+                setActiveSchool(false, "mouseout")
             })
 
     ALL_SCHOOL_TYPES.forEach(function(st){
@@ -452,7 +476,13 @@ function updateExploreBars(d, schools){
                     return ((s.pop/d.totalPop) * W) + "px"
                 })
                 .on("mouseover", function(s){
-                    setActiveSchool(s)
+                    setActiveSchool(s, "hover")
+                })
+                .on("click", function(s){
+                    setActiveSchool(s, "click")
+                })
+                .on("mouseout", function(s){
+                    setActiveSchool(false, "mouseout")
                 })
 
         d3.select(".subBar.sci." + st + ".active").selectAll(".mouseSubBar")
@@ -466,7 +496,13 @@ function updateExploreBars(d, schools){
                     return ((s.sci/d[st]["sci"]) * W) + "px"
                 })
                 .on("mouseover", function(s){
-                    setActiveSchool(s)
+                    setActiveSchool(s, "hover")
+                })
+                .on("click", function(s){
+                    setActiveSchool(s, "click")
+                })
+                .on("mouseout", function(s){
+                    setActiveSchool(false, "mouseout")
                 })
     })
 
@@ -537,9 +573,11 @@ function changeDistrict(districtId, level, schoolId){
 
     var sid = (typeof(schoolId) == "undefined" || schoolId == false) ? schools[0].schoolId : schoolId
     setupChooseVis(schools, sid, district)
-    setActiveSchool(schools.filter(function(o){ return o.schoolId == sid })[0])
+    
     d3.select("#activeSchool").datum(sid)
-    updateExploreV(schools, district)
+    updateExploreV(schools, district, function(){
+        setActiveSchool(schools.filter(function(o){ return o.schoolId == sid })[0], "change")
+    })
     updateExploreBars(district,schools)
 
 }
