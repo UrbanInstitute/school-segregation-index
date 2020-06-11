@@ -74,6 +74,8 @@ body{
 .container {
   width: 1180px;
   margin: 0 auto;
+  /* makes up for negative margin at top and removal of 80px padding*/
+  padding-bottom: 60px;
 }
 
 
@@ -81,23 +83,40 @@ body{
     font-size: 40px;
     font-weight: bold;
     /*margin-top: 100px;*/
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     text-align: center;
     max-width: 720px;
     margin-left: auto;
     margin-right: auto;
 }
 #topText, #bottomContent, .endText {
-  /*margin-top: -140px;*/
+  margin-top: -50px;
   background: #fff;
   color:#353535;
   margin-bottom: 300px;
-  padding: 20px 80px 40px 80px;
+  padding: 0px 80px 40px 80px;
   position: relative;
   font-size: 21px;
   font-weight:400;
   z-index: 1000;
 }
+
+.endText {
+  margin: 0 auto;
+  padding: 80px 80px 300px 80px;
+  width: 1180px;
+}
+
+.endText:after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  width: 25%;
+  left: 37.5%;
+  bottom: 130px;
+  border-bottom: 1px solid #d2d2d2;
+}
+
 #bottomTitle{
   font-weight: bold;
   margin-bottom: 10px;
@@ -535,7 +554,7 @@ p{
 }
 
 #heroimage{
-   background-image: url("../images/header-illo6-05.jpg");
+   background-image: url("../images/final-header-illo-01.jpg");
    background-position: bottom;
      background-size: cover;
     background-repeat: no-repeat;
@@ -734,16 +753,16 @@ p.missingDataNote {
 }
 
 #exploreSchoolInput{
-    color: #ffffff;
-    background: #5C5859;
-    border: 1px solid #ffffff;
+
+
+    border: 1px solid #5C5859;
     padding: 8px 11px;
     font-weight: normal;
     font-style: italic;
     font-size: 17px;
     font-family: Lato;
     width: 363px;
-/*    margin-bottom: 30px;*/
+    margin-bottom: 30px;
 }
 
 #exploreSchoolList{
@@ -803,19 +822,19 @@ font-size: 13px;
 
 /**************explore controls**************/
 .exploreMedianText{
-  font-size: 16px;
+  fill: #696969;
+  font-size: 14px;
 }
 #exploreHeading{
-  color: #ffffff;
-  font-size: 21px;
+  font-size: 36px;
   font-style: italic;
-  font-weight: bold;
+  font-weight: 800;
   margin-bottom: 10px;
+  padding-bottom: 0;
 }
 
 #exploreHeaderBar {
-  background-color: #5C5859;
-  border-bottom: 1px solid #d2d2d2;
+
   padding: 20px 0;
 }
 
@@ -846,12 +865,19 @@ background: #d2d2d2;
   color: #fff;
 }
 #schoolTypeControlContainer{
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
+
+#schoolTypeSpacer {
+  margin-top: 70px;
+}
+
 #schoolTypeLabel{
   font-size: 16px;
-  font-weight: bold;
+  /* font-weight: bold; */
   margin-bottom: 12px;
+  font-style: italic;
+  color: #848081;
 }
 .radioContainer{
     display: inline-block;
@@ -916,7 +942,7 @@ background: #d2d2d2;
   border-bottom: none;
 }
 #tt-nameContainer{
-    padding-bottom: 9px;
+    padding-bottom: 15px;
     border-bottom: 2px solid #EC008B;
 }
 #tt-schoolName{
@@ -926,7 +952,7 @@ background: #d2d2d2;
     text-transform: uppercase;
     display: block;
     margin-bottom: 12px;
-    width: 436px; 
+    width: 436px;
 }
 .tt-lvl{
     display: inline-block;
