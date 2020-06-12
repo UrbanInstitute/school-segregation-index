@@ -3,14 +3,14 @@
 
 #beetest{
   position: absolute;
-  top: 0px;
-  right: 210px;
+
+
 }
 #beeLabel{
   display: inline-block;
-  top: 19px;
+  bottom: 17px;
   font-size: 14px;
-  left: 2px;
+
   position: relative;
 }
 
@@ -21,7 +21,8 @@ input[type=checkbox]{
 }
 
 label {
-  top: 26px;
+
+  bottom: 10px;
   display: inline-block;
   cursor: pointer;
   text-indent: -9999px;
@@ -90,7 +91,7 @@ body{
     margin-right: auto;
 }
 #topText, #bottomContent, .endText {
-  margin-top: -70px;
+  margin-top: -60px;
   background: #fff;
   color:#353535;
   margin-bottom: 300px;
@@ -103,11 +104,11 @@ body{
 
 .endText {
   margin: 0 auto;
-  padding: 80px 80px 300px 80px;
+  padding: 80px 80px 240px 80px;
   width: 1180px;
 }
 
-.endText:after {
+/*.endText:after {
   content: "";
   position: absolute;
   height: 1px;
@@ -115,7 +116,7 @@ body{
   left: 37.5%;
   bottom: 130px;
   border-bottom: 1px solid #d2d2d2;
-}
+}*/
 
 #bottomTitle{
   font-weight: bold;
@@ -125,7 +126,8 @@ body{
   width: 1150px;
     margin: 0 auto;
     padding: 0px;
-    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid #d2d2d2;
 }
 #topHR{
   width: 130px;
@@ -302,7 +304,7 @@ p{
   font-family: "Lato";
 }
 
-text.milwaukee.districtAverage.label.narrative {
+text.milwaukee.districtAverage{
   font-size: 14px;
 }
 
@@ -867,11 +869,11 @@ background: #d2d2d2;
   color: #fff;
 }
 #schoolTypeControlContainer{
-  margin-bottom: 40px;
+  margin-bottom: 70px;
 }
 
 #schoolTypeSpacer {
-  margin-top: 70px;
+  margin-top: 110px;
 }
 
 #schoolTypeLabel{
@@ -933,11 +935,11 @@ background: #d2d2d2;
     position: fixed;
     z-index: 200;
     pointer-events: none;
+    right: 0px;
 }
 #tt-container.fixed .tt-datumContainer.district {
-    width: 15%;
-    margin-left: 35%;
-    margin-right: 5%;
+    width: 48%;
+
 
 }
 #tt-container.fixed #tt-nameContainer{
@@ -945,7 +947,9 @@ background: #d2d2d2;
 }
 #tt-nameContainer{
     padding-bottom: 15px;
-    border-bottom: 2px solid #EC008B;
+    /*border-bottom: 2px solid #EC008B;*/
+    width: 48%;
+    float: left;
 }
 #tt-schoolName{
     color: #0E0C0D;
@@ -954,7 +958,7 @@ background: #d2d2d2;
     text-transform: uppercase;
     display: block;
     margin-bottom: 12px;
-    width: 436px;
+
 }
 .tt-lvl{
     display: inline-block;
@@ -968,6 +972,37 @@ background: #d2d2d2;
     text-align: center;
     cursor: pointer;
 }
+
+#tt-lvlContainer {
+  /*width: 48%;*/
+  width: 70%;
+}
+.tt-catContainer {
+  display: inline;
+}
+
+.tt-catContainer.cat-col-1 {
+  float: left;
+  margin-top: 27px;
+  margin-right: 40px;
+}
+
+.tt-catContainer.cat-col-2 {
+  float: left;
+}
+
+.tt-catContainer > span {
+  font-size: 16px;
+}
+
+.tt-catContainer.cat-col-2 > div {
+  padding-left: 10px;
+}
+
+.clear {
+  clear: both;
+}
+
 .tt-lvl.active{
   background: #EC008B;
   color: #fff;
@@ -976,41 +1011,54 @@ background: #d2d2d2;
   display: none;
 }
 #tt-dataContainer{
-  width: 100%;
+  width: 40%;
     display: block;
     float: left;
     margin-top: 20px;
     margin-bottom: 45px;
 }
 .tt-datumContainer{
-font-size: 19px;
-    float: left;
-    width: 15%;
-    display: inline-block;
+font-size: 18px;
 }
+
+.tt-datumContainer > div {
+  display: inline;
+}
+
 .tt-datumContainer.minority{
-  width: 24%;
+/*  width: 24%;*/
 }
 .tt-datumContainer.sci{
-  width: 6%;
+/*  width: 6%;*/
 }
+
+#tt-nameContainer > div > .tt-datumLabel {
+  color: #353535;
+  text-transform: uppercase;
+}
+
+#tt-nameContainer > div > .tt-datumValue {
+  color: #848081;
+  font-style: italic;
+}
+
 .tt-datumLabel{
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
+  color: #848081;
 }
 .tt-datumValue{
-font-size: 16px;
-    color: #848081;
+  font-size: 14px;
+
 }
 .tt-datumContainer.district{
-  width: 55%;
+/*  width: 60%;*/
 }
 #tt-container.fixed #tt-hood{
   margin-top: 9px;
 }
 #tt-hood{
 color: #353535;
-    font-size: 16px;
+    font-size: 14px;
     font-style: italic;
     float: right;
     margin-top: 19px;

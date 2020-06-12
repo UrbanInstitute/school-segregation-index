@@ -252,6 +252,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div id = "tt-container" class = "">
       <div id = "tt-nameContainer">
         <div id = "tt-schoolName"></div>
+        <div class = "tt-datumContainer district">
+          <div class = "tt-datumLabel"></div><br>
+          <div class = "tt-datumValue"></div>
+        </div>
         <div id = "tt-lvlContainer">
           <div class = "tt-lvl lvl1 hidden" data-lvl = "1">Elementary school</div>
           <div class = "tt-lvl lvl2 hidden" data-lvl = "2">Middle school</div>
@@ -260,26 +264,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
 
       <div id = "tt-dataContainer">
-        <div class = "tt-datumContainer district">
-          <div class = "tt-datumLabel"></div>
-          <div class = "tt-datumValue"></div>
+        <div class="tt-catContainer cat-col-1">
+          <div class = "tt-datumContainer sci">
+            <div class = "tt-datumLabel">SCI</div>
+            <div class = "tt-datumValue"></div>
+          </div>
+          <div class = "tt-datumContainer pop">
+            <div class = "tt-datumLabel">Enrollment</div>
+            <div class = "tt-datumValue"></div>
+          </div>
         </div>
-        <div class = "tt-datumContainer sci">
-          <div class = "tt-datumLabel">SCI</div>
-          <div class = "tt-datumValue"></div>
+        <div class = "tt-catContainer cat-col-2">
+          <span>Share Black and Hispanic</span>
+          <div class = "tt-datumContainer minority">
+            <div class = "tt-datumLabel">School</div>
+            <div class = "tt-datumValue"></div>
+          </div>
+          <div class = "tt-datumContainer districtMinority">
+            <div class = "tt-datumLabel">District</div>
+            <div class = "tt-datumValue"></div>
+          </div>
+          <div class = "tt-datumContainer neighborhood">
+            <div class = "tt-datumLabel">Neighborhood <span class="more-info">i</span></div><br>
+            <div class = "tt-datumValue"></div>
+          </div>
         </div>
-        <div class = "tt-datumContainer minority">
-          <div class = "tt-datumLabel">Black or Hispanic enrollment share</div>
-          <div class = "tt-datumValue"></div>
-        </div>
-        <div class = "tt-datumContainer pop">
-          <div class = "tt-datumLabel">Number of students</div>
-          <div class = "tt-datumValue"></div>
-        </div>
-        <div id = "tt-hood"></div>
+        <!-- <div id = "tt-hood"></div> -->
 
       </div>
     </div>
+            <div class="clear"></div>
 <!--
     <div id = "exploreMainNavContainer">
       <div id = "levelContainer">
@@ -457,7 +471,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
      <div class="content">
 
-            
+
                     <h4>About the Data</h4>
                     <a href = "" target = "_blank">
                       <div class = "footerButton readResearchButton">Read the report</div>
@@ -510,7 +524,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
                     <div class="credits"> <a href="" target="_blank">View this project on Github.</a></div>
-          
+
 
     </div>
   </footer>
