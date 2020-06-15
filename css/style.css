@@ -84,7 +84,7 @@ body{
     font-size: 40px;
     font-weight: bold;
     /*margin-top: 100px;*/
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     text-align: center;
     max-width: 720px;
     margin-left: auto;
@@ -931,11 +931,12 @@ background: #d2d2d2;
   margin-top: 18px;
 }
 #tt-container.fixed #tt-dataContainer{
-    top: 49px;
+    top: 56px;
     position: fixed;
     z-index: 200;
     pointer-events: none;
     right: 0px;
+    left: 65%;
 }
 #tt-container.fixed .tt-datumContainer.district {
     width: 48%;
@@ -948,7 +949,7 @@ background: #d2d2d2;
 #tt-nameContainer{
     padding-bottom: 15px;
     /*border-bottom: 2px solid #EC008B;*/
-    width: 48%;
+    width: 65%;
     float: left;
 }
 #tt-schoolName{
@@ -957,7 +958,7 @@ background: #d2d2d2;
     font-weight: 900;
     text-transform: uppercase;
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 
 }
 .tt-lvl{
@@ -967,15 +968,15 @@ background: #d2d2d2;
     color: #0E0C0D;
     width: fit-content;
     padding: 6px 11px;
-    margin-right: 7px;
+    margin-right: 8px;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
 }
 
 #tt-lvlContainer {
-  /*width: 48%;*/
-  width: 70%;
+  margin-top: 10px;
+
 }
 .tt-catContainer {
   display: inline;
@@ -983,7 +984,7 @@ background: #d2d2d2;
 
 .tt-catContainer.cat-col-1 {
   float: left;
-  margin-top: 27px;
+  margin-top: 24px;
   margin-right: 40px;
 }
 
@@ -993,14 +994,38 @@ background: #d2d2d2;
 
 .tt-catContainer > span {
   font-size: 16px;
+  font-weight: 700;
 }
 
 .tt-catContainer.cat-col-2 > div {
   padding-left: 10px;
 }
 
+.tt-catContainer > .tt-datumContainer {
+  padding-bottom: 1px;
+}
+
 .clear {
   clear: both;
+}
+
+.more-info {
+  background-color: #D2D2D2;
+  border-radius: 50%;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  margin-left: 3px;
+  text-align: center;
+}
+#tt-container.fixed > hr {
+  display: none;
+}
+hr {
+  background-color: #ec008b;
+  border: none;
+  height: 2px;
 }
 
 .tt-lvl.active{
@@ -1011,11 +1036,10 @@ background: #d2d2d2;
   display: none;
 }
 #tt-dataContainer{
-  width: 40%;
     display: block;
     float: left;
-    margin-top: 20px;
-    margin-bottom: 45px;
+    margin-top: 31px;
+    margin-bottom: 15px;
 }
 .tt-datumContainer{
 font-size: 18px;
@@ -1023,6 +1047,7 @@ font-size: 18px;
 
 .tt-datumContainer > div {
   display: inline;
+  padding-right: 5px;
 }
 
 .tt-datumContainer.minority{
@@ -1042,14 +1067,18 @@ font-size: 18px;
   font-style: italic;
 }
 
+#tt-dataContainer > div > div > .tt-datumValue {
+  font-weight: 700;
+}
+
 .tt-datumLabel{
   font-size: 14px;
   color: #848081;
 }
 .tt-datumValue{
   font-size: 14px;
-
 }
+
 .tt-datumContainer.district{
 /*  width: 60%;*/
 }
