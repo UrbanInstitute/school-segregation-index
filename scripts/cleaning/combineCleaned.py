@@ -40,17 +40,20 @@ sourceGeoReader = csv.reader(open("data/charts/source/CCDPSS2017_SegCounterfactu
 f2 = open("data/charts/source/combined_source.csv","w")
 combinedWriter = csv.writer(f2)
 
-r1s = []
+r1s = {}
 r2s = []
 
 for row in sourceOrigReader:
-    r1s.append(row[0:24])
+    k = row[0] + "_" + row[2]
+    r1s[k] = row[0:24]
 
 for row in sourceGeoReader:
-    r2s.append(row[27:])
+    k = row[1] + "_" + row[5]
+    if(k in r1s):
+        r2s.append([k, row[27:]])
 
-for i in range(0, len(r1s)):
-    combinedWriter.writerow(r1s[i] + r2s[i])
+for tup in r2s:
+    combinedWriter.writerow(r1s[tup[0]] + tup[1])
 
 f2.close()
 

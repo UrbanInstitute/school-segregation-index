@@ -2,7 +2,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZ
 
 var map = new mapboxgl.Map({
 	container: 'mapContainer',
-	style: 'mapbox://styles/urbaninstitute/ckaycex1c07uq1ipe0tin2xni',
+	style: 'mapbox://styles/urbaninstitute/ckaycex1c07uq1ipe0tin2xni/draft',
 	center: DEFAULT_MAP_CENTER,
 	zoom: DEFAULT_MAP_ZOOM,
 	minZoom: 6

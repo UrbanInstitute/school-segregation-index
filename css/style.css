@@ -306,8 +306,14 @@ p{
   font-family: "Lato";
 }
 
-text.milwaukee.districtAverage{
-  font-size: 14px;
+text.districtAverage, .exploreMedianText{
+  font-size: 16px;
+  color: #696969;
+}
+
+text.districtAverage.label, .exploreMedianText.exploreMedianBottomText{
+  font-weight: 900;
+  color: #000;
 }
 
 .milwaukee.medianLine, .explore.medianLine{
@@ -828,9 +834,7 @@ font-size: 13px;
 
 
 /**************explore controls**************/
-.exploreMedianText{
-  font-size: 14px;
-}
+
 #exploreHeading{
   font-size: 36px;
   font-style: italic;
@@ -1263,7 +1267,7 @@ height: 25px;
   display: inline-block;
 }
 .breakdownHeader.type{
-  margin-top: 60px;
+  margin-top: -90px;
 }
 .breakdownNoSchools{
   display: block;
@@ -1304,6 +1308,9 @@ footer p{
 }
 .footerButton{
   margin-bottom: 12px;
+}
+.readResearchButton{
+  margin-right: 10px;
 }
 
 

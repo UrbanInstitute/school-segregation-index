@@ -185,7 +185,7 @@ var scrollVis = function () {
     gExplore.append("text")
       .attr("x",0)
       .attr("y", vH - vMargins.bottom + 115)
-      .attr("x", vW/2 + 48)
+      .attr("x", vW/2 + vMargins.left - 14)
       .attr("text-anchor", "middle")
       .attr("class", "xaxis axis label x explore")
       .text("Black or Hispanic enrollment share")
@@ -197,7 +197,7 @@ var scrollVis = function () {
 
     avgGExplore.append("text")
       .attr("class", "explore districtAverage label")
-      .text("District Average")
+      .text("District")
       .attr("x",0)
       .attr("y",0)
 
@@ -247,7 +247,7 @@ var scrollVis = function () {
 
     gExplore.append("text")
       .attr("class", "exploreMedianText exploreMedianBottomText")
-      .text("District Average")
+      .text("District")
       .attr("x", x(districtMedian) - 60)
       .attr("y", 75)
 
@@ -500,8 +500,8 @@ var scrollVis = function () {
 
     avgG.append("text")
       .attr("class", "milwaukee districtAverage label narrative")
-      .text("District Average")
-      .attr("x",0)
+      .html("District")
+      .attr("x",0) 
       .attr("y",0)
 
     avgG.append("text")

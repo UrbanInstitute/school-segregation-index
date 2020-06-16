@@ -144,7 +144,7 @@ function setupChooseVis(districtData, schoolId, districtDatum){
 
             avgGChoose.append("text")
                 .attr("class", "choose districtAverage label")
-                .text("District Average")
+                .text("District")
                 .attr("x",0)
                 .attr("y",0)
 
@@ -424,45 +424,45 @@ function updateExploreBars(d, schools){
 
     d3.selectAll(".mouseSubBar").remove()
 
-    d3.select(".breakdownRaceBar.under").selectAll(".mouseSubBar")
-        .data(schools.filter(function(s){ return s.compareMedian == "below" }))
-        .enter().append("div")
-            .attr("class", function(s){
-                return "mouseSubBar under sb_" + s.schoolId + " " + s.type
-            })
-            .style("width", function(s){
-                var W = d3.select(".breakdownRaceBarContainer").node().getBoundingClientRect().width
-                return ((s.pop/d.totalPop) * W) + "px"
-            })
-            .on("mouseover", function(s){
-                setActiveSchool(s, "hover")
-            })
-            .on("click", function(s){
-                setActiveSchool(s, "click")
-            })
-            .on("mouseout", function(s){
-                setActiveSchool(false, "mouseout")
-            })
+    // d3.select(".breakdownRaceBar.under").selectAll(".mouseSubBar")
+    //     .data(schools.filter(function(s){ return s.compareMedian == "below" }))
+    //     .enter().append("div")
+    //         .attr("class", function(s){
+    //             return "mouseSubBar under sb_" + s.schoolId + " " + s.type
+    //         })
+    //         .style("width", function(s){
+    //             var W = d3.select(".breakdownRaceBarContainer").node().getBoundingClientRect().width
+    //             return ((s.pop/d.totalPop) * W) + "px"
+    //         })
+    //         .on("mouseover", function(s){
+    //             setActiveSchool(s, "hover")
+    //         })
+    //         .on("click", function(s){
+    //             setActiveSchool(s, "click")
+    //         })
+    //         .on("mouseout", function(s){
+    //             setActiveSchool(false, "mouseout")
+    //         })
 
-    d3.select(".breakdownRaceBar.over").selectAll(".mouseSubBar")
-        .data(schools.filter(function(s){ return s.compareMedian == "above" }))
-        .enter().append("div")
-            .attr("class", function(s){
-                return "mouseSubBar over sb_" + s.schoolId + " " + s.type
-            })
-            .style("width", function(s){
-                var W = d3.select(".breakdownRaceBarContainer").node().getBoundingClientRect().width
-                return ((s.pop/d.totalPop) * W) + "px"
-            })
-            .on("mouseover", function(s){
-                setActiveSchool(s, "hover")
-            })
-            .on("click", function(s){
-                setActiveSchool(s, "click")
-            })
-            .on("mouseout", function(s){
-                setActiveSchool(false, "mouseout")
-            })
+    // d3.select(".breakdownRaceBar.over").selectAll(".mouseSubBar")
+    //     .data(schools.filter(function(s){ return s.compareMedian == "above" }))
+    //     .enter().append("div")
+    //         .attr("class", function(s){
+    //             return "mouseSubBar over sb_" + s.schoolId + " " + s.type
+    //         })
+    //         .style("width", function(s){
+    //             var W = d3.select(".breakdownRaceBarContainer").node().getBoundingClientRect().width
+    //             return ((s.pop/d.totalPop) * W) + "px"
+    //         })
+    //         .on("mouseover", function(s){
+    //             setActiveSchool(s, "hover")
+    //         })
+    //         .on("click", function(s){
+    //             setActiveSchool(s, "click")
+    //         })
+    //         .on("mouseout", function(s){
+    //             setActiveSchool(false, "mouseout")
+    //         })
 
     ALL_SCHOOL_TYPES.forEach(function(st){
         d3.select(".subBar.pop." + st + ".active").selectAll(".mouseSubBar")
@@ -508,25 +508,25 @@ function updateExploreBars(d, schools){
 
     d3.selectAll(".districtNameText").text(d.districtName)
 
-    d3.select("#breakdownsubPercent").text(percent(d.M))
+    // d3.select("#breakdownsubPercent").text(percent(d.M))
 
-    d3.select(".bblPercent.under").text(percent(d.belowPop))
-    d3.select(".bblNumber.under").text(numeric(d.belowSchools))
+    // d3.select(".bblPercent.under").text(percent(d.belowPop))
+    // d3.select(".bblNumber.under").text(numeric(d.belowSchools))
 
-    d3.select(".breakdownRaceBar.under")
-        .transition()
-            .style("width", function(){
-                return (d.belowPop*d3.select(".breakdownRaceBarContainer").node().getBoundingClientRect().width) + "px"
-            })
+    // d3.select(".breakdownRaceBar.under")
+    //     .transition()
+    //         .style("width", function(){
+    //             return (d.belowPop*d3.select(".breakdownRaceBarContainer").node().getBoundingClientRect().width) + "px"
+    //         })
 
-    d3.select(".bblPercent.over").text(percent(d.abovePop))
-    d3.select(".bblNumber.over").text(numeric(d.aboveSchools))
+    // d3.select(".bblPercent.over").text(percent(d.abovePop))
+    // d3.select(".bblNumber.over").text(numeric(d.aboveSchools))
 
-    d3.select(".breakdownRaceBar.over")
-        .transition()
-            .style("width", function(){
-                return (d.abovePop*d3.select(".breakdownRaceBarContainer").node().getBoundingClientRect().width ) + "px"
-            })
+    // d3.select(".breakdownRaceBar.over")
+    //     .transition()
+    //         .style("width", function(){
+    //             return (d.abovePop*d3.select(".breakdownRaceBarContainer").node().getBoundingClientRect().width ) + "px"
+    //         })
 
     var sci, pop;
     ALL_SCHOOL_TYPES.forEach(function(schoolType){
