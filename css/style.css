@@ -3,14 +3,15 @@
 
 #beetest{
   position: absolute;
-
+  top: 10px;
+  right: 210px;
 
 }
 #beeLabel{
   display: inline-block;
   bottom: 17px;
   font-size: 14px;
-
+  left: 2px;
   position: relative;
 }
 
@@ -81,30 +82,31 @@ body{
 
 
 #topTitle{
-    font-size: 40px;
-    font-weight: bold;
-    /*margin-top: 100px;*/
-    margin-bottom: 40px;
-    text-align: center;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
+  border-bottom: 1px solid #d2d2d2;
+  font-size: 40px;
+  font-weight: bold;
+  /*margin-top: 100px;*/
+  padding-bottom: 55px;
+  text-align: center;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 #topText, #bottomContent, .endText {
-  margin-top: -60px;
+  margin-top: -30px;
   background: #fff;
   color:#353535;
   margin-bottom: 300px;
   padding: 0px 80px 40px 80px;
   position: relative;
-  font-size: 21px;
+  font-size: 19px;
   font-weight:400;
   z-index: 1000;
 }
 
 .endText {
   margin: 0 auto;
-  padding: 80px 80px 240px 80px;
+  padding: 80px 80px 320px 80px;
   width: 1180px;
 }
 
@@ -872,22 +874,22 @@ background: #d2d2d2;
   margin-bottom: 70px;
 }
 
-#schoolTypeSpacer {
+/*#schoolTypeSpacer {
   margin-top: 110px;
 }
-
+*/
 #schoolTypeLabel{
   font-size: 16px;
-  /* font-weight: bold; */
   margin-bottom: 12px;
   font-style: italic;
-  color: #848081;
+  display: inline;
+  margin-right: 25px;
 }
 .radioContainer{
-    display: inline-block;
-    margin-right: 60px;
+  display: inline-block;
+  margin-right: 30px;
   cursor: pointer;
-
+  margin-top: 50px;
 }
 .radioButton{
   display: inline-block;
@@ -908,9 +910,7 @@ background: #d2d2d2;
 }
 .radioLabel{
   display: inline-block;
-      font-size: 16px;
-    font-weight: bold;
-
+  font-size: 16px;
 }
 
 /****************explore tooltip ********************/
@@ -984,7 +984,7 @@ background: #d2d2d2;
 
 .tt-catContainer.cat-col-1 {
   float: left;
-  margin-top: 24px;
+  margin-top: 25px;
   margin-right: 40px;
 }
 
