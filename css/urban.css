@@ -305,8 +305,7 @@ h2 div{
 footer {
   position: relative;
     background-color: #f1f2f2;
-    margin-top: 185px;
-    padding-top: 50px;
+    margin-top: 100px;
     padding-bottom: 25px;
     bottom: 0;
    overflow: hidden;
@@ -314,14 +313,12 @@ footer {
      z-index: 10000;
 
 }
-@media (max-height: 880px){
-  footer{
-    margin-top: 25px;
-  }
-}
-footer .content{
 
-    max-width: 1100px;
+
+
+footer .content{
+width: calc(100% - 40px);
+    max-width: 750px;
 
 }
 
@@ -366,6 +363,7 @@ h4 {
   padding: 10px;
   text-decoration: none !important;
   color: #333 !important;
+  margin-top: 5px;
 }
 .footerButton:hover{
   background: #fdbf11;
@@ -393,12 +391,14 @@ footer p {
 }
 
 footer h2 {
-    text-transform: uppercase;
-     font-weight: 700;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 60px;
 }
 
 footer h3, footer h4{
    font-weight: 700;
+   margin-top: 60px;
 }
 
 .credits {
@@ -411,14 +411,15 @@ footer h3, footer h4{
 .job {
     font-size: 16px;
     margin-bottom: 4px;
-    margin-top: 12px;
+    margin-top: 20px;
 }
 
 .urbanstatement {
-    font-style: italic;
-    color: #666666;
-    font-size: 13px;
-    margin-bottom: 1em;
+  font-style: italic;
+  color: #848081;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 40px;
 }
 
 
@@ -515,6 +516,10 @@ footer h3, footer h4{
 
 /*browser windows smaller than 850px*/
 @media (max-width: 600px) {
+    .pubDate {
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
    .wrapper {padding-top:80px;}
    .headerimage{ height:250px;}
     h1{font-size: 45px;padding-top: 100px;}
