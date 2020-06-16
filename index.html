@@ -228,7 +228,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   </div>
 </div>
-<div class="endText">
+<div class="endText ">
   <p>
   Of course, neighborhoods are often severely racially segregated, which drives a large part of school segregation patterns. But <a href = "https://www.urban.org/features/segregated-neighborhoods-segregated-schools" target = "_blank">residential segregation doesn’t explain everything</a>. In many cases, the racial composition of students who attend schools in the area around a given school is vastly different from that school’s enrollment. Among the schools within one mile of Tamarack, 78 percent of middle school students are Black or Hispanic.
   </p>
@@ -239,19 +239,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   To drive greater change, local policymakers concerned about segregation can use this improved measure to target desegregation efforts at schools where changes would have the biggest impact on the district, and to identify structural factors that may impede integration.
   </p>
 </div>
-<!-- <img class="endSymbol" src="http://www.urban.org/sites/all/themes/urban/images/logo-mini-dark.png"> -->
+<div id = "bottomContent">
+  <div id = "exploreHeading" >See How Schools Contribute to Segregation in Your District</div>
   <div id="exploreHeaderBar">
     <div id="exploreBarContentWrapper">
-    <div id = "exploreHeading">See How Schools Contribute to Segregation in Your District</div>
-    <input id = "exploreSchoolInput" value = "Search for a school"/>
+      <input id = "exploreSchoolInput" value = "Search for a school"/>
     </div>
   </div>
-<div id = "bottomContent">
+
   <div id = "exploreContainer">
     <div id = "exploreSchoolList"></div>
     <div id = "tt-container" class = "">
       <div id = "tt-nameContainer">
         <div id = "tt-schoolName"></div>
+        <div class = "tt-datumContainer district">
+          <div class = "tt-datumLabel"></div><br>
+          <div class = "tt-datumValue"></div>
+        </div>
         <div id = "tt-lvlContainer">
           <div class = "tt-lvl lvl1 hidden" data-lvl = "1">Elementary school</div>
           <div class = "tt-lvl lvl2 hidden" data-lvl = "2">Middle school</div>
@@ -260,26 +264,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
 
       <div id = "tt-dataContainer">
-        <div class = "tt-datumContainer district">
-          <div class = "tt-datumLabel"></div>
-          <div class = "tt-datumValue"></div>
+        <div class="tt-catContainer cat-col-1">
+          <div class = "tt-datumContainer sci">
+            <div class = "tt-datumLabel">SCI</div>
+            <div class = "tt-datumValue"></div>
+          </div>
+          <div class = "tt-datumContainer pop">
+            <div class = "tt-datumLabel">Enrollment</div>
+            <div class = "tt-datumValue"></div>
+          </div>
         </div>
-        <div class = "tt-datumContainer sci">
-          <div class = "tt-datumLabel">SCI</div>
-          <div class = "tt-datumValue"></div>
+        <div class = "tt-catContainer cat-col-2">
+          <span>Share Black and Hispanic</span>
+          <div class = "tt-datumContainer minority">
+            <div class = "tt-datumLabel">School</div>
+            <div class = "tt-datumValue"></div>
+          </div>
+          <div class = "tt-datumContainer districtMinority">
+            <div class = "tt-datumLabel">District</div>
+            <div class = "tt-datumValue"></div>
+          </div>
+          <div class = "tt-datumContainer neighborhood">
+            <div class = "tt-datumLabel">Neighborhood <span class="more-info">i</span></div>
+            <div class = "tt-datumValue"></div>
+          </div>
         </div>
-        <div class = "tt-datumContainer minority">
-          <div class = "tt-datumLabel">Black or Hispanic enrollment share</div>
-          <div class = "tt-datumValue"></div>
-        </div>
-        <div class = "tt-datumContainer pop">
-          <div class = "tt-datumLabel">Number of students</div>
-          <div class = "tt-datumValue"></div>
-        </div>
-        <div id = "tt-hood"></div>
-
       </div>
     </div>
+    <div class="clear"></div>
+    <hr>
 <!--
     <div id = "exploreMainNavContainer">
       <div id = "levelContainer">
@@ -289,29 +302,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
     </div>
      -->
-
     <div id = "schoolTypeControlContainer">
-      <div id = "schoolTypeLabel">Filter view by:</div>
-      <div class = "radioContainer all active">
-        <div class = "radioButton"></div>
-        <div class = "radioLabel">All schools</div>
-      </div>
-      <div class = "radioContainer tps active">
-        <div class = "radioButton"></div>
-        <div class = "radioLabel">Traditional public schools</div>
-      </div>
-      <div class = "radioContainer private active">
-        <div class = "radioButton"></div>
-        <div class = "radioLabel">Private schools</div>
-      </div>
-      <div class = "radioContainer charter active">
-        <div class = "radioButton"></div>
-        <div class = "radioLabel">Charter schools</div>
-      </div>
-      <div class = "radioContainer magnet active">
-        <div class = "radioButton"></div>
-        <div class = "radioLabel">Magnet schools</div>
-      </div>
+        <div id = "schoolTypeLabel">Filter view by:</div>
+        <div class = "radioContainer all active">
+          <div class = "radioButton"></div>
+          <div class = "radioLabel">All schools</div>
+        </div>
+        <div class = "radioContainer tps active">
+          <div class = "radioButton"></div>
+          <div class = "radioLabel">Traditional public schools</div>
+        </div>
+        <div class = "radioContainer private active">
+          <div class = "radioButton"></div>
+          <div class = "radioLabel">Private schools</div>
+        </div>
+        <div class = "radioContainer charter active">
+          <div class = "radioButton"></div>
+          <div class = "radioLabel">Charter schools</div>
+        </div>
+        <div class = "radioContainer magnet active">
+          <div class = "radioButton"></div>
+          <div class = "radioLabel">Magnet schools</div>
+        </div>
     </div>
     <div id = "exploreVChartContainer">
       <div id = "beetest">
@@ -454,7 +466,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
      <div class="content">
 
-                <div id="right">
+
                     <h4>About the Data</h4>
                     <a href = "" target = "_blank">
                       <div class = "footerButton readResearchButton">Read the report</div>
@@ -504,8 +516,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     Emily Peiffer
 
 
-                    <div class="credits"><a href="" target="_blank">View this project on Github.</a></div>
-                </div>
+
+                    <div class="credits"> <a href="" target="_blank">View this project on Github.</a></div>
+
 
     </div>
   </footer>

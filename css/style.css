@@ -3,12 +3,13 @@
 
 #beetest{
   position: absolute;
-  top: 0px;
+  top: 10px;
   right: 210px;
+
 }
 #beeLabel{
   display: inline-block;
-  top: 19px;
+  bottom: 17px;
   font-size: 14px;
   left: 2px;
   position: relative;
@@ -21,7 +22,8 @@ input[type=checkbox]{
 }
 
 label {
-  top: 26px;
+
+  bottom: 10px;
   display: inline-block;
   cursor: pointer;
   text-indent: -9999px;
@@ -74,27 +76,50 @@ body{
 .container {
   width: 1180px;
   margin: 0 auto;
+  /* makes up for negative margin at top and removal of 80px padding*/
+  padding-bottom: 60px;
 }
 
 
 #topTitle{
-    font-size: 40px;
-    font-weight: bold;
-    /*margin-top: 100px;*/
-    margin-bottom: 50px;
-    text-align: center;
+  border-bottom: 1px solid #d2d2d2;
+  font-size: 40px;
+  font-weight: bold;
+  /*margin-top: 100px;*/
+  padding-bottom: 55px;
+  text-align: center;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 #topText, #bottomContent, .endText {
-  /*margin-top: -140px;*/
+  margin-top: -30px;
   background: #fff;
   color:#353535;
   margin-bottom: 300px;
-  padding: 80px 80px 40px 80px;
+  padding: 0px 80px 40px 80px;
   position: relative;
-  font-size: 21px;
+  font-size: 19px;
   font-weight:400;
   z-index: 1000;
 }
+
+.endText {
+  margin: 0 auto;
+  padding: 80px 80px 320px 80px;
+  width: 1180px;
+}
+
+/*.endText:after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  width: 25%;
+  left: 37.5%;
+  bottom: 130px;
+  border-bottom: 1px solid #d2d2d2;
+}*/
+
 #bottomTitle{
   font-weight: bold;
   margin-bottom: 10px;
@@ -103,7 +128,8 @@ body{
   width: 1150px;
     margin: 0 auto;
     padding: 0px;
-    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid #d2d2d2;
 }
 #topHR{
   width: 130px;
@@ -264,6 +290,7 @@ p{
 .axis.label{
     font-size: 14px;
     font-style: italic;
+    fill: #9D9D9D;
 }
 .axis.label.choose{
   fill: #fff;
@@ -279,7 +306,9 @@ p{
   font-family: "Lato";
 }
 
-
+text.milwaukee.districtAverage{
+  font-size: 14px;
+}
 
 .milwaukee.medianLine, .explore.medianLine{
   stroke: #848081;
@@ -532,7 +561,7 @@ p{
 }
 
 #heroimage{
-   background-image: url("../images/header-illo-dark.jpg");
+   background-image: url("../images/final-header-illo-01.jpg");
    background-position: bottom;
      background-size: cover;
     background-repeat: no-repeat;
@@ -731,16 +760,16 @@ p.missingDataNote {
 }
 
 #exploreSchoolInput{
-    color: #ffffff;
-    background: #5C5859;
-    border: 1px solid #ffffff;
+
+
+    border: 1px solid #5C5859;
     padding: 8px 11px;
     font-weight: normal;
     font-style: italic;
     font-size: 17px;
     font-family: Lato;
     width: 363px;
-/*    margin-bottom: 30px;*/
+    margin-bottom: 30px;
 }
 
 #exploreSchoolList{
@@ -800,19 +829,18 @@ font-size: 13px;
 
 /**************explore controls**************/
 .exploreMedianText{
-  font-size: 16px;
+  font-size: 14px;
 }
 #exploreHeading{
-  color: #ffffff;
-  font-size: 21px;
+  font-size: 36px;
   font-style: italic;
-  font-weight: bold;
+  font-weight: 800;
   margin-bottom: 10px;
+  padding-bottom: 0;
 }
 
 #exploreHeaderBar {
-  background-color: #5C5859;
-  border-bottom: 1px solid #d2d2d2;
+
   padding: 20px 0;
 }
 
@@ -843,18 +871,25 @@ background: #d2d2d2;
   color: #fff;
 }
 #schoolTypeControlContainer{
-  margin-bottom: 20px;
+  margin-bottom: 70px;
 }
+
+/*#schoolTypeSpacer {
+  margin-top: 110px;
+}
+*/
 #schoolTypeLabel{
   font-size: 16px;
-  font-weight: bold;
   margin-bottom: 12px;
+  font-style: italic;
+  display: inline;
+  margin-right: 25px;
 }
 .radioContainer{
-    display: inline-block;
-    margin-right: 60px;
+  display: inline-block;
+  margin-right: 30px;
   cursor: pointer;
-
+  margin-top: 50px;
 }
 .radioButton{
   display: inline-block;
@@ -875,9 +910,7 @@ background: #d2d2d2;
 }
 .radioLabel{
   display: inline-block;
-      font-size: 16px;
-    font-weight: bold;
-
+  font-size: 16px;
 }
 
 /****************explore tooltip ********************/
@@ -898,23 +931,26 @@ background: #d2d2d2;
   margin-top: 18px;
 }
 #tt-container.fixed #tt-dataContainer{
-    top: 49px;
+    top: 56px;
     position: fixed;
     z-index: 200;
     pointer-events: none;
+    right: 0px;
+    left: 65%;
 }
 #tt-container.fixed .tt-datumContainer.district {
-    width: 15%;
-    margin-left: 35%;
-    margin-right: 5%;
+    width: 48%;
+
 
 }
 #tt-container.fixed #tt-nameContainer{
   border-bottom: none;
 }
 #tt-nameContainer{
-    padding-bottom: 9px;
-    border-bottom: 2px solid #EC008B;
+    padding-bottom: 15px;
+    /*border-bottom: 2px solid #EC008B;*/
+    width: 65%;
+    float: left;
 }
 #tt-schoolName{
     color: #0E0C0D;
@@ -922,8 +958,8 @@ background: #d2d2d2;
     font-weight: 900;
     text-transform: uppercase;
     display: block;
-    margin-bottom: 12px;
-    width: 436px; 
+    margin-bottom: 10px;
+
 }
 .tt-lvl{
     display: inline-block;
@@ -932,11 +968,66 @@ background: #d2d2d2;
     color: #0E0C0D;
     width: fit-content;
     padding: 6px 11px;
-    margin-right: 7px;
+    margin-right: 8px;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
 }
+
+#tt-lvlContainer {
+  margin-top: 10px;
+
+}
+.tt-catContainer {
+  display: inline;
+}
+
+.tt-catContainer.cat-col-1 {
+  float: left;
+  margin-top: 25px;
+  margin-right: 40px;
+}
+
+.tt-catContainer.cat-col-2 {
+  float: left;
+}
+
+.tt-catContainer > span {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.tt-catContainer.cat-col-2 > div {
+  padding-left: 10px;
+}
+
+.tt-catContainer > .tt-datumContainer {
+  padding-bottom: 1px;
+}
+
+.clear {
+  clear: both;
+}
+
+.more-info {
+  background-color: #D2D2D2;
+  border-radius: 50%;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  margin-left: 3px;
+  text-align: center;
+}
+#tt-container.fixed > hr {
+  display: none;
+}
+hr {
+  background-color: #ec008b;
+  border: none;
+  height: 2px;
+}
+
 .tt-lvl.active{
   background: #EC008B;
   color: #fff;
@@ -945,41 +1036,58 @@ background: #d2d2d2;
   display: none;
 }
 #tt-dataContainer{
-  width: 100%;
     display: block;
     float: left;
-    margin-top: 20px;
-    margin-bottom: 45px;
+    margin-top: 31px;
+    margin-bottom: 15px;
 }
 .tt-datumContainer{
-font-size: 19px;
-    float: left;
-    width: 15%;
-    display: inline-block;
+font-size: 18px;
 }
+
+.tt-datumContainer > div {
+  display: inline;
+  padding-right: 5px;
+}
+
 .tt-datumContainer.minority{
-  width: 24%;
+/*  width: 24%;*/
 }
 .tt-datumContainer.sci{
-  width: 6%;
+/*  width: 6%;*/
 }
+
+#tt-nameContainer > div > .tt-datumLabel {
+  color: #353535;
+  text-transform: uppercase;
+}
+
+#tt-nameContainer > div > .tt-datumValue {
+  color: #848081;
+  font-style: italic;
+}
+
+#tt-dataContainer > div > div > .tt-datumValue {
+  font-weight: 700;
+}
+
 .tt-datumLabel{
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
+  color: #848081;
 }
 .tt-datumValue{
-font-size: 16px;
-    color: #848081;
+  font-size: 14px;
 }
+
 .tt-datumContainer.district{
-  width: 55%;
+/*  width: 60%;*/
 }
 #tt-container.fixed #tt-hood{
   margin-top: 9px;
 }
 #tt-hood{
 color: #353535;
-    font-size: 16px;
+    font-size: 14px;
     font-style: italic;
     float: right;
     margin-top: 19px;
@@ -1004,7 +1112,7 @@ color: #353535;
     right: 49px;
 }
 #mapContainer{
-border: 2px solid #1E1E1E;
+border: 1px solid #9D9D9D;
 }
 
 #mapContainer, #mapDotSvgContainer{

@@ -91,4 +91,4 @@ else if ( IS_SHORT() ){ svgHeight = SHORT_VIS_HEIGHT }
 else{ svgHeight = VIS_HEIGHT}
 
 svgMargin = ( IS_PHONE() ) ? PHONE_MARGIN : MARGIN;
-var vExploreMargin = { top: 0, left: 10, bottom: 0, right: 50 };
+var vExploreMargin = { top: 0, left: 0, bottom: 0, right: 50 };
