@@ -97,7 +97,7 @@ body{
   background: #fff;
   color:#353535;
   margin-bottom: 300px;
-  padding: 0px 80px 40px 80px;
+  padding: 0px 110px 40px 110px;
   position: relative;
   font-size: 19px;
   font-weight:400;
@@ -510,13 +510,22 @@ text.milwaukee.districtAverage{
   .headerimage {
     height: 350px !important;
   }
-  #topTitle {
-    font-size: 25px;
+
+  #topText, #bottomContent{
+    padding: 80px;
+    margin-top: -60px;
   }
 }
 @media (max-width: 768px){
   .step {
     margin-bottom: 1200px;
+  }
+  #topTitle {
+    font-size: 24px;
+  }
+  #topText, #bottomContent{
+    padding: 60px;
+
   }
 }
 @media (max-width: 350px){
@@ -533,7 +542,7 @@ text.milwaukee.districtAverage{
     top: 20px;
   }
   #topText, #bottomContent{
-    margin-top: -90px;
+    margin-top: 0px;
     padding: 20px;
   }
   #sections{
