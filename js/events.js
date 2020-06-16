@@ -38,7 +38,7 @@ function updateChooseText(section){
         }
         else if(section == 3 || section == 4){
             var compareText = (d.compareMedian == "above") ? "larger" : "smaller"
-            return "Among the " + d3.format(".0f")(d.totalSchools) + " " + ALL_LEVELS[d.level].toLowerCase() + "s in " + d.distName + ", " + d.schoolName + " enrolls a " + compareText + " share of Black or Hispanic students than most."
+            return "Among the " + d3.format(".0f")(d.totalSchools) + " " + ALL_LEVELS[d.level].toLowerCase() + "s in " + d.distName + ", " + d.schoolName + " enrolls a " + compareText + " share of Black or Hispanic students than most (or " + d.schoolName + " enrolls the same share of Black or Hispanic students as the district)."
         }
         else if(section == 5){
             return d.schoolName + " has an SCI value of " + d3.format(".1%")(d.sci) + " and enrolls " + d3.format(".0f")(d.pop) + " students. If " + d.schoolName+ "&rsquo;s racial composition were replaced with the district&rsquo;s, segregation in " + d.distName + " would fall " + d3.format(".1f")(d.sci *100) + " percent."
