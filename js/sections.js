@@ -602,7 +602,7 @@ var scrollVis = function () {
     underPop.append("text")
       .attr("x", 19)
       .attr("y", 21)
-      .text("30% of students, 55 schools")
+      .text("29% of students, 52 schools")
 
     var overPop = g.append("g")
       .attr("class", "directLabel over pop")
@@ -618,7 +618,7 @@ var scrollVis = function () {
     overPop.append("text")
       .attr("x", 19)
       .attr("y", 21)
-      .text("70% of students, 116 schools")
+      .text("71% of students, 120 schools")
 
     tamarackDot = d3.select(".dot.milwaukee.highlight")
     tamarackLine = d3.select(".lollipop.milwaukee.highlight")

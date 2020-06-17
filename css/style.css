@@ -97,7 +97,7 @@ body{
   background: #fff;
   color:#353535;
   margin-bottom: 300px;
-  padding: 0px 80px 40px 80px;
+  padding: 0px 110px 40px 110px;
   position: relative;
   font-size: 19px;
   font-weight:400;
@@ -106,7 +106,7 @@ body{
 
 .endText {
   margin: 0 auto;
-  padding: 80px 80px 320px 80px;
+  padding: 80px 80px 230px 80px;
   width: 1180px;
 }
 
@@ -516,14 +516,25 @@ text.districtAverage.label, .exploreMedianText.exploreMedianBottomText{
   .headerimage {
     height: 350px !important;
   }
-  #topTitle {
-    font-size: 25px;
+
+  #topText, #bottomContent{
+    padding: 80px;
+    margin-top: -60px;
   }
 }
 @media (max-width: 768px){
   .step {
     margin-bottom: 1200px;
   }
+  #topTitle {
+    font-size: 24px;
+  }
+  #topText, #bottomContent{
+    padding: 60px;
+  }
+@media (max-width: 600px){
+  #topTitle { padding-bottom: 20px; }
+}
 }
 @media (max-width: 350px){
   #sections{
@@ -539,7 +550,7 @@ text.districtAverage.label, .exploreMedianText.exploreMedianBottomText{
     top: 20px;
   }
   #topText, #bottomContent{
-    margin-top: -90px;
+    margin-top: 0px;
     padding: 20px;
   }
   #sections{
@@ -929,7 +940,7 @@ background: #d2d2d2;
     padding-left: 20px;
 }
 #tt-container.fixed #tt-lvlContainer{
-  margin-top: 3px ;
+  margin-top: 7px ;
 }
 #tt-container.fixed #tt-schoolName{
   margin-top: 18px;
@@ -1307,7 +1318,7 @@ footer p{
   clear: both;
 }
 .footerButton{
-  margin-bottom: 12px;
+  margin-bottom: 30px;
 }
 .readResearchButton{
   margin-right: 10px;
