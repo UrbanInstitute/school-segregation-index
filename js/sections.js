@@ -102,7 +102,8 @@ var scrollVis = function () {
 
         setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
   setSchoolTypes(ALL_SCHOOL_TYPES)
-      
+  console.log("loaded")
+
     });
   };
   function setupControls(){
