@@ -111,7 +111,7 @@ function hoverOnSchool(e){
 
 //use a setTimeOut bc I'm a hack and need to wait for level
 //and schooltype setters to fire
-setTimeout(function(){
+dispatch.on("dataLoad", function(){
 	//turn on mouse handlers for default layers
 	defaultLayers = getActiveLayers();
 	
@@ -119,7 +119,8 @@ setTimeout(function(){
 		map.on('mouseenter', defaultLayers[i], hoverOnSchool)	
 	}
 	changeDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
-},2000)
+})
+
 
 map.on("load", function(e){
 	//By default, show active style for milwaukee. Don't call full dispatch event, since no need to
@@ -133,8 +134,7 @@ map.on("load", function(e){
 		return o.id == geoid
 	})[0]
 
-	setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
-	setSchoolTypes(ALL_SCHOOL_TYPES)
+
 
 	//dispatch handlers for mapping events are here, since they need to be defined after
 	//map has loaded. See events.js for further dispatch functions

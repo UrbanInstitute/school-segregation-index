@@ -1,4 +1,4 @@
-var dispatch = d3.dispatch("changeDistrict","changeLevel","changeSchool","changeSchoolTypes","active","resized","reset");
+var dispatch = d3.dispatch("changeDistrict","changeLevel","changeSchool","changeSchoolTypes","active","resized","reset", "dataLoad");
 
 
 function bindGlobalData(milwaukeeData, schoolData, mapData, allDistrictData){
