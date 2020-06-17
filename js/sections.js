@@ -99,6 +99,10 @@ var scrollVis = function () {
       setupVis(milwaukeeData, schoolData, null, allDistrictData);
       setupExploreVis(milwaukeeData, allDistrictData);
       setupSections(milwaukeeData, schoolData, null, allDistrictData);
+
+        setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
+  setSchoolTypes(ALL_SCHOOL_TYPES)
+      
     });
   };
   function setupControls(){
