@@ -90,6 +90,32 @@ var scrollVis = function () {
       gExplore = svgExplore.select('g')
         .attr('transform', 'translate(' + vExploreMargin.left + ',' + vExploreMargin.top + ')');
 
+
+      var defs = svg.append("defs")
+          filterId = "textShadow"
+      var filter = defs.append("filter")
+        .attr("id", filterId)
+        .attr("x", "-30%")
+        .attr("y", "-30%")
+        .attr("width", "160%")
+        .attr("height", "160%")
+      filter.append("feGaussianBlur")
+        .attr("stdDeviation","2 2")
+        .attr("result", filterId)
+      feMerge = filter.append("feMerge")
+      feMerge.append("feMergeNode")
+        .attr("in", filterId)
+      feMerge.append("feMergeNode")
+        .attr("in", filterId)
+      feMerge.append("feMergeNode")
+        .attr("in", filterId)
+      feMerge.append("feMergeNode")
+        .attr("in", filterId)
+      feMerge.append("feMergeNode")
+        .attr("in", filterId)
+      
+
+
       // perform some preprocessing on raw data
       var milwaukeeData = preprocessMilwaukeeData(rawData[0], rawData[2]);
       var schoolData = preprocessSchoolData(rawData[1], rawData[2])
@@ -103,7 +129,6 @@ var scrollVis = function () {
       setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
       setSchoolTypes(ALL_SCHOOL_TYPES)
       dispatch.call("dataLoad")
-      console.log("loaded")
 
     });
   };
@@ -604,6 +629,12 @@ var scrollVis = function () {
       .attr("height",2)
       .attr("x", 17)
       .attr("y", 25)
+
+    underPop.append("text")
+      .attr("class", "explore textShadow")
+      .attr("x", 19)
+      .attr("y", 21)
+      .text("29% of students, 52 schools")
     
     underPop.append("text")
       .attr("x", 19)
@@ -621,6 +652,11 @@ var scrollVis = function () {
       .attr("x", 17)
       .attr("y", 25)
     
+    overPop.append("text")
+      .attr("class", "explore textShadow")
+      .attr("x", 19)
+      .attr("y", 21)
+      .text("71% of students, 120 schools")
     overPop.append("text")
       .attr("x", 19)
       .attr("y", 21)

@@ -66,6 +66,7 @@ function scroller() {
     // scroller.
     resize();
 
+
     // hack to get position
     // to be called once for
     // the scroll position on
@@ -255,6 +256,8 @@ function scroller() {
 
     var prevIndex = Math.max(sectionIndex - 1, 0);
     var prevTop = sectionPositions[prevIndex];
+    d3.selectAll("#exploreSchoolList ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li").remove()
+    d3.selectAll("#narrativeChooseSchoolList ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li").remove()
     // @v4 you now `.call` the dispatch callback
   }
 

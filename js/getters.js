@@ -42,7 +42,7 @@ function getRelativeChartPositions(section, index){
 }
 function getVMargins(section){
   var size = getSize()
-  var mb = (section == "explore") ? 60 : 30;
+  var mb = (section == "explore") ? 60 : 33;
   var margin = {top: 20, right: 20, bottom: mb, left: 40}
 
   return margin;  

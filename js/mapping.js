@@ -118,6 +118,8 @@ dispatch.on("dataLoad", function(){
 	for (var i = 0; i < defaultLayers.length; i++){
 		map.on('mouseenter', defaultLayers[i], hoverOnSchool)	
 	}
+	d3.selectAll(".loadHide").classed("loadHide", false)
+	d3.select("#loadingGif").style("display", "none")
 	changeDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
 })
 
