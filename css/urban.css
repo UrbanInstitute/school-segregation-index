@@ -475,7 +475,6 @@ footer h3, footer h4{
         z-index: -1;
     }
     .bar-icon, .x.axis .tick text{
-        display: none;
     }
     #extra_text_us, #extra_text_all{
         opacity: 0;

@@ -11,19 +11,21 @@ function setActiveDistrict(districtId, level, schoolId, eventType){
     d3.select("#activeLevel").datum(level)
 
     var district = getSchoolData().filter(function(o){ return o.districtId == districtId && o.level == level })
-
     dispatch.call("changeLevel", null, level)
     dispatch.call("changeDistrict", null, districtId, level, schoolId, eventType)
 }
-function setActiveSchool(school, oldDistrictId, eventType){
+function setActiveSchool(school, eventType){
     d3.select("#activeSchool").datum(school.schoolId)
-    dispatch.call("changeSchool", null, school, oldDistrictId)
+    dispatch.call("changeSchool", null, school, eventType)
 }
 function setLevel(level){
     dispatch.call("changeLevel", null, level)
 }
 function setSchoolTypes(schoolTypes){
     dispatch.call("changeSchoolTypes", null, schoolTypes)
+}
+function setStickySchool(school){
+    d3.select("#stickySchool").datum(school)
 }
 
 
@@ -52,6 +54,7 @@ function updateChooseText(section){
 
 
 function setupChooseVis(districtData, schoolId, districtDatum){
+    d3.select("#narrativeChooseSchoolArrow img").style("opacity",1)
     districtData.sort(function(a, b){ return (a.minority_percent < b.minority_percent) ? -1 : 1 })
     
     var textDatum = districtData.filter(function(o){ return o.schoolId == schoolId})[0]
@@ -141,6 +144,12 @@ function setupChooseVis(districtData, schoolId, districtDatum){
                 .attr("class", "choose medianTextG narrative")
                 .datum(districtMedian)
                 .attr("transform", gTranslate)
+
+            avgGChoose.append("rect")
+              .attr("width", 155)
+              .attr("height", 40)
+              .attr("y", -16)
+              .attr("class", "distAvgBg choose")
 
             avgGChoose.append("text")
                 .attr("class", "choose districtAverage label")
@@ -289,6 +298,11 @@ function updateVoronoi(section, schools){
                     setActiveSchool(d.data, "hover")
                 }
             })
+            .on("mouseout", function(d){
+                if(section == "explore"){
+                    setActiveSchool(d3.select("#stickySchool").datum(), "mouseout")
+                }
+            })
             .on("click", function(d){
                 if(section == "explore"){
                     setActiveSchool(d.data, "click")
@@ -314,14 +328,33 @@ function updateExploreV(schools, district, callback){
             .attr("x1", x(districtMedian))
             .attr("x2", x(districtMedian))
 
+
+    d3.select(".distAvgBg.explore")
+        .transition()
+        .attr("x", function(){
+            if(IS_PHONE()) return 40
+            else x(districtMedian) - 60
+        })
+
+
     d3.select(".exploreMedianBottomText")
         .transition()
-            .attr("x", x(districtMedian) - 60)
+            .attr("x", function(){
+                if(IS_PHONE()) return 40
+                else return x(districtMedian) - 60
+            })
 
     d3.select(".exploreMedianPercentText")
         .text(d3.format(".1%")(districtMedian) + " Black or Hispanic")
         .transition()
-            .attr("x", x(districtMedian) - 60)
+            .attr("x", function(){
+                if(IS_PHONE()) return 40
+                else return x(districtMedian) - 60
+            })
+            
+    d3.select(".tt-datumContainer.districtMinority .tt-datumValue").text(
+        d3.format(".1%")(districtMedian)
+    )
 
     updateVoronoi("explore", schools)
 
@@ -390,7 +423,6 @@ function updateExploreV(schools, district, callback){
                                 })
                                 .on("end", function(d,i){
                                     // callback
-                                    // console.log(i, schools.length)
                                     if(i == schools.length - 1){
                                         callback()
                                     }
@@ -482,9 +514,8 @@ function updateExploreBars(d, schools){
                     setActiveSchool(s, "click")
                 })
                 .on("mouseout", function(s){
-                    setActiveSchool(false, "mouseout")
+                    setActiveSchool(d3.select("#stickySchool").datum(), "mouseout")
                 })
-
         d3.select(".subBar.sci." + st + ".active").selectAll(".mouseSubBar")
             .data(sciSchools.filter(function(s){ return s.type == st }))
             .enter().append("div")
@@ -502,8 +533,10 @@ function updateExploreBars(d, schools){
                     setActiveSchool(s, "click")
                 })
                 .on("mouseout", function(s){
-                    setActiveSchool(false, "mouseout")
+                    setActiveSchool(d3.select("#stickySchool").datum(), "mouseout")
                 })
+
+
     })
 
     d3.selectAll(".districtNameText").text(d.districtName)
@@ -558,7 +591,7 @@ function updateExploreBars(d, schools){
 
 //dispatch listeners are in mapping.js, since needs to be w/in map.on("load") and d3.csv callbacks
 //non map functions for event handlers are below
-function changeDistrict(districtId, level, schoolId){
+function changeDistrict(districtId, level, schoolId, eventType){
     var allDistrictData = getAllDistrictData(),
         schoolData = getSchoolData(),
         districtKey = districtId + "_" + level,
@@ -570,15 +603,25 @@ function changeDistrict(districtId, level, schoolId){
     return +d3.select(this).attr("data-lvl") == +level
     })
 
+    d3.select("#beeswitch").property("checked", false)
+    d3.select("#beeLegend").transition().style("opacity",0)
 
     var sid = (typeof(schoolId) == "undefined" || schoolId == false) ? schools[0].schoolId : schoolId
     setupChooseVis(schools, sid, district)
     
     d3.select("#activeSchool").datum(sid)
     updateExploreV(schools, district, function(){
-        setActiveSchool(schools.filter(function(o){ return o.schoolId == sid })[0], "change")
+        setActiveSchool(schools.filter(function(o){ return o.schoolId == sid })[0], eventType)
     })
     updateExploreBars(district,schools)
+
+    d3.select(".beeple.above").text(d3.format(".1%")(district.abovePop))
+    d3.select(".beeple.below").text(d3.format(".1%")(district.belowPop))
+    d3.select(".beeschools.above").text(district.aboveSchools)
+    d3.select(".beeschools.below").text(district.belowSchools)
+    d3.select(".blural.above").text(function(){ return (+district.aboveSchools  == 1) ? "" : "s"})
+    d3.select(".blural.below").text(function(){ return (+district.belowSchools  == 1) ? "" : "s"})
+
 
 }
 
@@ -598,11 +641,7 @@ function updateExploreLayout(layout){
         SEEB(schools)
     }
 }
-
-function changeLevel(level){
-
-}
-function changeSchool(schoolId, oldDistrictId){
+function changeSchool(schoolId, eventType){
     d3.selectAll(".dot.explore")
         .classed("active", false)
     
@@ -648,18 +687,55 @@ function changeSchool(schoolId, oldDistrictId){
     )
 
     d3.select(".tt-datumContainer.sci .tt-datumValue").text(
-        d3.format(".2%")(d.sci)
+        d3.format(".1%")(d.sci)
     )
 
     d3.select(".tt-datumContainer.minority .tt-datumValue").text(
-        d3.format(".2%")(d.minority_percent)
+        d3.format(".1%")(d.minority_percent)
     )
+
+    d3.select(".tt-datumContainer.neighborhood .tt-datumValue").text(
+        d3.format(".1%")(d.neighbor_minority_percent)
+    )
+
+    d3.select("#ett-radius").text(
+        d.radiusNeighbors
+    )
+
+    d3.select("#ett-count").text(
+        parseInt(d.countNeighbors) + 1
+    )
+
+    d3.selectAll(".ett-school").text(
+        d.schoolName
+    )
+    // There are no other schools serving elementary/middle/high school students within a 15-mile radius.
+
+    d3.selectAll(".ett-level").text(function(){
+        if(d.level == "1") return "elementary"
+        else if(d.level == "2") return "middle"
+        else return "high"
+    })
+
+    if(d.countNeighbors == ""){
+        d3.select("#ett-none").style("display","block")
+        d3.select("#ett-some").style("display","none")
+    }else{
+        d3.select("#ett-none").style("display","none")
+        d3.select("#ett-some").style("display","block")
+    }
 
     d3.select(".tt-datumContainer.pop .tt-datumValue").text(
         d3.format(",")(d.pop)
     )
+    d3.select(".tt-datumContainer.pop .tt-datumValue").text(
+        d3.format(",")(d.pop)
+    )
 
-    d3.select("#tt-hood").text("Students in this school’s surrounding area are " + d3.format(".2%")(d.neighbor_minority_percent) + " Black or Hispanic.")
+    d3.select("#tt-hood").text("Students in this school’s surrounding area are " + d3.format(".1%")(d.neighbor_minority_percent) + " Black or Hispanic.")
+    if(eventType != "hover" && eventType != "maphover"){
+        setStickySchool(d)
+    }
 }
 
 function changeSchoolTypes(schoolTypes){
@@ -708,3 +784,35 @@ d3.select("#beeswitch").on("input", function(){
         updateExploreLayout("v")
     }
 })
+
+d3.select(".black_or_hisp_text.narrative-inline")
+    .on("mouseover", function(){
+        d3.select(".narrative-tooltip.ntt-race").style("display", "block")
+    })
+    .on("mouseout", function(){
+        d3.select(".narrative-tooltip.ntt-race").style("display", "none")
+    })
+d3.select(".district_text.narrative-inline")
+    .on("mouseover", function(){
+        d3.select(".narrative-tooltip.ntt-dist").style("display", "block")
+    })
+    .on("mouseout", function(){
+        d3.select(".narrative-tooltip.ntt-dist").style("display", "none")
+    })
+
+d3.select(".more-info.explore")
+    .on("mouseover", function(){
+        d3.select(".explore-tooltip").style("display", "block")
+    })
+    .on("mouseout", function(){
+        d3.select(".explore-tooltip").style("display", "none")
+    })
+
+
+
+
+$(document).ready(function(){
+    $('html').animate({scrollTop:0}, 1);
+    $('body').animate({scrollTop:0}, 1);
+});
+

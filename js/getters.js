@@ -1,5 +1,8 @@
 function getSize(){
-  return "desktop"
+  // return "desktop"
+  if(IS_MOBILE()) return "mobile"
+  else if(IS_PHONE()) return "phone"
+  else return "desktop"
 }
 function getChooseSchoolStatus(){
   var drawer = d3.select("#narrativeChooseSchoolContainer")
@@ -11,8 +14,10 @@ function getChooseSchoolStatus(){
 function getVWidth(section){
   var size = getSize(),
       margins = getVMargins(section),
-      w = (section == "explore") ? 500 : 600,
-      width = 600 - margins.left - margins.right;
+      w
+    if(size == "phone") w = Math.min(screen.width - 70, 600)
+    else w= 600
+    var width = w - margins.left - margins.right;
   return width
 }
 function getVHeight(section, index){
@@ -20,17 +25,17 @@ function getVHeight(section, index){
     chooseSchoolStatus = getChooseSchoolStatus(),
     margins = getVMargins(section, size),
     baseH;
-
-  if(section == "narrative"){
+  if(section == "explore") baseH = 570;
+  else if(size == "phone") baseH = 500;
+  else if(section == "narrative"){
     if(index == "squish") baseH = 300
     else if(index == "unsquish") baseH = 600
     else baseH = (chooseSchoolStatus == "closed" || index > 5) ? 600 : 300;
   }
   else if(section == "choose") baseH = 300;
-  else if(section == "explore") baseH = 570;
+  
   
   height = baseH - margins.top - margins.bottom;
-
   return height
 }
 function getRelativeChartPositions(section, index){
@@ -50,7 +55,7 @@ function getVMargins(section){
 function getVX(section){
   var width = getVWidth(section),
       margins = getVMargins(section)
-
+console.log(width)
   var x = d3
     .scaleLinear()
     .range([margins.left, width])
@@ -77,7 +82,7 @@ function getVY(section, index, data){
     var normMax = d3.max(data, function(d) { return d.normSci; })
     yMax = Math.max(sciMax, normMax)
   }
-
+  console.log(section, index, height)
   var y = d3
     .scaleLinear()
     .range([height,60])

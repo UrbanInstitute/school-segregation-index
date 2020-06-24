@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="utf-8"/>
   <title>How Much Does Your School Contribute to Segregation?</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <!-- <meta name="viewport" content="initial-scale=1, maximum-scale=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3.0, minimum-scale=1">
+
+
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/> -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
@@ -15,32 +19,32 @@
 
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic,900,900italic" rel="stylesheet" type="text/css">
 
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@urbaninstitute">
   <meta name="twitter:creator" content="@urbaninstitute">
-  <meta name="twitter:title" content="Draft: K12 segregation">
-  <meta name="twitter:description" content="Draft: K12 segregation">
-  <meta name="twitter:image" content="">
-  <meta property="og:title" content="Draft: K12 segregation" />
-  <meta property="og:description" content="Draft: K12 segregation" />
-  <meta property="og:image" content="" />
+  <meta name="twitter:title" content="How Segregated Are Schools in Your District?">
+  <meta name="twitter:description" content="Some segregation measures look only at a school's racial composition and not at how it compares with its district. Learn more about a better measure.">
+  <meta name="twitter:image" content="https://apps.urban.org/features/school-segregation-index/images/social.jpg">
+  <meta property="og:title" content="How Segregated Are Schools in Your District?" />
+  <meta property="og:description" content="Some segregation measures look only at a school's racial composition and not at how it compares with its district. Learn more about a better measure." />
+  <meta property="og:image" content="https://apps.urban.org/features/school-segregation-index/images/social.jpg" />
   <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:url" content="">
+  <meta property="og:url" content="https://urbn.is/2zUJjCf">
 
 
-  <script type="application/ld+json">
-  {
-          "@context": "http://schema.org",
-          "@type": "NewsArticle",
-          "headline": "How do school funding formulas work?",
-          "url": "https://apps.urban.org/features/funding-formulas/",
-          "thumbnailUrl": "https://apps.urban.org/features/funding-formulas/images/social.jpg",
-          "dateCreated": "2017-11-29T05:00:00.000Z",
-          "articleSection": "Interactive Feature",
-          "creator": ["Matthew Chingos","Kristin Blagg","Alexandra Tilsley","Benjamin Chartoff","Christina Baird","Elizabeth Forney"],
-          "keywords": ["Education and Training"]
-  }
-  </script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "headline": "How Segregated Are Schools in Your District?",
+  "url": "https://apps.urban.org/features/school-segregation-index",
+  "thumbnailUrl": "https://apps.urban.org/features/school-segregation-index/images/social.jpg",
+  "dateCreated": "2020-06-20T04:00:00.000Z",
+  "articleSection": "Interactive Feature",
+  "creator": ["Tomas Monarrez","Carina Chien","David Hinson","Brian Kisida","JoElla Carman","Emily Peiffer","Matthew Chingos","Ben Chartoff"],
+  "keywords": ["Education and Training"]
+}
+</script>
 </head>
 <body>
 <!-- Google Tag Manager -->
@@ -60,6 +64,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div id = "activeDistrict"></div>
 <div id = "activeLevel"></div>
 <div id = "activeSchool"></div>
+<div id = "stickySchool"></div>
 <div id = "milwaukeeDataContainer"></div>
 <div id = "schoolDataContainer"></div>
 <div id = "mapDataContainer"></div>
@@ -78,11 +83,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="shareThisW" id="shareBox">
 
             <div class="addthis_toolbox addthis_default_style  "addthis:title="" addthis:url="">
-                <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//urbn.is/fundingformulas" target="_blank" class="addthis_button_facebook at300b" title="Facebook" onclick="toggle_visibility('shareBox');"><span class="at4-icon aticon-facebook" style="background-color: rgb(48, 88, 145);"><span class="at_a11y">Share on facebook</span></span></a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//urbn.is/sci" target="_blank" class="addthis_button_facebook at300b" title="Facebook" onclick="toggle_visibility('shareBox');"><span class="at4-icon aticon-facebook" style="background-color: rgb(48, 88, 145);"><span class="at_a11y">Share on facebook</span></span></a>
 
-                <a href="http://twitter.com/intent/tweet?text=How%20do%20states%20use%20formulas%20to%20distribute%20school%20funding%20to%20students%20who%20need%20it%20most%3F%20http%3A%2F%2Furbn.is%2Ffundingformulas%20(via%20%40urbaninstitute)" target="_blank" class="addthis_button_twitter at300b" title="Tweet" onclick="toggle_visibility('shareBox');"><span class="at4-icon aticon-twitter" style="background-color: rgb(44, 168, 210);"><span class="at_a11y">Share on twitter</span></span></a>
+                <a href="https://twitter.com/intent/tweet?text=How%20much%20does%20your%20school%20contribute%20to%20segregation%3F%20%40urbaninstitute%27s%20Segregation%20Contribution%20Index%20measures%20how%20much%20individual%20schools%20contribute%20to%20racial%20segregation%20in%20their%20broader%20systems.%20https%3A%2F%2Furbn.is%2Fsci" target="_blank" class="addthis_button_twitter at300b" title="Tweet" onclick="toggle_visibility('shareBox');"><span class="at4-icon aticon-twitter" style="background-color: rgb(44, 168, 210);"><span class="at_a11y">Share on twitter</span></span></a>
 
-                <a href="mailto:%20?Subject=New interactive from the Urban Institute &amp;Body=Hi! I thought you'd be interested in this new interactive from the Urban Institute: “How do school funding formulas work?” http://urbn.is/fundingformulas" target="_blank" class="addthis_button_email at300b" target="_blank" title="Email" onclick="toggle_visibility('shareBox');"><span class="at4-icon aticon-email" style="background-color: rgb(115, 138, 141);"><span class="at_a11y">Share on email</span></span></a>
+                <a href="mailto:%20?Subject=New Urban Institute interactive&amp;Body=Hi! I thought you'd be interested in this new interactive from the Urban Institute: &ldquo;How Much Does Your School Contribute to Segregation?&rdquo; https://urbn.is/sci" target="_blank" class="addthis_button_email at300b" target="_blank" title="Email" onclick="toggle_visibility('shareBox');"><span class="at4-icon aticon-email" style="background-color: rgb(115, 138, 141);"><span class="at_a11y">Share on email</span></span></a>
                 <div class="atclear"></div>
             </div>
 
@@ -130,7 +135,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </section>
       <section class="step">
         <p>
-        Take, for instance, <span class="selectedSchool">Tamarack Waldorf School</span> in Milwaukee, Wisconsin, a K–8 private school where 36 percent of its middle school students are <span id = "black_or_hisp_text">Black or Hispanic</span>.
+        Take, for instance, <span class="selectedSchool">Tamarack Waldorf School</span> in Milwaukee, Wisconsin, a K–8 private school where 36 percent of its middle school students are <span class = "black_or_hisp_text narrative-inline">Black or Hispanic<span class = "more-info inline">i</span>
+          <span class="narrative-tooltip ntt-race">We argue that desegregation efforts should focus on inequities in student achievement. Evidence shows that, on average, structural factors have led Black and Hispanic students to persistently score lower in standardized examinations than white and Asian students. Thus, we measure school segregation as the separation of Black and Hispanic students from white and Asian students (and the relatively small share of students from other racial or ethnic groups). We recognize the limitations of this grouping, as these students have different experiences in education systems.</span>
+        </span>.
         </p>
         <p>
         Using common measures of segregation, which often define schools as <a href = "https://www.civilrightsproject.ucla.edu/research/k-12-education/integration-and-diversity/brown-at-62-school-segregation-by-race-poverty-and-state" target = "_blank">intensely segregated</a> if less than 10 percent of enrolled students are white, Tamarack wouldn’t be considered particularly segregated.
@@ -138,7 +145,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </section>
       <section class="step">
         <p>
-        But that approach doesn’t consider the racial composition of the school’s district. Compared with the Milwaukee school district, in which the Black or Hispanic enrollment share among middle school students is 80 percent, <span class = "selectedSchool">Tamarack</span> has a much smaller share of Black or Hispanic students.
+        But that approach doesn’t consider the racial composition of the school’s <span class = "district_text narrative-inline">district<span class = "more-info inline">i</span>
+        <span class="narrative-tooltip ntt-dist">We group schools into geographic school district boundaries, which is important for linking charter and private schools to school districts because they don’t use the same administrative identifiers as traditional public schools.</span>
+        </span>. Compared with the Milwaukee school district, in which the Black or Hispanic enrollment share among middle school students is 80 percent, <span class = "selectedSchool">Tamarack</span> has a much smaller share of Black or Hispanic students.
         </p>
       </section>
       <section class="step">
@@ -222,7 +231,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
     <div id = "narrativeChooseSchoolTextContainer">
-      <p class="missingDataNote">Can’t find your school? To focus only on districts that have enough schools and students to have a chance for integration, we don’t include districts that have fewer than two public schools serving the same grade, enroll fewer than 200 students, or are less than 5 percent Black or Hispanic.</p>
       <div id = "narrativeChooseSchoolName"></div>
       <div id = "narrativeChooseSchoolButtons"></div>
       <div id = "narrativeChooseSchoolText"></div>
@@ -235,7 +243,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 <div class="endText loadHide">
   <p>
-  Of course, neighborhoods are often severely racially segregated, which drives a large part of school segregation patterns. But <a href = "https://www.urban.org/features/segregated-neighborhoods-segregated-schools" target = "_blank">residential segregation doesn’t explain everything</a>. In many cases, the racial composition of students who attend schools in the area around a given school is vastly different from that school’s enrollment. Among the schools within one mile of Tamarack, 78 percent of middle school students are Black or Hispanic.
+  Of course, neighborhoods are often severely racially segregated, which drives a large part of school segregation patterns. But <a href = "https://www.urban.org/features/segregated-neighborhoods-segregated-schools" target = "_blank">residential segregation doesn’t explain everything</a>. In many cases, the racial composition of students who attend schools in the area around a given school is vastly different from that school’s enrollment. Among the five schools within one mile of Tamarack (including Tamarack), 78 percent of middle school students are Black or Hispanic.
+
+
   </p>
   <p>
   That difference shows that transportation isn’t the only barrier for integration efforts. School attendance boundaries, as well as other factors like tuition, entrance exams, school choice policies, and parent preferences also contribute to segregation.
@@ -255,8 +265,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div id = "exploreContainer">
     <div id = "exploreSchoolList"></div>
     <div id = "tt-container" class = "">
+      <div id = "tt-schoolName"></div>
       <div id = "tt-nameContainer">
-        <div id = "tt-schoolName"></div>
+        
         <div class = "tt-datumContainer district">
           <div class = "tt-datumLabel"></div><br>
           <div class = "tt-datumValue"></div>
@@ -290,14 +301,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class = "tt-datumValue"></div>
           </div>
           <div class = "tt-datumContainer neighborhood">
-            <div class = "tt-datumLabel">Surrounding area<span class="more-info">i</span></div>
-            <div class = "tt-datumValue"></div>
+            <div class = "tt-datumLabel">Surrounding area</div>
+              <div class = "tt-datumValue neighborhood"></div>
+              <span class = "neighborhood_text explore-inline">
+              <span class = "more-info explore">i</span>
+              <span class="explore-tooltip ett-neigh">
+                <span id = "ett-some">
+                We determine a school’s surrounding area by drawing a radius around it to find schools that serve students in the same grade level. In the <span id="ett-radius"></span>-mile radius around <span class = "ett-school"></span>, <span id = "ett-count"></span> schools (including <span class = "ett-school"></span>) serve <span class = "ett-level"></span> school students.
+                </span>
+                <span id = "ett-none">There are no other schools serving <span class = "ett-level"></span> school students within a 15-mile radius.</span>
+              </span>
           </div>
         </div>
       </div>
     </div>
     <div class="clear"></div>
     <hr>
+
+
+
 <!--
     <div id = "exploreMainNavContainer">
       <div id = "levelContainer">
@@ -334,6 +356,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div id = "beetest">
         <div id = "beeLabel">See school distribution</div>
         <input type="checkbox" id="beeswitch"/><label for="beeswitch"></label>
+      </div>
+      <div id = "beeLegend">
+        <div class = "beeRow">
+          <div class = "beelabel above"><span></span>Above district share</div>
+          <div class = "beeVal above"><span class = "beeple above"></span> of students, <span class = "beeschools above"></span> school<span class = "blural above">s</span></div>
+        </div>
+        <div class = "beeRow">
+          <div class = "beelabel below"><span></span>Below district share</div>
+          <div class = "beeVal below"><span class = "beeple below"></span> of students, <span class = "beeschools below"></span> school<span class = "blural below">s</span></div>
+        </div>
       </div>
     </div>
     <div id = "mapComponentsContainer">

@@ -28,7 +28,7 @@ var IS_PHONE = function(){
   return (d3.select("#isPhone").style("display") == "block")
 }
 var IS_MOBILE = function(){
-  return (d3.select("#isMobile").style("display") == "block")
+  return (d3.select("#isMobile").style("display") == "block") && (d3.select("#isPhone").style("display") == "none")
 }
 var SECTION_INDEX = function(){
   return d3.select("#sectionIndex").attr("data-index")
@@ -60,8 +60,8 @@ var PHONE_SCATTER_WIDTH = 235
 var VIS_WIDTH = 600;
 var VIS_HEIGHT = 480;
 var DURATION = 800;
-var MARGIN = { top: 10, left: 40, bottom: 120, right: 20 };
-var PHONE_MARGIN = { top: 110, left: 40, bottom: 30, right: 30 };
+var MARGIN = { top: 10, left: 40, bottom: 120, right: 70 };
+var PHONE_MARGIN = MARGIN;
 var DOT_MARGIN = {top: 80, bottom: 0}
 var PHONE_DOT_MARGIN = {top: 60, bottom: 70}
 var ANIMATION_DELAY = true;

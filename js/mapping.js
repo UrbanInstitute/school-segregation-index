@@ -25,13 +25,15 @@ map.on("zoom", function(){
 })
 
 map.on("click","schooldistricts-fill", function(e){
-	var add = getAllDistrictData()
-	if(!add.hasOwnProperty(e.features[0].id + "_1") && !add.hasOwnProperty(e.features[0].id + "_2") && !add.hasOwnProperty(e.features[0].id + "_3")){
-		return false
-	}
+    var district = getSchoolData().filter(function(o){ return o.districtId == e.features[0].id && o.level == getLevel() })
+    if(district.length == 0){
+    	return false
+    }
 	var districtId = e.features[0].id
+	// console.log(districtId)
+
 	if(districtId != getActiveDistrict()){
-	setActiveDistrict(e.features[0].id, getLevel(), false, "mapclick")
+		setActiveDistrict(e.features[0].id, getLevel(), false, "mapclick")
 	}
 })
 
@@ -39,13 +41,16 @@ var hoveredDist  = false;
 let isTransitioning = false;
 
 map.on('mousemove', 'schooldistricts-fill', function(e) {
-	var add = getAllDistrictData()
-	if(!add.hasOwnProperty(e.features[0].id + "_1") && !add.hasOwnProperty(e.features[0].id + "_2") && !add.hasOwnProperty(e.features[0].id + "_3")){
-		return false
-	}
+    var district = getSchoolData().filter(function(o){ return o.districtId == e.features[0].id && o.level == getLevel() })
+    if(district.length == 0){
+    	d3.select("#mapContainer").classed("noDistrict", true)
+    	return false
+    }
 	if(isTransitioning){
 		return false
 	}
+	d3.select("#mapContainer").classed("noDistrict", false)
+
 	if(+e.features[0].id == +d3.select(".dot.explore").data()[0].districtId){
 		if (hoveredDist) {
 			map.setFeatureState(
@@ -66,13 +71,13 @@ map.on('mousemove', 'schooldistricts-fill', function(e) {
 		}
 		hoveredDist = e.features[0];
 		map.setFeatureState(
-			hoveredDist,
+			e.features[0],
 			{ active: true }
 		);
 	}
 });
 
-map.on('mouseout', 'schooldistricts-fill', function(e) {
+map.on('mouseleave', 'schooldistricts-fill', function(e) {
 	if (hoveredDist) {
 		map.setFeatureState(
 			hoveredDist,
@@ -80,6 +85,7 @@ map.on('mouseout', 'schooldistricts-fill', function(e) {
 		);
 	}
 	hoveredDist = false;
+	d3.select("#mapContainer").classed("noDistrict", false)
 });
 
 
@@ -106,93 +112,180 @@ function hoverOnSchool(e){
 	if(getActiveLayers().indexOf(e.features[0].layer.id) == -1){
 		return false;
 	}
-	setActiveSchool(school.properties)
+	setActiveSchool(school.properties, "maphover")
+}
+function clickOnSchool(e){
+	var school = e.features[0]
+	//do not trigger mouseevents on schools outside of selected district
+	if(+school.properties.districtId != +getActiveDistrict()){
+		return false
+	}
+	if(getActiveLayers().indexOf(e.features[0].layer.id) == -1){
+		return false;
+	}
+	setActiveSchool(school.properties, "mapclick")
 }
 
 //use a setTimeOut bc I'm a hack and need to wait for level
 //and schooltype setters to fire
-dispatch.on("dataLoad", function(){
+dispatch.on("dataLoad", function(boundaries){
 	//turn on mouse handlers for default layers
 	defaultLayers = getActiveLayers();
 	
 	for (var i = 0; i < defaultLayers.length; i++){
-		map.on('mouseenter', defaultLayers[i], hoverOnSchool)	
+		map.on('mouseenter', defaultLayers[i], hoverOnSchool)
+		map.on('click', defaultLayers[i], clickOnSchool)		
 	}
 	d3.selectAll(".loadHide").classed("loadHide", false)
-	d3.select("#loadingGif").style("display", "none")
-	changeDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
-})
+	d3.select("#loadingGif")
+		.transition()
+		.style("display", "none")
+		.on("end", function(){
+			console.log("a")
+			setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID, "load")		
+			setActiveSchool()
+		})
+	// changeDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID, "load")
+
+	map.on("load", function(e){
+		map.resize()
+
+		//By default, show active style for milwaukee. Don't call full dispatch event, since no need to
+		//fly to locatino
+		var geoid = MILWAUKEE_ID
+		var f = map.queryRenderedFeatures({layer: "schooldistricts-fill"}).filter(function(o){
+			return o.id == geoid
+		})[0]
+
+		var fs = map.queryRenderedFeatures({layer: "schooldistricts-stroke"}).filter(function(o){
+			return o.id == geoid
+		})[0]
 
 
-map.on("load", function(e){
-	//By default, show active style for milwaukee. Don't call full dispatch event, since no need to
-	//fly to locatino
-	var geoid = MILWAUKEE_ID
-	var f = map.queryRenderedFeatures({layer: "schooldistricts-fill"}).filter(function(o){
-		return o.id == geoid
-	})[0]
 
-	var fs = map.queryRenderedFeatures({layer: "schooldistricts-stroke"}).filter(function(o){
-		return o.id == geoid
-	})[0]
+		//dispatch handlers for mapping events are here, since they need to be defined after
+		//map has loaded. See events.js for further dispatch functions
+		//(called as `changeSchpol(schoolId, oldDistrictId)`,`changeLevel(level)` etc.)
+		dispatch.on("changeSchool", function(school, eventType){
+			changeSchool(school.schoolId, eventType)
+			var popLabel = school.hasOwnProperty("pop") ? "pop" : "population"
 
+			var coords = map.project([school.lon, school.lat])
+			
+			schoolDotMarker
+				.style("opacity",1)
+				.attr("cx", coords.x)
+				.attr("cy", coords.y)
+				.attr("r", Math.sqrt(school[popLabel]) * MAP_DOT_SCALAR)
+		})
 
+		dispatch.on("changeLevel", function(level){
+			//handle events for non map charts (see events.js)
+			// changeLevel(level)
 
-	//dispatch handlers for mapping events are here, since they need to be defined after
-	//map has loaded. See events.js for further dispatch functions
-	//(called as `changeSchpol(schoolId, oldDistrictId)`,`changeLevel(level)` etc.)
-	dispatch.on("changeSchool", function(school, oldDistrictId){
-		changeSchool(school.schoolId, oldDistrictId)
-		var popLabel = school.hasOwnProperty("pop") ? "pop" : "population"
+			//loop through all dot layers for all levels and school types
+			var schoolTypes = getSchoolTypes()
+			var allLevels = ["1","2","3"]
+			
+			for(var i = 0; i < allLevels.length; i++){
+				for(var j = 0; j < ALL_SCHOOL_TYPES.length; j++){
+					var layerName = "lvl_" + allLevels[i] + "_" + ALL_SCHOOL_TYPES[j]
+					// If layer does not match new level, hide it completely
+					//and turn off mouse events
+					if(level != allLevels[i]){
+						map.setPaintProperty(
+							layerName,
+							"circle-color",
+							[
+								"match",
+								["get", "compareMedian"],
+								["below"],
+								"hsla(44, 98%, 53%,0%)",
+								["above"],
+								"hsla(113, 44%, 50%,0%)",
+								"hsla(0, 0%, 0%,0%)"
+							]
+						)
 
-		var coords = map.project([school.lon, school.lat])
-		
-		schoolDotMarker
-			.style("opacity",1)
-			.attr("cx", coords.x)
-			.attr("cy", coords.y)
-			.attr("r", Math.sqrt(school[popLabel]) * MAP_DOT_SCALAR)
-	})
+						map.setPaintProperty(
+							layerName,
+							"circle-stroke-color",
+							"rgba(255,255,255,0)"
+						)
 
-	dispatch.on("changeLevel", function(level){
-		//handle events for non map charts (see events.js)
-		// changeLevel(level)
+						map.off('mouseenter', layerName, hoverOnSchool)	
+						map.off('click', layerName, clickOnSchool)	
 
-		//loop through all dot layers for all levels and school types
-		var schoolTypes = getSchoolTypes()
-		var allLevels = ["1","2","3"]
-		
-		for(var i = 0; i < allLevels.length; i++){
-			for(var j = 0; j < ALL_SCHOOL_TYPES.length; j++){
-				var layerName = "lvl_" + allLevels[i] + "_" + ALL_SCHOOL_TYPES[j]
-				// If layer does not match new level, hide it completely
-				//and turn off mouse events
-				if(level != allLevels[i]){
-					map.setPaintProperty(
-						layerName,
-						"circle-color",
-						[
-							"match",
-							["get", "compareMedian"],
-							["below"],
-							"hsla(44, 98%, 53%,0%)",
-							["above"],
-							"hsla(113, 44%, 50%,0%)",
-							"hsla(0, 0%, 0%,0%)"
-						]
-					)
+					}
+					//If layer matches level, but school type is not currently shown
+					//set layer to low opacity and turn off mouse events
+					else if(schoolTypes.indexOf(ALL_SCHOOL_TYPES[j]) == -1){
+						map.setPaintProperty(
+							layerName,
+							"circle-color",
+							[
+								"match",
+								["get", "compareMedian"],
+								["below"],
+								"hsla(44, 98%, 53%," + MAP_HIDE_DOT_OPACITY + ")",
+								["above"],
+								"hsla(113, 44%, 50%," + MAP_HIDE_DOT_OPACITY + ")",
+								"hsla(0, 0%, 0%," + MAP_HIDE_DOT_OPACITY + ")"
+							]
+						)
+						map.setPaintProperty(
+							layerName,
+							"circle-stroke-color",
+							"rgba(255,255,255," + MAP_HIDE_DOT_OPACITY_STROKE + ")"
+						)
 
-					map.setPaintProperty(
-						layerName,
-						"circle-stroke-color",
-						"rgba(255,255,255,0)"
-					)
+						map.off('mouseenter', layerName, hoverOnSchool)	
+						map.off('click', layerName, clickOnSchool)	
+						//If layer matches both level and current school types, show it
+						//and turn on mouse events
+					}else{
+						map.setPaintProperty(
+							layerName,
+							"circle-color",
+							[
+								"match",
+								["get", "compareMedian"],
+								["below"],
+								"hsla(44, 98%, 53%," + MAP_SHOW_DOT_OPACITY + ")",
+								["above"],
+								"hsla(113, 44%, 50%," + MAP_SHOW_DOT_OPACITY + ")",
+								"hsla(0, 0%, 0%," + MAP_SHOW_DOT_OPACITY + ")"
+							]
+						)
 
-					map.off('mouseenter', layerName, hoverOnSchool)	
+						map.setPaintProperty(
+							layerName,
+							"circle-stroke-color",
+							"rgba(255,255,255," + MAP_SHOW_DOT_OPACITY_STROKE + ")"
+						)
+
+						map.on('mouseenter', layerName, hoverOnSchool)	
+						map.on('click', layerName, clickOnSchool)	
+					}
+
 				}
-				//If layer matches level, but school type is not currently shown
-				//set layer to low opacity and turn off mouse events
-				else if(schoolTypes.indexOf(ALL_SCHOOL_TYPES[j]) == -1){
+			}
+		})
+
+		dispatch.on("changeSchoolTypes", function(schoolTypes){
+			//handle events for non map charts (see events.js)
+			changeSchoolTypes(schoolTypes)
+
+			//loop through all dot layers for current school level. No need to loop through level
+			//layers, since they are approperiatly shown/hidden in the `changeLevel` event
+			var level = getLevel()
+			for(var i = 0; i < ALL_SCHOOL_TYPES.length; i++){
+				var schoolType = ALL_SCHOOL_TYPES[i]
+				var layerName = "lvl_" + level + "_" + schoolType
+
+
+				//If layer does not match schoolTypes, set to low opacity and turn off mouse events
+				if(schoolTypes.indexOf(schoolType) == -1){
 					map.setPaintProperty(
 						layerName,
 						"circle-color",
@@ -212,9 +305,9 @@ map.on("load", function(e){
 						"rgba(255,255,255," + MAP_HIDE_DOT_OPACITY_STROKE + ")"
 					)
 
-					map.off('mouseenter', layerName, hoverOnSchool)	
-					//If layer matches both level and current school types, show it
-					//and turn on mouse events
+					map.off('mouseenter', layerName, hoverOnSchool)
+					map.off('click', layerName, clickOnSchool)
+					//If layer matches schoolTypes, show it and turn on mouse events
 				}else{
 					map.setPaintProperty(
 						layerName,
@@ -229,7 +322,6 @@ map.on("load", function(e){
 							"hsla(0, 0%, 0%," + MAP_SHOW_DOT_OPACITY + ")"
 						]
 					)
-
 					map.setPaintProperty(
 						layerName,
 						"circle-stroke-color",
@@ -237,86 +329,26 @@ map.on("load", function(e){
 					)
 
 					map.on('mouseenter', layerName, hoverOnSchool)	
+					map.on('click', layerName, clickOnSchool)	
 				}
-
 			}
-		}
-	})
+		})
 
-	dispatch.on("changeSchoolTypes", function(schoolTypes){
-		//handle events for non map charts (see events.js)
-		changeSchoolTypes(schoolTypes)
+		//On load, by default, set map to default values
+		//This is redundantly handled by scroll events, but is neccessary if page
+		//loads at bottom, on map view
+		// setLevel(DEFAULT_LEVEL)
+		// setSchoolTypes(ALL_SCHOOL_TYPES)
+		// setActiveSchool(TAMARACK_ID)
 
-		//loop through all dot layers for current school level. No need to loop through level
-		//layers, since they are approperiatly shown/hidden in the `changeLevel` event
-		var level = getLevel()
-		for(var i = 0; i < ALL_SCHOOL_TYPES.length; i++){
-			var schoolType = ALL_SCHOOL_TYPES[i]
-			var layerName = "lvl_" + level + "_" + schoolType
-
-
-			//If layer does not match schoolTypes, set to low opacity and turn off mouse events
-			if(schoolTypes.indexOf(schoolType) == -1){
-				map.setPaintProperty(
-					layerName,
-					"circle-color",
-					[
-						"match",
-						["get", "compareMedian"],
-						["below"],
-						"hsla(44, 98%, 53%," + MAP_HIDE_DOT_OPACITY + ")",
-						["above"],
-						"hsla(113, 44%, 50%," + MAP_HIDE_DOT_OPACITY + ")",
-						"hsla(0, 0%, 0%," + MAP_HIDE_DOT_OPACITY + ")"
-					]
-				)
-				map.setPaintProperty(
-					layerName,
-					"circle-stroke-color",
-					"rgba(255,255,255," + MAP_HIDE_DOT_OPACITY_STROKE + ")"
-				)
-
-				map.off('mouseenter', layerName, hoverOnSchool)
-				//If layer matches schoolTypes, show it and turn on mouse events
-			}else{
-				map.setPaintProperty(
-					layerName,
-					"circle-color",
-					[
-						"match",
-						["get", "compareMedian"],
-						["below"],
-						"hsla(44, 98%, 53%," + MAP_SHOW_DOT_OPACITY + ")",
-						["above"],
-						"hsla(113, 44%, 50%," + MAP_SHOW_DOT_OPACITY + ")",
-						"hsla(0, 0%, 0%," + MAP_SHOW_DOT_OPACITY + ")"
-					]
-				)
-				map.setPaintProperty(
-					layerName,
-					"circle-stroke-color",
-					"rgba(255,255,255," + MAP_SHOW_DOT_OPACITY_STROKE + ")"
-				)
-
-				map.on('mouseenter', layerName, hoverOnSchool)	
-			}
-		}
-	})
-
-	//On load, by default, set map to default values
-	//This is redundantly handled by scroll events, but is neccessary if page
-	//loads at bottom, on map view
-	// setLevel(DEFAULT_LEVEL)
-	// setSchoolTypes(ALL_SCHOOL_TYPES)
-	// setActiveSchool(TAMARACK_ID)
-
-	//District boundaries are precalculated in `scripts/mapping/schoolDistricts/get_feature_boundaries.py`
-	//and stored in lightweight csv.
-	d3.csv("data/mapping/schoolDistricts/boundaries/boundaries.csv").then(function(boundaries){
+		//District boundaries are precalculated in `scripts/mapping/schoolDistricts/get_feature_boundaries.py`
+		//and stored in lightweight csv.
 		//Dispatch handler inside d3 promise, in order to get district boundaries
+		// console.log()
 		dispatch.on("changeDistrict", function(districtId, level, schoolId, eventType){
+			console.log("c")
 			//handle events for non map charts (see events.js)
-			changeDistrict(districtId, level, schoolId)
+			changeDistrict(districtId, level, schoolId, eventType)
 
 			//get the boundaries for the new district
 			var boundary = boundaries.filter(function(o){ return o.geoid == districtId})[0]
@@ -404,4 +436,10 @@ map.on("load", function(e){
 			},timeOutLength)
 		})
 	})
+
+
+
+
+
 })
+

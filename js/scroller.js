@@ -116,6 +116,8 @@ function scroller() {
     // starting position relative to the top
     // of the first section.
     visPosition()
+    map.resize()
+
     sectionPositions = [];
     var startPos;
 
@@ -138,17 +140,24 @@ function scroller() {
       sectionPositions.push(top - startPos + drawerOffset);
     });
     containerStart = container.node().getBoundingClientRect().top + window.pageYOffset;
+
+    var dcMl = d3.select("#mapContainer").node().getBoundingClientRect().left - d3.select("#tt-dataContainer").node().getBoundingClientRect().left
+    d3.select("#tt-dataContainer").style("margin-left", dcMl + "px")
+
+
+
     dispatch.call('resized', this);
   }
 
   function fixHeader(){
-    if(! IS_MOBILE()){
+    if(! IS_MOBILE() && !IS_PHONE()){
       var headTop = d3.select("#exploreHeading").node().getBoundingClientRect().bottom;
-      // console.log(headTop)
       if(headTop < 0){
         d3.select("#tt-container").classed("fixed", true)
+        d3.selectAll(".radioContainer").classed("fixedFriend", true)
       }else{
         d3.select("#tt-container").classed("fixed", false)
+        d3.selectAll(".radioContainer").classed("fixedFriend", false)
       }
     }
   }
@@ -164,7 +173,7 @@ function scroller() {
             .classed("posRelBottom", true)
             .classed("posRelTop", false)
             .classed("posFixed", false)
-            .style("top", "inherit")
+            .style("top", "-1270px")
           d3.select("#sections")
             .style("z-index",90)
         }else{
@@ -246,7 +255,7 @@ function scroller() {
     fixVis();
     var sectionIndex = d3.bisect(sectionPositions, pos) - 1;
     sectionIndex = Math.max(0,Math.min(sections.size() -1, sectionIndex));
-
+    if(IS_PHONE() || IS_MOBILE()) sectionIndex -= 1;
     if (currentIndex !== sectionIndex) {
       // @v4 you now `.call` the dispatch callback
       dispatch.call('active', this, sectionIndex);

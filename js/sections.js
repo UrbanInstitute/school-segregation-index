@@ -61,8 +61,8 @@ var scrollVis = function () {
       // @v4 use merge to combine enter and existing selection
       // svg = svg.merge(svgE);
 
-      svg.attr('width', svgWidth + svgMargin.left + svgMargin.right);
-      svg.attr('height', svgHeight + svgMargin.top + svgMargin.bottom);
+      svg.attr('width', getVWidth("narrative") + svgMargin.left + svgMargin.right);
+      svg.attr('height', getVHeight("narrative") + svgMargin.top + svgMargin.bottom );
 
       svg.append('g');
 
@@ -74,13 +74,13 @@ var scrollVis = function () {
 
 
       svgChoose = d3.select("#narrativeChooseSchoolChartContainer").append('svg')
-      svgChoose.attr('width', svgWidth + svgMargin.left + svgMargin.right);
-      svgChoose.attr('height', svgHeight + svgMargin.top + svgMargin.bottom);
+      svgChoose.attr('width', getVWidth("narrative") + svgMargin.left + svgMargin.right);
+      svgChoose.attr('height', getVHeight("narrative") + svgMargin.top + svgMargin.bottom);
       svgChoose.append('g');
 
       svgExplore = d3.select("#exploreVChartContainer").append('svg')
-      svgExplore.attr('width', exploreVWidth + vExploreMargin.left + vExploreMargin.right);
-      svgExplore.attr('height', exploreVHeight + vExploreMargin.top + vExploreMargin.bottom);
+      svgExplore.attr('width', getVWidth("explore") + vExploreMargin.left + vExploreMargin.right);
+      svgExplore.attr('height', getVHeight("explore") + vExploreMargin.top + vExploreMargin.bottom + 120);
       svgExplore.append('g');
 
       g = svg.select('g')
@@ -120,15 +120,15 @@ var scrollVis = function () {
       var milwaukeeData = preprocessMilwaukeeData(rawData[0], rawData[2]);
       var schoolData = preprocessSchoolData(rawData[1], rawData[2])
       var allDistrictData = rawData[2]
+      var boundaries = rawData[3]
 
       bindGlobalData(milwaukeeData, schoolData, null, allDistrictData);
       setupVis(milwaukeeData, schoolData, null, allDistrictData);
       setupExploreVis(milwaukeeData, allDistrictData);
       setupSections(milwaukeeData, schoolData, null, allDistrictData);
-
-      setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
+      
       setSchoolTypes(ALL_SCHOOL_TYPES)
-      dispatch.call("dataLoad")
+      dispatch.call("dataLoad", null, boundaries)
 
     });
   };
@@ -211,6 +211,7 @@ var scrollVis = function () {
       .call(d3.axisBottom(x)
               .tickFormat(d3.format(".0%"))
               .tickSizeOuter(0)
+              .ticks(function(){ return (IS_PHONE()) ? 5 : 10})
             );
 
     gExplore.append("text")
@@ -221,22 +222,7 @@ var scrollVis = function () {
       .attr("class", "xaxis axis label x explore")
       .text("Black or Hispanic enrollment share")
 
-    var avgGExplore = gExplore.append("g")
-      .attr("class", "explore medianTextG")
-      .datum(districtMedian)
-      .attr("transform", "translate(" + (x(districtMedian) - 50) + "," + (svgHeight + 200) + ")")
 
-    avgGExplore.append("text")
-      .attr("class", "explore districtAverage label")
-      .text("District")
-      .attr("x",0)
-      .attr("y",0)
-
-    avgGExplore.append("text")
-      .attr("class", "explore districtAverage value")
-      .text(d3.format(".0%")(districtMedian) + " Black or Hispanic")
-      .attr("x",0)
-      .attr("y",20)
 
 
     gExplore.selectAll(".lollipop.explore")
@@ -275,18 +261,52 @@ var scrollVis = function () {
         })
         .style("opacity", V_SHOW_DOT_OPACITY)
 
+    gExplore.append("rect")
+      .attr("width", 155)
+      .attr("height", 40)
+      .attr("x", function(){
+        if(IS_PHONE()) return 40
+        else return x(districtMedian) - 60
+      })
+      .attr("y", 75-16)
+      .attr("class", "distAvgBg explore")
 
     gExplore.append("text")
       .attr("class", "exploreMedianText exploreMedianBottomText")
       .text("District")
-      .attr("x", x(districtMedian) - 60)
+      .attr("x", function(){
+        if(IS_PHONE()) return 40
+        else return x(districtMedian) - 60
+      })
       .attr("y", 75)
 
     gExplore.append("text")
       .attr("class", "exploreMedianText exploreMedianPercentText")
       .text(d3.format(".1%")(districtMedian) + " Black or Hispanic")
-      .attr("x", x(districtMedian) - 60)
+      .attr("x", function(){
+        if(IS_PHONE()) return 40
+        else return x(districtMedian) - 60
+      })
       .attr("y", 95)
+
+    var avgGExplore = gExplore.append("g")
+      .attr("class", "explore medianTextG")
+      .datum(districtMedian)
+      .attr("transform", "translate(" + (x(districtMedian) - 50) + "," + (svgHeight + 200) + ")")
+
+
+
+    avgGExplore.append("text")
+      .attr("class", "explore districtAverage label")
+      .text("District")
+      .attr("x",0)
+      .attr("y",0)
+
+    avgGExplore.append("text")
+      .attr("class", "explore districtAverage value")
+      .text(d3.format(".0%")(districtMedian) + " Black or Hispanic")
+      .attr("x",0)
+      .attr("y",20)
 
   }
 
@@ -352,25 +372,44 @@ var scrollVis = function () {
               break;
             }
           }
+
           // send response
+          if(rep.length == 0){
+              rep.push({
+                "label" : "<div class = 'noSchool'>Can&rsquo;t find your school? To focus only on districts that have enough schools and students to have a chance for integration, we don’t include districts that have fewer than two public schools serving the same grade, enroll fewer than 200 students, or are less than 5 percent Black or Hispanic.</div>",
+                "value": "noSchool",
+                "option": ""
+              });
+
+          }
           response( rep);
         },
         // minLength: 5,
         delay: 0,
         appendTo: "#narrativeChooseSchoolList",
+        focus: function(event, ui){
+          return false
+        },
         select: function(event, ui){
           // d3.select("#narrativeChooseSchoolInput").node().value = ui.label
           event.preventDefault()
           d3.select("#narrativeChooseSchoolInput").node().value = "Search for a school"
 
-          var schoolDatum = schoolData.filter(function(o){ return o.schoolId == ui.item.value })[0]
-          var districtData = schoolData.filter(function(o){ return o.districtId == schoolDatum.districtId && o.level == schoolDatum.level })
-          
           closeChooseMenu()
-          if(getChooseSchoolStatus() == "closed"){
-            toggleChooseSchool()
+
+          if(ui.item.value == "noSchool"){
+            return false
+          }else{
+            if(getChooseSchoolStatus() == "closed"){
+              toggleChooseSchool()
+            }
+
+            var schoolDatum = schoolData.filter(function(o){ return o.schoolId == ui.item.value })[0]
+            var districtData = schoolData.filter(function(o){ return o.districtId == schoolDatum.districtId && o.level == schoolDatum.level })
+            
+
+            setActiveDistrict(schoolDatum.districtId, schoolDatum.level, ui.item.value, "menu")
           }
-          setActiveDistrict(schoolDatum.districtId, schoolDatum.level, ui.item.value)
         }
 
       })
@@ -389,8 +428,9 @@ var scrollVis = function () {
 
     $( "#exploreSchoolInput" )
       .on("click", function(event, ui){
-      event.preventDefault()
-      d3.select("#exploreSchoolInput").node().value = ""
+        event.preventDefault();
+        event.stopPropagation();;
+        d3.select("#exploreSchoolInput").node().value = ""
       })
       .autocomplete({
         source: function( request, response ) {
@@ -433,23 +473,39 @@ var scrollVis = function () {
               break;
             }
           }
+          if(rep.length == 0){
+              rep.push({
+                "label" : "<div class = 'noSchool'>Can&rsquo;t find your school? To focus only on districts that have enough schools and students to have a chance for integration, we don’t include districts that have fewer than two public schools serving the same grade, enroll fewer than 200 students, or are less than 5 percent Black or Hispanic.</div>",
+                "value": "noSchool",
+                "option": ""
+              });
+
+          }
           // send response
           response( rep);
         },
         // minLength: 5,
         delay: 0,
         appendTo: "#exploreSchoolList",
+        focus: function(event, ui){
+          return false
+        },
         select: function(event, ui){
           // d3.select("#narrativeChooseSchoolInput").node().value = ui.label
           event.preventDefault()
           d3.select("#exploreSchoolInput").node().value = "Search for a school"
           d3.select("#exploreContainer").style("display", "block")
-
-          var schoolDatum = schoolData.filter(function(o){ return o.schoolId == ui.item.value })[0]
-          var districtData = schoolData.filter(function(o){ return o.districtId == schoolDatum.districtId && o.level == schoolDatum.level })
           closeExploreMenu()
 
-          setActiveDistrict(schoolDatum.districtId, schoolDatum.level, ui.item.value)
+          if(ui.item.value == "noSchool"){
+            return false
+          }else{
+
+            var schoolDatum = schoolData.filter(function(o){ return o.schoolId == ui.item.value })[0]
+            var districtData = schoolData.filter(function(o){ return o.districtId == schoolDatum.districtId && o.level == schoolDatum.level })
+            
+            setActiveDistrict(schoolDatum.districtId, schoolDatum.level, ui.item.value, "menu")
+          }
         }
       })
       .data("ui-autocomplete")._renderItem = function( ul, item ) {
@@ -488,6 +544,8 @@ var scrollVis = function () {
     var vMargins = getVMargins("narrative")
     var chartPos = getRelativeChartPositions("narrative")
 
+    console.log(-vW+vMargins.left)
+
     g.append("line")
       .attr("class", "milwaukee medianLine narrative")
       .attr("x1", x(TAMARACK_MEDIAN))
@@ -508,12 +566,14 @@ var scrollVis = function () {
       .text("Segregation Contribution Index")
       .style("opacity",0)
 
+    var tickCount = (IS_PHONE()) ? 5 : 10
     g.append("g")
       .attr("class", "narrative v milwaukee x axis")
       .attr("transform", "translate(0," + (getVHeight("narrative",1)) + ")")
       .call(d3.axisBottom(x)
-        .tickFormat(d3.format(".0%"))
+        // .tickFormat(d3.format(".0%"))
         .tickSizeOuter(0)
+        .ticks(tickCount,".0%")
       )
 
     g.append("text")
@@ -528,6 +588,12 @@ var scrollVis = function () {
       .attr("class", "milwaukee medianTextG narrative")
       .datum(TAMARACK_MEDIAN)
       .attr("transform", "translate(" + (x(TAMARACK_MEDIAN) - 50) + "," + (svgHeight + 200) + ")")
+
+    avgG.append("rect")
+      .attr("width", 155)
+      .attr("height", 40)
+      .attr("y", -16)
+      .attr("class", "distAvgBg narrative")
 
     avgG.append("text")
       .attr("class", "milwaukee districtAverage label narrative")
@@ -619,9 +685,11 @@ var scrollVis = function () {
       .attr("y", 21)
       .text("50% of SCI")
 
+    var dlup = (IS_PHONE()) ? -.05 : .17;
+    var dlupy = (IS_PHONE()) ? 429.5 : 479.5;
     var underPop = g.append("g")
       .attr("class", "directLabel under pop")
-      .attr("transform", "translate(" + x(.17) + "," + 479.5 + ")")
+      .attr("transform", "translate(" + x(dlup) + "," + dlupy + ")")
       .style("opacity",0)
     
     underPop.append("rect")
@@ -641,9 +709,11 @@ var scrollVis = function () {
       .attr("y", 21)
       .text("29% of students, 52 schools")
 
+    var dlop = (IS_PHONE()) ? .13 : .7;
+    var dlopy = (IS_PHONE()) ? 372.5 : 452.5;
     var overPop = g.append("g")
       .attr("class", "directLabel over pop")
-      .attr("transform", "translate(" + x(.7) + "," + 452.5 + ")")
+      .attr("transform", "translate(" + x(dlop) + "," + dlopy + ")")
       .style("opacity",0)
     
     overPop.append("rect")
@@ -674,7 +744,7 @@ var scrollVis = function () {
     tamarackDot.node().parentNode.appendChild(tdClone)
     tamarackDot.node().parentNode.appendChild(tlClone)
 
-    setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID)
+    setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID, "load")
     setSchoolTypes(ALL_SCHOOL_TYPES)
   };
 
@@ -720,11 +790,21 @@ var scrollVis = function () {
 
   function showChooseSchool(){
 
+    var drawerHeight;
+    if(IS_MOBILE()){
+      drawerHeight = window.innerHeight - 120
+    }
+    else if(IS_PHONE()){
+      drawerHeight = 0
+    }else{
+      drawerHeight = window.innerHeight * .5 - 25
+    }
+
     svg.transition()
       .style("margin-top", "-130px")
 
     if(activeIndex == 1){
-      var containerHeight = (getChooseSchoolStatus() == "open") ? (window.innerHeight * .5 - 25) + "px" : "150px"
+      var containerHeight = (getChooseSchoolStatus() == "open") ? (drawerHeight) + "px" : "150px"
 
       svg.transition()
         .style("margin-top",(getChooseSchoolStatus() == "open") ?  "0px" : "-130px")
@@ -743,7 +823,7 @@ var scrollVis = function () {
       svg.transition()
         .style("margin-top","0px")
       
-      var containerHeight = (getChooseSchoolStatus() == "open") ? (window.innerHeight * .5 - 25) + "px" : "50px"
+      var containerHeight = (getChooseSchoolStatus() == "open") ? (drawerHeight) + "px" : "50px"
       
       d3.select("#narrativeChooseSchoolContainer")
         .classed("hidden",false)
@@ -772,12 +852,23 @@ var scrollVis = function () {
     closeChooseMenu()
     
     var drawer = d3.select("#narrativeChooseSchoolContainer"),
-        arrow = d3.select("#narrativeChooseSchoolArrow")
+        arrow = d3.select("#narrativeChooseSchoolArrow img")
     
+    if(IS_MOBILE()){
+      drawerHeight = window.innerHeight - 120
+    }
+    else if(IS_PHONE()){
+      drawerHeight = 0
+    }else{
+      drawerHeight = window.innerHeight * .5 - 25
+    }
+
+
     if(drawer.classed("hidden")){
       return false;
     }
     if( (drawer.classed("open") && action != "open") || action == "close"){
+      d3.select("#narrativeChooseSchoolTextContainer").style("opacity",0)
       svgChoose.style("opacity",0)
       drawer
         .classed("open", false)
@@ -793,9 +884,10 @@ var scrollVis = function () {
       unsquishCharts("toggle");
     }
     else if( (drawer.classed("open") == false && action != "close") || action == "open"){
+      d3.select("#narrativeChooseSchoolTextContainer").style("opacity",1)
       svgChoose.style("opacity",1)
       
-      var containerHeight = (window.innerHeight * .5 - 25) + "px";
+      var containerHeight = (drawerHeight) + "px";
       
       drawer
         .classed("open", true)
@@ -813,7 +905,13 @@ var scrollVis = function () {
     dispatch.call("reset")
   }
 
-  d3.select("#narrativeChooseSchoolArrow").on("click", toggleChooseSchool)
+  d3.select("#narrativeChooseSchoolArrow").on("click",function(){
+    if(d3.selectAll(".dot.choose").data().length == 0){
+      return false
+    }else{
+      toggleChooseSchool()
+    }
+  })
 
   function unsquishCharts(trigger){
     var   data = d3.selectAll(".milwaukee.dot").data(),
@@ -925,7 +1023,10 @@ var scrollVis = function () {
 
     d3.selectAll(".medianTextG")
       .transition()
-        .attr("transform", function(d){ return "translate(" + (x(d) - 50) + "," + (height + 200) + ")" })
+        .attr("transform", function(d){
+          if(IS_PHONE()) return "translate(" + (x(d) - 80) + "," + (height + 200) + ")"
+          else return "translate(" + (x(d) - 50) + "," + (height + 200) + ")"
+        })
 
     d3.selectAll(".lollipop" + chartSelector)
       .transition()
@@ -964,7 +1065,10 @@ var scrollVis = function () {
 
     d3.selectAll(".medianTextG")
       .transition()
-        .attr("transform", function(d){ return "translate(" + (x(d) - 50) + "," + chartPos.lowM + ")" })
+        .attr("transform", function(d){
+          if(IS_PHONE()) return "translate(" + (x(d) - 80) + "," + chartPos.lowM + ")"
+          return "translate(" + (x(d) - 50) + "," + chartPos.lowM + ")"
+        })
 
     d3.selectAll(".lollipop"  + chartSelector)
       .transition()
@@ -1040,7 +1144,10 @@ var scrollVis = function () {
 
     d3.selectAll(".medianTextG")
       .transition()
-        .attr("transform", function(d){ return "translate(" + (x(d) - 50) + "," + chartPos.lowM + ")" })
+        .attr("transform", function(d){
+          if(IS_PHONE()) return "translate(" + (x(d) - 80) + "," + chartPos.lowM + ")"
+          return "translate(" + (x(d) - 50) + "," + chartPos.lowM + ")"
+        })
 
     d3.selectAll(".lollipop" + chartSelector)
       .transition()
@@ -1087,6 +1194,9 @@ var scrollVis = function () {
         .transition()
         .delay(300)
         .duration(1000)
+          .attr("x1", function(d) { return x(d.minority_percent); })
+          .attr("x2", function(d) { return x(d.minority_percent); })
+          .style("stroke-width", "1px")
           .attr("y1", function(d){
             return (d3.select(this).classed("choose")) ? yC(0) : y(0)
           })
@@ -1113,6 +1223,9 @@ var scrollVis = function () {
           .attr("y2", function(d){
             return (d3.select(this).classed("choose")) ? yC(d.normSci)+ NARRATIVE_DOT_SCALAR*Math.sqrt(d.pop) : y(d.normSci)+ NARRATIVE_DOT_SCALAR*Math.sqrt(d.pop)
           })
+          .attr("x1", function(d) { return x(d.minority_percent); })
+          .attr("x2", function(d) { return x(d.minority_percent); })
+          .style("stroke-width", "1px")
     }
 
     d3.selectAll(".v.y.axis")
@@ -1139,11 +1252,17 @@ var scrollVis = function () {
         .delay(1000)
         .duration(400)
         .ease(d3.easeLinear)
-          .attr("transform", function(d){ return "translate(" + (x(d) - 50) + "," + chartPos.highM + ")"})
+          .attr("transform", function(d){
+            if(IS_PHONE()) return "translate(" + (x(d) - 80) + "," + chartPos.highM + ")"
+            else return "translate(" + (x(d) - 50) + "," + chartPos.highM + ")"
+          })
           .transition()
           .duration(200)
             .ease(d3.easeLinear)
-            .attr("transform", function(d){ return "translate(" + (x(d) + 10) + "," + chartPos.highM + ")"})
+            .attr("transform", function(d){
+              if(IS_PHONE()) return "translate(" + (x(d) - 80) + "," + chartPos.highM + ")"
+              else return "translate(" + (x(d) + 10) + "," + chartPos.highM + ")"
+            })
     }else{
       d3.selectAll(".milwaukee.medianTextG")
         .transition()
@@ -1159,6 +1278,7 @@ var scrollVis = function () {
     showChooseSchool()
     
     var y = getVY("narrative", 5, milwaukeeData);
+    var x = getVX("narrative");
     var vW = getVWidth("narrative");
     var chartPos = getRelativeChartPositions("narrative",5)
     var margins = getVMargins("narrative")
@@ -1219,6 +1339,10 @@ var scrollVis = function () {
           .attr("y2", function(d){
             return (d3.select(this).classed("choose")) ? yC(d.sci) + NARRATIVE_DOT_SCALAR*Math.sqrt(d.pop): y(d.sci)+ NARRATIVE_DOT_SCALAR*Math.sqrt(d.pop)
           })
+          .attr("x1", function(d) { return x(d.minority_percent); })
+          .attr("x2", function(d) { return x(d.minority_percent); })
+          .style("stroke-width", "1px")
+
     }else{
       d3.selectAll(".dot" + chartSelector)
         .transition()
@@ -1239,6 +1363,9 @@ var scrollVis = function () {
           .attr("y2", function(d){
             return (d3.select(this).classed("choose")) ? yC(d.sci) + NARRATIVE_DOT_SCALAR*Math.sqrt(d.pop): y(d.sci)+ NARRATIVE_DOT_SCALAR*Math.sqrt(d.pop)
           })
+          .attr("x1", function(d) { return x(d.minority_percent); })
+          .attr("x2", function(d) { return x(d.minority_percent); })
+          .style("stroke-width", "1px")
     }
     updateChooseText(activeIndex)
   }
@@ -1419,7 +1546,7 @@ var scrollVis = function () {
   }
 
   function lastSection(){
-    setActiveDistrict(getActiveDistrict(), getLevel(), getActiveSchool())
+    setActiveDistrict(getActiveDistrict(), getLevel(), getActiveSchool(), "scroll")
   }
 
   /**
@@ -1547,16 +1674,18 @@ function display(rawData) {
   // setup event handling
   scroll.on('active', function (index) {
     // highlight current step text
-    var offOpacity = (IS_MOBILE()) ? 1 : .1
+    var offOpacity = (IS_MOBILE() || IS_PHONE()) ? 1 : .1
     d3.selectAll('.step')
-      .style('opacity', function (d, i) { return i === index ? 1 : offOpacity; });
+      .style('opacity', function (d, i) {
+        return (i === index) ? 1 : offOpacity;
+      });
     // activate current section
     plot.activate(index);
 
   });
 
 }
-const dataFiles = ["data/charts/csv/wi_schools.csv", "data/charts/csv/all_schools.csv", "data/charts/json/all_districts.json"];
+const dataFiles = ["data/charts/csv/wi_schools.csv", "data/charts/csv/all_schools.csv", "data/charts/json/all_districts.json", "data/mapping/schoolDistricts/boundaries/boundaries.csv"];
 const promises = [];
 
 dataFiles.forEach(function(url, index) {

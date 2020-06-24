@@ -1,5 +1,6 @@
 function SEEB(data){
   d3.selectAll(".exploreBeeHide").transition().duration(2500).style("opacity",1)  
+  d3.select("#beeLegend").transition().duration(2500).style("opacity",0)  
 
   var x = getVX("explore");
   var y = getVY("explore", 1, data);
@@ -21,7 +22,8 @@ function BEES(data, section){
       numberOfNodes = data.length;
 
   if(section == "explore"){
-    d3.selectAll(".exploreBeeHide").transition().duration(2500).style("opacity",0)  
+    d3.selectAll(".exploreBeeHide").transition().duration(2500).style("opacity",0)
+    d3.select("#beeLegend").transition().duration(2500).style("opacity",1)
   }else{
     d3.selectAll(".beeHide").style("opacity",0)  
   }
