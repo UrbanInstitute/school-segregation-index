@@ -111,7 +111,7 @@ for rowList in sourceReader:
     if dist in distsDict:
         rowList[distIndex] = distsDict[dist]
     else:
-        if(dist.find("District") == -1):
+        if(dist.title().find("District") == -1):
             rowList[distIndex] = dist.title() + " School District"
         else:
             rowList[distIndex] = dist.title()
