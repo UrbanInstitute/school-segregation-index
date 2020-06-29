@@ -113,7 +113,7 @@ var scrollVis = function () {
         .attr("in", filterId)
       feMerge.append("feMergeNode")
         .attr("in", filterId)
-      
+
 
 
       // perform some preprocessing on raw data
@@ -126,7 +126,7 @@ var scrollVis = function () {
       setupVis(milwaukeeData, schoolData, null, allDistrictData);
       setupExploreVis(milwaukeeData, allDistrictData);
       setupSections(milwaukeeData, schoolData, null, allDistrictData);
-      
+
       setSchoolTypes(ALL_SCHOOL_TYPES)
       dispatch.call("dataLoad", null, boundaries)
 
@@ -406,7 +406,7 @@ var scrollVis = function () {
 
             var schoolDatum = schoolData.filter(function(o){ return o.schoolId == ui.item.value })[0]
             var districtData = schoolData.filter(function(o){ return o.districtId == schoolDatum.districtId && o.level == schoolDatum.level })
-            
+
 
             setActiveDistrict(schoolDatum.districtId, schoolDatum.level, ui.item.value, "menu")
           }
@@ -503,7 +503,7 @@ var scrollVis = function () {
 
             var schoolDatum = schoolData.filter(function(o){ return o.schoolId == ui.item.value })[0]
             var districtData = schoolData.filter(function(o){ return o.districtId == schoolDatum.districtId && o.level == schoolDatum.level })
-            
+
             setActiveDistrict(schoolDatum.districtId, schoolDatum.level, ui.item.value, "menu")
           }
         }
@@ -511,7 +511,7 @@ var scrollVis = function () {
       .data("ui-autocomplete")._renderItem = function( ul, item ) {
         //custom render function, adds classes to disable/custom style "more schools" option
         var maxSizeClass = (item.value == "maxRepSizeReached") ? " maxRepSizeReached ui-state-disabled" : ""
-        
+
         return $( "<li>" )
           .addClass("ui-menu-item" + maxSizeClass)
           .append( "<div class = \"ui-menu-item-wrapper" + maxSizeClass + "\">" + item.label + "</div>" )
@@ -533,7 +533,7 @@ var scrollVis = function () {
   var setupVis = function (milwaukeeData, schoolData, mapData, allDistrictData) {
 
     buildAutocompletes(schoolData, allDistrictData)
-    
+
     g.append("text")
       .attr("id", "placeholderText")
 
@@ -598,7 +598,7 @@ var scrollVis = function () {
     avgG.append("text")
       .attr("class", "milwaukee districtAverage label narrative")
       .html("District")
-      .attr("x",0) 
+      .attr("x",0)
       .attr("y",0)
 
     avgG.append("text")
@@ -657,13 +657,13 @@ var scrollVis = function () {
       .attr("class", "directLabel over sci")
       .attr("transform", "translate(" + x(.34) + "," + 139.5 + ")")
       .style("opacity",0)
-    
+
     overSci.append("rect")
       .attr("width", 73)
       .attr("height",2)
       .attr("x", 17)
       .attr("y", 25)
-    
+
     overSci.append("text")
       .attr("x", 19)
       .attr("y", 21)
@@ -673,13 +673,13 @@ var scrollVis = function () {
       .attr("class", "directLabel under sci")
       .attr("transform", "translate(" + x(.34) + "," + 329.5 + ")")
       .style("opacity",0)
-    
+
     underSci.append("rect")
       .attr("width", 73)
       .attr("height",2)
       .attr("x", 17)
       .attr("y", 25)
-    
+
     underSci.append("text")
       .attr("x", 19)
       .attr("y", 21)
@@ -691,7 +691,7 @@ var scrollVis = function () {
       .attr("class", "directLabel under pop")
       .attr("transform", "translate(" + x(dlup) + "," + dlupy + ")")
       .style("opacity",0)
-    
+
     underPop.append("rect")
       .attr("width", 175)
       .attr("height",2)
@@ -703,7 +703,7 @@ var scrollVis = function () {
       .attr("x", 19)
       .attr("y", 21)
       .text("29% of students, 52 schools")
-    
+
     underPop.append("text")
       .attr("x", 19)
       .attr("y", 21)
@@ -715,13 +715,13 @@ var scrollVis = function () {
       .attr("class", "directLabel over pop")
       .attr("transform", "translate(" + x(dlop) + "," + dlopy + ")")
       .style("opacity",0)
-    
+
     overPop.append("rect")
       .attr("width", 183)
       .attr("height",2)
       .attr("x", 17)
       .attr("y", 25)
-    
+
     overPop.append("text")
       .attr("class", "explore textShadow")
       .attr("x", 19)
@@ -817,20 +817,20 @@ var scrollVis = function () {
       d3.select("#narrativeChooseSchoolList")
         .classed("open", (getChooseSchoolStatus() == "open"))
         .classed("teaser", !(getChooseSchoolStatus() == "open"))
-      
+
       dispatch.call("reset")
     }else{
       svg.transition()
         .style("margin-top","0px")
-      
+
       var containerHeight = (getChooseSchoolStatus() == "open") ? (drawerHeight) + "px" : "50px"
-      
+
       d3.select("#narrativeChooseSchoolContainer")
         .classed("hidden",false)
         .classed("teaser",false)
         .transition()
           .style("height", containerHeight)
-      
+
       dispatch.call("reset")
     }
 
@@ -839,21 +839,21 @@ var scrollVis = function () {
   function hideChooseSchool(){
     closeChooseMenu()
     unsquishCharts("narrative")
-    
+
     d3.select("#narrativeChooseSchoolContainer")
       .classed("hidden",true)
       .classed("teaser",false)
       .transition()
         .style("height", "0px")
-    
+
     dispatch.call("reset")
   }
   function toggleChooseSchool(action){
     closeChooseMenu()
-    
+
     var drawer = d3.select("#narrativeChooseSchoolContainer"),
         arrow = d3.select("#narrativeChooseSchoolArrow img")
-    
+
     if(IS_MOBILE()){
       drawerHeight = window.innerHeight - 120
     }
@@ -874,11 +874,11 @@ var scrollVis = function () {
         .classed("open", false)
         .transition()
         .style("height", "50px")
-      
+
       arrow
         .transition()
         .style("transform","rotate(0deg)")
-      
+
       d3.select("#narrativeChooseSchoolList").classed("open", false).classed("teaser", false)
 
       unsquishCharts("toggle");
@@ -886,14 +886,14 @@ var scrollVis = function () {
     else if( (drawer.classed("open") == false && action != "close") || action == "open"){
       d3.select("#narrativeChooseSchoolTextContainer").style("opacity",1)
       svgChoose.style("opacity",1)
-      
+
       var containerHeight = (drawerHeight) + "px";
-      
+
       drawer
         .classed("open", true)
         .transition()
           .style("height", containerHeight)
-      
+
       arrow
         .transition()
         .style("transform","rotate(180deg)")
@@ -943,7 +943,7 @@ var scrollVis = function () {
       .attr("y1", chartPos.y1)
 
     if(trigger == "toggle"){
-      activateFunctions[activeIndex]("squish")  
+      activateFunctions[activeIndex]("squish")
     }
   }
 
@@ -1008,7 +1008,7 @@ var scrollVis = function () {
     var chartPos = getRelativeChartPositions("narrative",1)
     var x = getVX("narrative");
     var y = getVY("narrative", 1, milwaukeeData);
-    
+
     d3.selectAll(".dot.narrative")
       .transition()
         .attr("r", function(d){
@@ -1095,7 +1095,7 @@ var scrollVis = function () {
 
       d3.selectAll(".dot.narrative.highlight")
         .attr("cy", chartPos.dot)
-      
+
       d3.selectAll(".dot.narrative:not(.highlight)")
         .attr("cy", chartPos.dot)
         .attr("r",0)
@@ -1111,7 +1111,7 @@ var scrollVis = function () {
       if(dLength > 0){
         d3.selectAll(".dot.narrative.choose.highlight")
           .attr("cy", chartPos.dot)
-        
+
         d3.selectAll(".dot.narrative.choose:not(.highlight)")
         .attr("cy", chartPos.dot)
         .attr("r",0)
@@ -1161,7 +1161,7 @@ var scrollVis = function () {
       .transition()
       .delay(1300)
         .style("opacity",0)
-    
+
     d3.selectAll(".y.axis.label.main")
       .transition()
       .delay(1300)
@@ -1276,7 +1276,7 @@ var scrollVis = function () {
   function scaleDotsByPopulation(milwaukeeData, chartData, mapData,allDistrictData,trigger){
     var chartSelector = getChartSelector(trigger)
     showChooseSchool()
-    
+
     var y = getVY("narrative", 5, milwaukeeData);
     var x = getVX("narrative");
     var vW = getVWidth("narrative");
@@ -1310,7 +1310,7 @@ var scrollVis = function () {
     d3.select(".narrative.v.milwaukee.x.axis")
       .transition()
         .attr("transform", "translate(0," + (getVHeight("narrative",5)) + ")")
-    
+
     d3.select(".xaxis.axis.label.x.main.narrative")
       .transition()
         .attr("y", (getVHeight("narrative",5) - margins.bottom + 80))
@@ -1519,7 +1519,7 @@ var scrollVis = function () {
       .transition()
       .duration(500)
         .style("opacity",0)
-    
+
     d3.select(".milwaukee.medianTextG")
       .transition()
       .duration(500)
@@ -1581,6 +1581,11 @@ var scrollVis = function () {
       })
       .sort(function(a, b){ return (a.minority_percent < b.minority_percent) ? -1 : 1 })
       .filter(function(o){ return o.level == DEFAULT_LEVEL })
+
+    // var minMax = d3.extent(milwaukeeData, function(d){ return d.pop }),
+    //   minRadius = NARRATIVE_DOT_SCALAR*Math.sqrt(minMax[0]),
+    //   maxRadius = NARRATIVE_DOT_SCALAR*Math.sqrt(minMax[1])
+    //   console.log("min & max radius: " + minRadius + " " + maxRadius)
   }
 
   function preprocessSchoolData(schoolData, allDistrictData){
