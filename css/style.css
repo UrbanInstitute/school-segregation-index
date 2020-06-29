@@ -1522,6 +1522,11 @@ footer p{
     margin-left: 0px;
     top: -70px !important;
   }
+  #narrativeChooseSchoolList.open ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front{
+    top: unset !important;
+    bottom: calc(-50vh - 198px) !important;
+  }
+
   #narrativeChooseSchoolTextContainer{
     width: calc(100% - 80px);
     opacity: 0;

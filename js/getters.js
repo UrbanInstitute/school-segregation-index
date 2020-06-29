@@ -37,12 +37,16 @@ function getVHeight(section, index){
     if(section == "explore"){
       baseH = window.innerHeight - 100
     }
+    else if(
+      section == "choose" ||
+      (section == "narrative" && getChooseSchoolStatus() == "open" && index <= 5)
+      ){
+      baseH  = window.innerHeight - 350;
+    }
     else if(section == "narrative"){
       baseH = window.innerHeight - 100
     }
-    else if(section == "choose"){
-      baseH  = window.innerHeight - 350;
-    }
+
   }
   
   
@@ -54,6 +58,7 @@ function getRelativeChartPositions(section, index){
   scalar = (chooseSchoolStatus == "closed" || index > 5) ? .4 : .45;
 
   var vH = getVHeight(section, index)
+  // console.log(section, index, vH)
   return {"y1": vH , "y2": vH *.5, "y3": vH * scalar, "dot": vH - 20, "hide" : - 50, "lowM": vH * .5 - 30, "highM": vH * scalar + 10}
 }
 function getVMargins(section){
