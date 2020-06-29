@@ -250,6 +250,19 @@ function scroller() {
   *
   */
   function position() {
+    console.log()
+
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop, 
+        scrollTarget = d3.select(".headerimage").node().getBoundingClientRect().height + d3.select("#topText").node().getBoundingClientRect().height - 300  
+        // if any scroll is attempted, set this to the previous value 
+      // window.onscroll = function() { 
+        // }; 
+    if(scrollTop >= scrollTarget && d3.select("#loadingGif").style("display") != "none"){
+      window.scrollTo(0, scrollTarget)
+    }
+
+
+
     visPosition()
     var pos = window.pageYOffset - 100 - containerStart ;
     fixVis();
@@ -268,6 +281,7 @@ function scroller() {
     d3.selectAll("#exploreSchoolList ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li").remove()
     d3.selectAll("#narrativeChooseSchoolList ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li").remove()
     // @v4 you now `.call` the dispatch callback
+
   }
 
   /**

@@ -2,7 +2,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZ
 
 var map = new mapboxgl.Map({
 	container: 'mapContainer',
-	style: 'mapbox://styles/urbaninstitute/ckaycex1c07uq1ipe0tin2xni/draft',
+	style: 'mapbox://styles/urbaninstitute/ckaycex1c07uq1ipe0tin2xni',
 	center: DEFAULT_MAP_CENTER,
 	zoom: DEFAULT_MAP_ZOOM,
 	minZoom: 6
@@ -128,14 +128,7 @@ function clickOnSchool(e){
 
 //use a setTimeOut bc I'm a hack and need to wait for level
 //and schooltype setters to fire
-dispatch.on("dataLoad", function(boundaries){
-	//turn on mouse handlers for default layers
-	defaultLayers = getActiveLayers();
-	
-	for (var i = 0; i < defaultLayers.length; i++){
-		map.on('mouseenter', defaultLayers[i], hoverOnSchool)
-		map.on('click', defaultLayers[i], clickOnSchool)		
-	}
+function continueLoad(){
 	d3.selectAll(".loadHide").classed("loadHide", false)
 	d3.select("#loadingGif")
 		.transition()
@@ -145,7 +138,29 @@ dispatch.on("dataLoad", function(boundaries){
 			setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID, "load")		
 			setActiveSchool()
 		})
+}
+function waitForLoad(){
+	console.log("waiting")
+	if(map.loaded()) continueLoad()
+	else setTimeout(waitForLoad, 300)
+}
+
+var boundaries;
+dispatch.on("dataLoad", function(bs){
+	boundaries = bs;
+	//turn on mouse handlers for default layers
+	defaultLayers = getActiveLayers();
+	
+	for (var i = 0; i < defaultLayers.length; i++){
+		map.on('mouseenter', defaultLayers[i], hoverOnSchool)
+		map.on('click', defaultLayers[i], clickOnSchool)		
+	}
+	// console.log(map.loaded())
+	waitForLoad()
+
+
 	// changeDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID, "load")
+})
 
 	map.on("load", function(e){
 		map.resize()
@@ -161,6 +176,98 @@ dispatch.on("dataLoad", function(boundaries){
 			return o.id == geoid
 		})[0]
 
+
+		dispatch.on("changeDistrict", function(districtId, level, schoolId, eventType){
+			if(typeof(districtId) == "undefined") return false
+			console.log("c")
+			map.resize()
+			//handle events for non map charts (see events.js)
+			changeDistrict(districtId, level, schoolId, eventType)
+
+			//get the boundaries for the new district
+			var boundary = boundaries.filter(function(o){ return o.geoid == districtId})[0]
+
+			//hide/set inactive the currently selected district
+			var f1 = map.queryRenderedFeatures({layer: "schooldistricts-fill"}).filter(function(o){
+				return o.id == geoid
+			})
+			for(var i = 0; i < f1.length; i++){
+				map.setFeatureState(f1[i], { "active": false })
+			}
+			var fs1 = map.queryRenderedFeatures({layer: "schooldistricts-stroke"}).filter(function(o){
+				return o.id == geoid
+			})
+			for(var i = 0; i < fs1.length; i++){
+				map.setFeatureState(fs1[i], { "active": false })
+			}
+
+			//now set new geoid
+			geoid = boundary["geoid"]
+
+			//hide overlay white layer while zooming, to get a sense
+			//of movement/change in location within US
+			map.setLayoutProperty('schooldistricts-fill', 'visibility', 'none');
+
+
+			//Nice built in function (thanks, Mapbox!) to flyTo new location, based
+			var timeOutLength;
+			if(eventType == "clickLevel" || eventType == "scroll" || eventType == "load"){
+				timeOutLength = 0;
+			}
+			else if(eventType != "mapclick"){
+				timeOutLength = 3000;
+				map.fitBounds(
+					[
+						[boundary.lon1, boundary.lat1],
+						[boundary.lon2, boundary.lat2],
+					],
+					{
+						"padding": {"top": 10, "bottom":25, "left": 10, "right": 10}, // padding around district, a bit more on bottom to accomodate logo
+						"duration": 4000,
+						"essential": true, // If true , then the animation is considered essential and will not be affected by prefers-reduced-motion .
+						"minZoom": 0 // don't hit the minZoom 6 ceiling for the map, so for large distances the flyTo arc isn't truncated
+					}
+				);
+			}else{
+				timeOutLength = 2000;
+				map.fitBounds(
+					[
+						[boundary.lon1, boundary.lat1],
+						[boundary.lon2, boundary.lat2],
+					],
+					{
+						"padding": {"top": 10, "bottom":25, "left": 10, "right": 10}, // padding around district, a bit more on bottom to accomodate logo
+						"duration": 1000,
+						"linear": true,
+						"essential": true, // If true , then the animation is considered essential and will not be affected by prefers-reduced-motion .
+						"minZoom": 0 // don't hit the minZoom 6 ceiling for the map, so for large distances the flyTo arc isn't truncated
+					}
+				);
+
+			}
+			isTransitioning = true;
+			//as flyTo is finishing, set new district state to active/visible
+			setTimeout(function(){
+				//add the overlay layer back
+				map.setLayoutProperty('schooldistricts-fill', 'visibility', 'visible');
+
+				//show/set active the new district
+				var f2 = map.queryRenderedFeatures({"source": "composite", "layer": "schooldistricts-fill"}).filter(function(o){
+					return o.id == geoid
+				})
+				for(var i = 0; i < f2.length; i++){
+					map.setFeatureState(f2[i], { "active": true })
+				}
+				var fs2 = map.queryRenderedFeatures({"layer": "schooldistricts-stroke"}).filter(function(o){
+					return o.id == geoid
+				})
+				for(var i = 0; i < fs2.length; i++){
+					map.setFeatureState(fs2[i], { "active": true })
+				}
+				isTransitioning = false;
+
+			},timeOutLength)
+		})
 
 
 		//dispatch handlers for mapping events are here, since they need to be defined after
@@ -345,101 +452,7 @@ dispatch.on("dataLoad", function(boundaries){
 		//and stored in lightweight csv.
 		//Dispatch handler inside d3 promise, in order to get district boundaries
 		// console.log()
-		dispatch.on("changeDistrict", function(districtId, level, schoolId, eventType){
-			console.log("c")
-			//handle events for non map charts (see events.js)
-			changeDistrict(districtId, level, schoolId, eventType)
 
-			//get the boundaries for the new district
-			var boundary = boundaries.filter(function(o){ return o.geoid == districtId})[0]
-
-			//hide/set inactive the currently selected district
-			var f1 = map.queryRenderedFeatures({layer: "schooldistricts-fill"}).filter(function(o){
-				return o.id == geoid
-			})
-			for(var i = 0; i < f1.length; i++){
-				map.setFeatureState(f1[i], { "active": false })
-			}
-			var fs1 = map.queryRenderedFeatures({layer: "schooldistricts-stroke"}).filter(function(o){
-				return o.id == geoid
-			})
-			for(var i = 0; i < fs1.length; i++){
-				map.setFeatureState(fs1[i], { "active": false })
-			}
-
-			//now set new geoid
-			geoid = boundary["geoid"]
-
-			//hide overlay white layer while zooming, to get a sense
-			//of movement/change in location within US
-			map.setLayoutProperty('schooldistricts-fill', 'visibility', 'none');
-
-
-			//Nice built in function (thanks, Mapbox!) to flyTo new location, based
-			var timeOutLength;
-			if(eventType == "clickLevel"){
-				console.log("sadfasdf")
-				timeOutLength = 0;
-			}
-			else if(eventType != "mapclick"){
-				timeOutLength = 3000;
-				map.fitBounds(
-					[
-						[boundary.lon1, boundary.lat1],
-						[boundary.lon2, boundary.lat2],
-					],
-					{
-						"padding": {"top": 10, "bottom":25, "left": 10, "right": 10}, // padding around district, a bit more on bottom to accomodate logo
-						"duration": 4000,
-						"essential": true, // If true , then the animation is considered essential and will not be affected by prefers-reduced-motion .
-						"minZoom": 0 // don't hit the minZoom 6 ceiling for the map, so for large distances the flyTo arc isn't truncated
-					}
-				);
-			}else{
-				timeOutLength = 2000;
-				map.fitBounds(
-					[
-						[boundary.lon1, boundary.lat1],
-						[boundary.lon2, boundary.lat2],
-					],
-					{
-						"padding": {"top": 10, "bottom":25, "left": 10, "right": 10}, // padding around district, a bit more on bottom to accomodate logo
-						"duration": 1000,
-						"linear": true,
-						"essential": true, // If true , then the animation is considered essential and will not be affected by prefers-reduced-motion .
-						"minZoom": 0 // don't hit the minZoom 6 ceiling for the map, so for large distances the flyTo arc isn't truncated
-					}
-				);
-
-			}
-			isTransitioning = true;
-			//as flyTo is finishing, set new district state to active/visible
-			setTimeout(function(){
-				//add the overlay layer back
-				map.setLayoutProperty('schooldistricts-fill', 'visibility', 'visible');
-
-				//show/set active the new district
-				var f2 = map.queryRenderedFeatures({"source": "composite", "layer": "schooldistricts-fill"}).filter(function(o){
-					return o.id == geoid
-				})
-				for(var i = 0; i < f2.length; i++){
-					map.setFeatureState(f2[i], { "active": true })
-				}
-				var fs2 = map.queryRenderedFeatures({"layer": "schooldistricts-stroke"}).filter(function(o){
-					return o.id == geoid
-				})
-				for(var i = 0; i < fs2.length; i++){
-					map.setFeatureState(fs2[i], { "active": true })
-				}
-				isTransitioning = false;
-
-			},timeOutLength)
-		})
 	})
 
-
-
-
-
-})
 

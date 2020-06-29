@@ -195,7 +195,7 @@ var scrollVis = function () {
       .attr("transform", "translate(" + vMargins.left + ",0)")
       .call(d3.axisLeft(y)
               .tickSize([-vW + vMargins.left])
-              .tickFormat(d3.format(".1%"))
+              // .tickFormat(d3.format(".1%"))
               .tickPadding(10)
             )
 
@@ -205,13 +205,14 @@ var scrollVis = function () {
       .attr("y", vMargins.top + 20)
       .text("Segregation Contribution Index")
 
+    var tickCount = (IS_PHONE()) ? 5 : 10
     gExplore.append("g")
       .attr("class", "v explore x axis")
       .attr("transform", "translate(0," + (getVHeight("explore",1)) + ")")
       .call(d3.axisBottom(x)
               .tickFormat(d3.format(".0%"))
               .tickSizeOuter(0)
-              .ticks(function(){ return (IS_PHONE()) ? 5 : 10})
+              .ticks(tickCount)
             );
 
     gExplore.append("text")
@@ -744,7 +745,6 @@ var scrollVis = function () {
     tamarackDot.node().parentNode.appendChild(tdClone)
     tamarackDot.node().parentNode.appendChild(tlClone)
 
-    setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID, "load")
     setSchoolTypes(ALL_SCHOOL_TYPES)
   };
 
@@ -818,6 +818,9 @@ var scrollVis = function () {
         .classed("open", (getChooseSchoolStatus() == "open"))
         .classed("teaser", !(getChooseSchoolStatus() == "open"))
       
+      var tOpacity = (getChooseSchoolStatus() == "open") ? 1 : 0;
+      d3.select("#narrativeChooseSchoolTextContainer").style("opacity",tOpacity);
+
       dispatch.call("reset")
     }else{
       svg.transition()

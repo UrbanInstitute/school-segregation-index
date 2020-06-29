@@ -35,7 +35,7 @@ f.close()
 
 
 sourceOrigReader = csv.reader(open("data/charts/source/CCD-PSS2017_SegCounterfactuals_glea_FINALIZED.csv","r"), delimiter=",")
-sourceGeoReader = csv.reader(open("data/charts/source/CCDPSS2017_SegCounterfactual_geocoded.csv","r"), delimiter=",")
+sourceGeoReader = csv.reader(open("data/charts/source/CCDreverse_geocoded.csv","r"), delimiter=",")
 
 f2 = open("data/charts/source/combined_source.csv","w")
 combinedWriter = csv.writer(f2)
@@ -48,9 +48,12 @@ for row in sourceOrigReader:
     r1s[k] = row[0:24]
 
 for row in sourceGeoReader:
-    k = row[1] + "_" + row[5]
+    k = row[1] + "_" + row[3]
     if(k in r1s):
         r2s.append([k, row[27:]])
+
+
+print(len(r2s))
 
 for tup in r2s:
     combinedWriter.writerow(r1s[tup[0]] + tup[1])

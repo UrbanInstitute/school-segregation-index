@@ -55,7 +55,6 @@ function getVMargins(section){
 function getVX(section){
   var width = getVWidth(section),
       margins = getVMargins(section)
-console.log(width)
   var x = d3
     .scaleLinear()
     .range([margins.left, width])
@@ -82,7 +81,6 @@ function getVY(section, index, data){
     var normMax = d3.max(data, function(d) { return d.normSci; })
     yMax = Math.max(sciMax, normMax)
   }
-  console.log(section, index, height)
   var y = d3
     .scaleLinear()
     .range([height,60])

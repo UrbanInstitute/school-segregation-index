@@ -1,4 +1,6 @@
 function SEEB(data){
+  d3.selectAll(".dot.explore").style("pointer-events","none")
+  d3.select(".voronoi.explore").style("display","block")
   d3.selectAll(".exploreBeeHide").transition().duration(2500).style("opacity",1)  
   d3.select("#beeLegend").transition().duration(2500).style("opacity",0)  
 
@@ -11,9 +13,11 @@ function SEEB(data){
     .duration(2500)
       .attr("cx", function(d) { return x(d.minority_percent); })
       .attr("cy", function(d) { return y(d.sci); })
-}
+  }
 
 function BEES(data, section){
+  d3.selectAll(".dot.explore").style("pointer-events","auto")
+  d3.select(".voronoi.explore").style("display","none")
   var margin = {top: 50, right: 50, bottom: 50, left: 50},
       width = 960 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom,

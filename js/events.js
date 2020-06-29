@@ -12,6 +12,7 @@ function setActiveDistrict(districtId, level, schoolId, eventType){
 
     var district = getSchoolData().filter(function(o){ return o.districtId == districtId && o.level == level })
     dispatch.call("changeLevel", null, level)
+    console.log(districtId,level,schoolId,eventType)
     dispatch.call("changeDistrict", null, districtId, level, schoolId, eventType)
 }
 function setActiveSchool(school, eventType){
@@ -415,6 +416,15 @@ function updateExploreV(schools, district, callback){
                             .classed("aboveMedian", function(d){
                                 return d.compareMedian == "above"
                             })
+                            .on("mouseover", function(d){
+                                setActiveSchool(d, "hover")
+                            })
+                            .on("mouseout", function(d){
+                                setActiveSchool(d3.select("#stickySchool").datum(), "mouseout")
+                            })
+                            .on("click", function(d){
+                                setActiveSchool(d, "click")
+                            })
                             .style("opacity",0)
                             .transition()
                             .duration(vDuration/2)
@@ -434,9 +444,12 @@ function updateExploreV(schools, district, callback){
             })
 
     svg.select(".v.explore.y.axis")
-        .transition()
-        .duration(vDuration)
-            .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        // .transition()
+        // .duration(vDuration)
+            .call(d3.axisLeft(y)
+                .tickSize([-vW + vMargins.left])
+                .tickFormat(d3.format(".1%"))
+                .tickPadding(10))
     d3.select("g.voronoi").node().parentNode.appendChild(d3.select("g.voronoi").node())
 }
 
