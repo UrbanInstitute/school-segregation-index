@@ -243,6 +243,12 @@ p{
   top: 87px;
   width: 114px;
 }
+#exploreDotLegend{
+  position: absolute;
+  right: 80px;
+  top: 87px;
+  width: 114px;
+}
 
 #dotLegend.show {
   opacity: 0.9;

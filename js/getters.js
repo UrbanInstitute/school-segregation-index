@@ -40,7 +40,7 @@ function getVHeight(section, index){
 }
 function getRelativeChartPositions(section, index){
   chooseSchoolStatus = getChooseSchoolStatus()
-  scalar = (chooseSchoolStatus == "closed" || index > 5) ? .1 : .15;
+  scalar = (chooseSchoolStatus == "closed" || index > 5) ? .4 : .45;
 
   var vH = getVHeight(section, index)
   return {"y1": vH , "y2": vH *.5, "y3": vH * scalar, "dot": vH - 20, "hide" : - 50, "lowM": vH * .5 - 30, "highM": vH * scalar + 10}
