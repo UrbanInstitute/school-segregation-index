@@ -503,7 +503,10 @@ footer h3, footer h4{
   .wrapper {width:100%; padding-top:100px;}
   .content {width:auto; padding:0px 30px}
   .container {width:auto; padding:0px 30px; margin-bottom: 40px;}
-  .endText {width:auto;}
+  .endText {
+    width:auto;
+    padding: 0 30px;
+  }
   ul {margin-left: 15px;}
   li {padding-left:0px;}
     #left{ width:100%;}

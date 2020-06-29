@@ -25,14 +25,25 @@ function getVHeight(section, index){
     chooseSchoolStatus = getChooseSchoolStatus(),
     margins = getVMargins(section, size),
     baseH;
-  if(section == "explore") baseH = 570;
-  else if(size == "phone") baseH = 500;
-  else if(section == "narrative"){
-    if(index == "squish") baseH = 300
-    else if(index == "unsquish") baseH = 600
-    else baseH = (chooseSchoolStatus == "closed" || index > 5) ? 600 : 300;
+  if(size == "desktop"){
+    if(section == "explore") baseH = 570;
+    else if(section == "narrative"){
+      if(index == "squish") baseH = 300
+      else if(index == "unsquish") baseH = 600
+      else baseH = (chooseSchoolStatus == "closed" || index > 5) ? 600 : 300;
+    }
+    else if(section == "choose") baseH = 300;
+  }else{
+    if(section == "explore"){
+      baseH = window.innerHeight - 100
+    }
+    else if(section == "narrative"){
+      baseH = window.innerHeight - 100
+    }
+    else if(section == "choose"){
+      baseH  = window.innerHeight - 350;
+    }
   }
-  else if(section == "choose") baseH = 300;
   
   
   height = baseH - margins.top - margins.bottom;
@@ -40,7 +51,7 @@ function getVHeight(section, index){
 }
 function getRelativeChartPositions(section, index){
   chooseSchoolStatus = getChooseSchoolStatus()
-  scalar = (chooseSchoolStatus == "closed" || index > 5) ? .1 : .15;
+  scalar = (chooseSchoolStatus == "closed" || index > 5) ? .4 : .45;
 
   var vH = getVHeight(section, index)
   return {"y1": vH , "y2": vH *.5, "y3": vH * scalar, "dot": vH - 20, "hide" : - 50, "lowM": vH * .5 - 30, "highM": vH * scalar + 10}
@@ -55,7 +66,6 @@ function getVMargins(section){
 function getVX(section){
   var width = getVWidth(section),
       margins = getVMargins(section)
-console.log(width)
   var x = d3
     .scaleLinear()
     .range([margins.left, width])
@@ -82,7 +92,6 @@ function getVY(section, index, data){
     var normMax = d3.max(data, function(d) { return d.normSci; })
     yMax = Math.max(sciMax, normMax)
   }
-  console.log(section, index, height)
   var y = d3
     .scaleLinear()
     .range([height,60])

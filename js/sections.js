@@ -187,7 +187,7 @@ var scrollVis = function () {
       .attr("class", "explore medianLine")
       .attr("x1", x(districtMedian))
       .attr("x2", x(districtMedian))
-      .attr("y1", 108)
+      .attr("y1", 198)
       .attr("y2", vH)
 
     gExplore.append("g")
@@ -205,13 +205,14 @@ var scrollVis = function () {
       .attr("y", vMargins.top + 20)
       .text("Segregation Contribution Index")
 
+    var tickCount = (IS_PHONE()) ? 5 : 10
     gExplore.append("g")
       .attr("class", "v explore x axis")
       .attr("transform", "translate(0," + (getVHeight("explore",1)) + ")")
       .call(d3.axisBottom(x)
               .tickFormat(d3.format(".0%"))
               .tickSizeOuter(0)
-              .ticks(function(){ return (IS_PHONE()) ? 5 : 10})
+              .ticks(tickCount)
             );
 
     gExplore.append("text")
@@ -222,6 +223,13 @@ var scrollVis = function () {
       .attr("class", "xaxis axis label x explore")
       .text("Black or Hispanic enrollment share")
 
+
+    gExplore.append("svg:image")
+      .attr('x', vW - 114 + 18)
+      .attr('y', 50)
+      .attr('width', 114)
+      .attr('height', 69.3)
+      .attr("xlink:href", "images/dot-legend.png")
 
 
 
@@ -268,7 +276,7 @@ var scrollVis = function () {
         if(IS_PHONE()) return 40
         else return x(districtMedian) - 60
       })
-      .attr("y", 75-16)
+      .attr("y", 185-16)
       .attr("class", "distAvgBg explore")
 
     gExplore.append("text")
@@ -278,7 +286,7 @@ var scrollVis = function () {
         if(IS_PHONE()) return 40
         else return x(districtMedian) - 60
       })
-      .attr("y", 75)
+      .attr("y", 185)
 
     gExplore.append("text")
       .attr("class", "exploreMedianText exploreMedianPercentText")
@@ -287,26 +295,9 @@ var scrollVis = function () {
         if(IS_PHONE()) return 40
         else return x(districtMedian) - 60
       })
-      .attr("y", 95)
-
-    var avgGExplore = gExplore.append("g")
-      .attr("class", "explore medianTextG")
-      .datum(districtMedian)
-      .attr("transform", "translate(" + (x(districtMedian) - 50) + "," + (svgHeight + 200) + ")")
+      .attr("y", 205)
 
 
-
-    avgGExplore.append("text")
-      .attr("class", "explore districtAverage label")
-      .text("District")
-      .attr("x",0)
-      .attr("y",0)
-
-    avgGExplore.append("text")
-      .attr("class", "explore districtAverage value")
-      .text(d3.format(".0%")(districtMedian) + " Black or Hispanic")
-      .attr("x",0)
-      .attr("y",20)
 
   }
 
@@ -557,7 +548,7 @@ var scrollVis = function () {
       .attr("class", "narrative v milwaukee y axis")
       .attr("transform", "translate(" + vMargins.left + ",0)")
       .style("opacity",0)
-      .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+      .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     g.append("text")
       .attr("class", "yaxis axis label y main narrative")
@@ -702,12 +693,12 @@ var scrollVis = function () {
       .attr("class", "explore textShadow")
       .attr("x", 19)
       .attr("y", 21)
-      .text("29% of students, 52 schools")
+      .text("33% of students, 52 schools")
 
     underPop.append("text")
       .attr("x", 19)
       .attr("y", 21)
-      .text("29% of students, 52 schools")
+      .text("33% of students, 52 schools")
 
     var dlop = (IS_PHONE()) ? .13 : .7;
     var dlopy = (IS_PHONE()) ? 372.5 : 452.5;
@@ -726,11 +717,11 @@ var scrollVis = function () {
       .attr("class", "explore textShadow")
       .attr("x", 19)
       .attr("y", 21)
-      .text("71% of students, 120 schools")
+      .text("67% of students, 120 schools")
     overPop.append("text")
       .attr("x", 19)
       .attr("y", 21)
-      .text("71% of students, 120 schools")
+      .text("67% of students, 120 schools")
 
     tamarackDot = d3.select(".dot.milwaukee.highlight")
     tamarackLine = d3.select(".lollipop.milwaukee.highlight")
@@ -744,7 +735,6 @@ var scrollVis = function () {
     tamarackDot.node().parentNode.appendChild(tdClone)
     tamarackDot.node().parentNode.appendChild(tlClone)
 
-    setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID, "load")
     setSchoolTypes(ALL_SCHOOL_TYPES)
   };
 
@@ -817,6 +807,9 @@ var scrollVis = function () {
       d3.select("#narrativeChooseSchoolList")
         .classed("open", (getChooseSchoolStatus() == "open"))
         .classed("teaser", !(getChooseSchoolStatus() == "open"))
+      
+      var tOpacity = (getChooseSchoolStatus() == "open") ? 1 : 0;
+      d3.select("#narrativeChooseSchoolTextContainer").style("opacity",tOpacity);
 
       dispatch.call("reset")
     }else{
@@ -932,7 +925,7 @@ var scrollVis = function () {
     d3.select(".narrative.v.milwaukee.y.axis")
       .transition()
         .duration(500)
-        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     d3.selectAll(".lollipop.narrative.milwaukee")
       .transition()
@@ -941,6 +934,11 @@ var scrollVis = function () {
     d3.selectAll(".medianLine.narrative.milwaukee")
       .transition()
       .attr("y1", chartPos.y1)
+
+    d3.select("#dotLegend")
+      .transition()
+      .style("right", "60px")
+
 
     if(trigger == "toggle"){
       activateFunctions[activeIndex]("squish")
@@ -964,11 +962,17 @@ var scrollVis = function () {
     d3.select(".narrative.v.milwaukee.y.axis")
       .transition()
         .duration(500)
-        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     d3.selectAll(".lollipop.narrative.milwaukee")
       .transition()
         .attr("y1", function(d){ return y(0) })
+
+
+    d3.select("#dotLegend")
+      .transition()
+      .style("right", "180px")
+
 
     activateFunctions[activeIndex]("squish")
   }
@@ -1172,6 +1176,11 @@ var scrollVis = function () {
     var chartSelector = getChartSelector(trigger)
     var districtData = d3.selectAll(".choose.dot").data()
 
+
+    d3.select("#dotLegend")
+      .classed("show", false)
+
+
     var y = getVY("narrative", 4, milwaukeeData);
     var yC = getVY("choose", 4, districtData)
     var x = getVX("narrative");
@@ -1264,10 +1273,13 @@ var scrollVis = function () {
               else return "translate(" + (x(d) + 10) + "," + chartPos.highM + ")"
             })
     }else{
-      d3.selectAll(".milwaukee.medianTextG")
+      d3.selectAll(".medianTextG")
         .transition()
         .duration(DEFAULT_TRANSITION_TIME)
-          .attr("transform",function(d){ return "translate(" + (x(d) + 10) + "," + chartPos.highM + ")"})
+            .attr("transform", function(d){
+              if(IS_PHONE()) return "translate(" + (x(d) - 80) + "," + chartPos.highM + ")"
+              else return "translate(" + (x(d) + 10) + "," + chartPos.highM + ")"
+            })
     }
 
     updateChooseText(activeIndex)
@@ -1276,7 +1288,9 @@ var scrollVis = function () {
   function scaleDotsByPopulation(milwaukeeData, chartData, mapData,allDistrictData,trigger){
     var chartSelector = getChartSelector(trigger)
     showChooseSchool()
-    d3.select("#dotLegend").classed("show", true);
+    d3.select("#dotLegend")
+      .classed("show", true)
+
     var y = getVY("narrative", 5, milwaukeeData);
     var x = getVX("narrative");
     var vW = getVWidth("narrative");
@@ -1299,13 +1313,13 @@ var scrollVis = function () {
       .transition()
       .duration(DEFAULT_TRANSITION_TIME)
         .style("opacity",1)
-        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     d3.selectAll(".narrative.v.y.axis.choose")
       .transition()
       .duration(DEFAULT_TRANSITION_TIME)
         .style("opacity",1)
-        .call(d3.axisLeft(yC).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(yC).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).ticks(7).tickPadding(10))
 
     d3.select(".narrative.v.milwaukee.x.axis")
       .transition()
@@ -1367,6 +1381,13 @@ var scrollVis = function () {
           .attr("x2", function(d) { return x(d.minority_percent); })
           .style("stroke-width", "1px")
     }
+    d3.selectAll(".medianTextG")
+      .transition()
+      .duration(DEFAULT_TRANSITION_TIME)
+          .attr("transform", function(d){
+            if(IS_PHONE()) return "translate(" + (x(d) - 80) + "," + chartPos.highM + ")"
+            else return "translate(" + (x(d) + 10) + "," + chartPos.highM + ")"
+          })
     updateChooseText(activeIndex)
   }
 
@@ -1385,7 +1406,7 @@ var scrollVis = function () {
       .transition()
       .duration(500)
         .style("opacity",1)
-        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     svg.selectAll(".dot.narrative.milwaukee")
     .transition()
@@ -1457,10 +1478,10 @@ var scrollVis = function () {
       .transition()
       .duration(500)
         .style("opacity",1)
-        .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
           .transition()
           .delay(200)
-            .call(d3.axisLeft(ySquish).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+            .call(d3.axisLeft(ySquish).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".0%")).ticks(10).tickPadding(10))
 
     d3.selectAll(".lollipop.narrative.milwaukee")
       .transition()
@@ -1559,7 +1580,7 @@ var scrollVis = function () {
   function preprocessMilwaukeeData(milwaukeeData, allDistrictData) {
     TAMARACK_MEDIAN = allDistrictData[MILWAUKEE_ID + "_" + DEFAULT_LEVEL]["M"]
     MILWAUKEE_SUM = allDistrictData[MILWAUKEE_ID + "_" + DEFAULT_LEVEL]["sum"]
-
+    console.log(allDistrictData[MILWAUKEE_ID + "_" + "3"])
     return milwaukeeData
       .map(function (d, i) {
         districtDatum = allDistrictData[d.districtId + "_" + d.level]
