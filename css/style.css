@@ -241,6 +241,13 @@ p{
   width: 114px;
 }
 
+#dotLegend.show {
+  opacity: 0.9;
+  transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+
 #narrativeVizContainer {
   display: inline-block;
   z-index: 1;

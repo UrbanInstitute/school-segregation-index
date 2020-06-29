@@ -1276,7 +1276,7 @@ var scrollVis = function () {
   function scaleDotsByPopulation(milwaukeeData, chartData, mapData,allDistrictData,trigger){
     var chartSelector = getChartSelector(trigger)
     showChooseSchool()
-
+    d3.select("#dotLegend").classed("show", true);
     var y = getVY("narrative", 5, milwaukeeData);
     var x = getVX("narrative");
     var vW = getVWidth("narrative");
