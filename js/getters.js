@@ -25,14 +25,25 @@ function getVHeight(section, index){
     chooseSchoolStatus = getChooseSchoolStatus(),
     margins = getVMargins(section, size),
     baseH;
-  if(section == "explore") baseH = 570;
-  else if(size == "phone") baseH = 500;
-  else if(section == "narrative"){
-    if(index == "squish") baseH = 300
-    else if(index == "unsquish") baseH = 600
-    else baseH = (chooseSchoolStatus == "closed" || index > 5) ? 600 : 300;
+  if(size == "desktop"){
+    if(section == "explore") baseH = 570;
+    else if(section == "narrative"){
+      if(index == "squish") baseH = 300
+      else if(index == "unsquish") baseH = 600
+      else baseH = (chooseSchoolStatus == "closed" || index > 5) ? 600 : 300;
+    }
+    else if(section == "choose") baseH = 300;
+  }else{
+    if(section == "explore"){
+      baseH = window.innerHeight - 100
+    }
+    else if(section == "narrative"){
+      baseH = window.innerHeight - 100
+    }
+    else if(section == "choose"){
+      baseH  = window.innerHeight - 350;
+    }
   }
-  else if(section == "choose") baseH = 300;
   
   
   height = baseH - margins.top - margins.bottom;

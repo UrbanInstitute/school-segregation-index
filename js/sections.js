@@ -195,7 +195,7 @@ var scrollVis = function () {
       .attr("transform", "translate(" + vMargins.left + ",0)")
       .call(d3.axisLeft(y)
               .tickSize([-vW + vMargins.left])
-              // .tickFormat(d3.format(".1%"))
+              .tickFormat(d3.format(".1%"))
               .tickPadding(10)
             )
 
@@ -224,12 +224,12 @@ var scrollVis = function () {
       .text("Black or Hispanic enrollment share")
 
 
-gExplore.append("svg:image")
-  .attr('x', vW - 114 + 18)
-  .attr('y', 50)
-  .attr('width', 114)
-  .attr('height', 69.3)
-  .attr("xlink:href", "images/dot-legend.png")
+    gExplore.append("svg:image")
+      .attr('x', vW - 114 + 18)
+      .attr('y', 50)
+      .attr('width', 114)
+      .attr('height', 69.3)
+      .attr("xlink:href", "images/dot-legend.png")
 
 
 
@@ -548,7 +548,7 @@ gExplore.append("svg:image")
       .attr("class", "narrative v milwaukee y axis")
       .attr("transform", "translate(" + vMargins.left + ",0)")
       .style("opacity",0)
-      .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+      .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     g.append("text")
       .attr("class", "yaxis axis label y main narrative")
@@ -693,12 +693,12 @@ gExplore.append("svg:image")
       .attr("class", "explore textShadow")
       .attr("x", 19)
       .attr("y", 21)
-      .text("29% of students, 52 schools")
+      .text("33% of students, 52 schools")
 
     underPop.append("text")
       .attr("x", 19)
       .attr("y", 21)
-      .text("29% of students, 52 schools")
+      .text("33% of students, 52 schools")
 
     var dlop = (IS_PHONE()) ? .13 : .7;
     var dlopy = (IS_PHONE()) ? 372.5 : 452.5;
@@ -717,11 +717,11 @@ gExplore.append("svg:image")
       .attr("class", "explore textShadow")
       .attr("x", 19)
       .attr("y", 21)
-      .text("71% of students, 120 schools")
+      .text("67% of students, 120 schools")
     overPop.append("text")
       .attr("x", 19)
       .attr("y", 21)
-      .text("71% of students, 120 schools")
+      .text("67% of students, 120 schools")
 
     tamarackDot = d3.select(".dot.milwaukee.highlight")
     tamarackLine = d3.select(".lollipop.milwaukee.highlight")
@@ -925,7 +925,7 @@ gExplore.append("svg:image")
     d3.select(".narrative.v.milwaukee.y.axis")
       .transition()
         .duration(500)
-        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     d3.selectAll(".lollipop.narrative.milwaukee")
       .transition()
@@ -962,7 +962,7 @@ gExplore.append("svg:image")
     d3.select(".narrative.v.milwaukee.y.axis")
       .transition()
         .duration(500)
-        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     d3.selectAll(".lollipop.narrative.milwaukee")
       .transition()
@@ -1313,13 +1313,13 @@ gExplore.append("svg:image")
       .transition()
       .duration(DEFAULT_TRANSITION_TIME)
         .style("opacity",1)
-        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     d3.selectAll(".narrative.v.y.axis.choose")
       .transition()
       .duration(DEFAULT_TRANSITION_TIME)
         .style("opacity",1)
-        .call(d3.axisLeft(yC).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(yC).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).ticks(7).tickPadding(10))
 
     d3.select(".narrative.v.milwaukee.x.axis")
       .transition()
@@ -1406,7 +1406,7 @@ gExplore.append("svg:image")
       .transition()
       .duration(500)
         .style("opacity",1)
-        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + margins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
 
     svg.selectAll(".dot.narrative.milwaukee")
     .transition()
@@ -1478,10 +1478,10 @@ gExplore.append("svg:image")
       .transition()
       .duration(500)
         .style("opacity",1)
-        .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+        .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".0%")).ticks(7).tickPadding(10))
           .transition()
           .delay(200)
-            .call(d3.axisLeft(ySquish).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+            .call(d3.axisLeft(ySquish).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".0%")).ticks(10).tickPadding(10))
 
     d3.selectAll(".lollipop.narrative.milwaukee")
       .transition()
@@ -1580,7 +1580,7 @@ gExplore.append("svg:image")
   function preprocessMilwaukeeData(milwaukeeData, allDistrictData) {
     TAMARACK_MEDIAN = allDistrictData[MILWAUKEE_ID + "_" + DEFAULT_LEVEL]["M"]
     MILWAUKEE_SUM = allDistrictData[MILWAUKEE_ID + "_" + DEFAULT_LEVEL]["sum"]
-
+    console.log(allDistrictData[MILWAUKEE_ID + "_" + "3"])
     return milwaukeeData
       .map(function (d, i) {
         districtDatum = allDistrictData[d.districtId + "_" + d.level]

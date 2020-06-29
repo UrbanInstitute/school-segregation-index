@@ -112,7 +112,7 @@ function setupChooseVis(districtData, schoolId, districtDatum){
                 .attr("class", "v choose y axis")
                 .attr("transform", "translate(" + vMargins.left + ",0)")
                 .style("opacity", axisOpacity)
-                .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).tickPadding(10))
+                .call(d3.axisLeft(y).tickSize([-vW + vMargins.left]).tickFormat(d3.format(".1%")).ticks(7).tickPadding(10))
 
             gChoose.append("text")
                 .attr("class", "yaxis axis label y main choose")
@@ -334,7 +334,7 @@ function updateExploreV(schools, district, callback){
         .transition()
         .attr("x", function(){
             if(IS_PHONE()) return 40
-            else x(districtMedian) - 60
+            else return x(districtMedian) - 60
         })
 
 
