@@ -235,6 +235,22 @@ p{
   height: 0px;
 }
 
+
+#dotLegend {
+  opacity: 0;
+  position: absolute;
+  right: 80px;
+  top: 87px;
+  width: 114px;
+}
+
+#dotLegend.show {
+  opacity: 0.9;
+  transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+
 #narrativeVizContainer {
   display: inline-block;
   z-index: 1;
@@ -261,9 +277,8 @@ p{
   padding-left: 60px;
     top: -295px !important;
     left: -29px !important;
-
-
 }
+
 #narrativeVizContainer.posRelBottom{
   position: relative;
   float: inherit;
@@ -464,7 +479,7 @@ text.districtAverage.label, .exploreMedianText.exploreMedianBottomText{
 }
 .distAvgBg{
   fill: #fff;
-  opacity: .7;  
+  opacity: .7;
 }
 .distAvgBg.choose{
   fill: #5C5859;
@@ -1360,7 +1375,7 @@ footer p{
 }
 
 #heroimage{
-   background-image: url("../images/final-header-illo-01.jpg");
+   background-image: url("../images/header.jpg");
    background-position: bottom;
      background-size: cover;
     background-repeat: no-repeat;
@@ -1446,6 +1461,7 @@ footer p{
     /*position: fixed;*/
     /*top: 20px;*/
   }
+
 
   #exploreVChartContainer{
     margin: 0 auto;
@@ -1535,7 +1551,7 @@ footer p{
     right: -40px;
     top: 47px;
     width: 240px !important;
-  }  
+  }
   #tt-dataContainer{
   float: left !important;
     clear: both;
