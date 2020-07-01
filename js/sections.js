@@ -81,7 +81,7 @@ var scrollVis = function () {
       svgExplore = d3.select("#exploreVChartContainer").append('svg')
       svgExplore.attr('width', getVWidth("explore") + vExploreMargin.left + vExploreMargin.right);
       svgExplore.attr('height', getVHeight("explore") + vExploreMargin.top + vExploreMargin.bottom + 120);
-      svgExplore.append('g');
+      svgExplore.append('g').attr("id","exploreGroup");
 
       g = svg.select('g')
         .attr('transform', 'translate(' + svgMargin.left + ',' + svgMargin.top + ')');
@@ -297,7 +297,7 @@ var scrollVis = function () {
       })
       .attr("y", 205)
 
-
+    updateVoronoi("explore", milwaukeeData, milwaukeeData)
 
   }
 
@@ -535,7 +535,6 @@ var scrollVis = function () {
     var vMargins = getVMargins("narrative")
     var chartPos = getRelativeChartPositions("narrative")
 
-    console.log(-vW+vMargins.left)
 
     g.append("line")
       .attr("class", "milwaukee medianLine narrative")
@@ -1642,10 +1641,10 @@ var scrollVis = function () {
   function preprocessMilwaukeeData(milwaukeeData, allDistrictData) {
     TAMARACK_MEDIAN = allDistrictData[MILWAUKEE_ID + "_" + DEFAULT_LEVEL]["M"]
     MILWAUKEE_SUM = allDistrictData[MILWAUKEE_ID + "_" + DEFAULT_LEVEL]["sum"]
-    console.log(allDistrictData[MILWAUKEE_ID + "_" + "3"])
     return milwaukeeData
       .map(function (d, i) {
         districtDatum = allDistrictData[d.districtId + "_" + d.level]
+        if(districtDatum["M"])
         d.pop = +d.pop;
         d.minority_pop = +d.minority_pop;
         d.minority_percent = +d.minority_percent;
@@ -1668,7 +1667,6 @@ var scrollVis = function () {
     // var minMax = d3.extent(milwaukeeData, function(d){ return d.pop }),
     //   minRadius = NARRATIVE_DOT_SCALAR*Math.sqrt(minMax[0]),
     //   maxRadius = NARRATIVE_DOT_SCALAR*Math.sqrt(minMax[1])
-    //   console.log("min & max radius: " + minRadius + " " + maxRadius)
   }
 
   function preprocessSchoolData(schoolData, allDistrictData){

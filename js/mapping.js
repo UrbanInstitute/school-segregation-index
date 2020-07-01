@@ -30,7 +30,6 @@ map.on("click","schooldistricts-fill", function(e){
     	return false
     }
 	var districtId = e.features[0].id
-	// console.log(districtId)
 
 	if(districtId != getActiveDistrict()){
 		setActiveDistrict(e.features[0].id, getLevel(), false, "mapclick")
@@ -134,13 +133,11 @@ function continueLoad(){
 		.transition()
 		.style("display", "none")
 		.on("end", function(){
-			console.log("a")
 			setActiveDistrict(MILWAUKEE_ID, DEFAULT_LEVEL, TAMARACK_ID, "load")		
 			setActiveSchool()
 		})
 }
 function waitForLoad(){
-	console.log("waiting")
 	if(map.loaded()) continueLoad()
 	else setTimeout(waitForLoad, 300)
 }
@@ -155,7 +152,6 @@ dispatch.on("dataLoad", function(bs){
 		map.on('mouseenter', defaultLayers[i], hoverOnSchool)
 		map.on('click', defaultLayers[i], clickOnSchool)		
 	}
-	// console.log(map.loaded())
 	waitForLoad()
 
 
@@ -179,7 +175,6 @@ dispatch.on("dataLoad", function(bs){
 
 		dispatch.on("changeDistrict", function(districtId, level, schoolId, eventType){
 			if(typeof(districtId) == "undefined") return false
-			console.log("c")
 			map.resize()
 			//handle events for non map charts (see events.js)
 			changeDistrict(districtId, level, schoolId, eventType)
@@ -451,7 +446,6 @@ dispatch.on("dataLoad", function(bs){
 		//District boundaries are precalculated in `scripts/mapping/schoolDistricts/get_feature_boundaries.py`
 		//and stored in lightweight csv.
 		//Dispatch handler inside d3 promise, in order to get district boundaries
-		// console.log()
 
 	})
 

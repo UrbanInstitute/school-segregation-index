@@ -217,6 +217,9 @@ p{
   line-height: 23px;
   color: #000;
 }
+.giantStep{
+  margin-bottom: 30vh;
+}
 .smallStep{
   /*margin-bottom: 400px;*/
 }
