@@ -37,12 +37,16 @@ function getVHeight(section, index){
     if(section == "explore"){
       baseH = window.innerHeight - 100
     }
+    else if(
+      section == "choose" ||
+      (section == "narrative" && getChooseSchoolStatus() == "open" && index <= 5)
+      ){
+      baseH  = window.innerHeight - 350;
+    }
     else if(section == "narrative"){
       baseH = window.innerHeight - 100
     }
-    else if(section == "choose"){
-      baseH  = window.innerHeight - 350;
-    }
+
   }
   
   

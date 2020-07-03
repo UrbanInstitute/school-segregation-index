@@ -81,7 +81,7 @@ var scrollVis = function () {
       svgExplore = d3.select("#exploreVChartContainer").append('svg')
       svgExplore.attr('width', getVWidth("explore") + vExploreMargin.left + vExploreMargin.right);
       svgExplore.attr('height', getVHeight("explore") + vExploreMargin.top + vExploreMargin.bottom + 120);
-      svgExplore.append('g');
+      svgExplore.append('g').attr("id","exploreGroup");
 
       g = svg.select('g')
         .attr('transform', 'translate(' + svgMargin.left + ',' + svgMargin.top + ')');
@@ -297,7 +297,7 @@ var scrollVis = function () {
       })
       .attr("y", 205)
 
-
+    updateVoronoi("explore", milwaukeeData, milwaukeeData)
 
   }
 
@@ -535,7 +535,6 @@ var scrollVis = function () {
     var vMargins = getVMargins("narrative")
     var chartPos = getRelativeChartPositions("narrative")
 
-    console.log(-vW+vMargins.left)
 
     g.append("line")
       .attr("class", "milwaukee medianLine narrative")
@@ -578,7 +577,7 @@ var scrollVis = function () {
     var avgG = g.append("g")
       .attr("class", "milwaukee medianTextG narrative")
       .datum(TAMARACK_MEDIAN)
-      .attr("transform", "translate(" + (x(TAMARACK_MEDIAN) - 50) + "," + (svgHeight + 200) + ")")
+      .attr("transform", "translate(" + (x(TAMARACK_MEDIAN) - 50) + "," + (svgHeight + 400) + ")")
 
     avgG.append("rect")
       .attr("width", 155)
@@ -1012,6 +1011,7 @@ var scrollVis = function () {
     var chartPos = getRelativeChartPositions("narrative",1)
     var x = getVX("narrative");
     var y = getVY("narrative", 1, milwaukeeData);
+    var margins = getVMargins("narrative")
 
     d3.selectAll(".dot.narrative")
       .transition()
@@ -1040,6 +1040,17 @@ var scrollVis = function () {
 
     updateChooseText(activeIndex)
 
+  d3.select(".narrative.v.milwaukee.x.axis")
+      .transition()
+        .attr("transform", "translate(0," + (getVHeight("narrative",1)) + ")")
+
+  d3.select(".xaxis.axis.label.x.main.narrative")
+    .transition()
+      .style("opacity",1)
+      .attr("y", (getVHeight("narrative",1) - margins.bottom + 80))
+
+
+
   }
 
   function showMedian(milwaukeeData, chartData, mapData,allDistrictData,trigger){
@@ -1054,6 +1065,7 @@ var scrollVis = function () {
     var yC = getVY("choose", 2, districtData)
     var x = getVX("narrative");
     var chartPos = getRelativeChartPositions("narrative",2)
+    var margins = getVMargins("narrative")
 
     d3.selectAll(".dot.narrative")
       .transition()
@@ -1081,6 +1093,16 @@ var scrollVis = function () {
         .attr("y2", function(d){ return y(0) })
 
 
+  d3.select(".narrative.v.milwaukee.x.axis")
+      .transition()
+        .attr("transform", "translate(0," + (getVHeight("narrative",2)) + ")")
+
+  d3.select(".xaxis.axis.label.x.main.narrative")
+    .transition()
+      .style("opacity",1)
+      .attr("y", (getVHeight("narrative",2) - margins.bottom + 80))
+
+
 
   }
 
@@ -1092,15 +1114,20 @@ var scrollVis = function () {
     var y = getVY("narrative", 3, milwaukeeData);
     var x = getVX("narrative");
     var chartPos = getRelativeChartPositions("narrative",3)
+    var margins = getVMargins("narrative")
 
     if(trigger == "scroll"){
       var mLength = milwaukeeData.length,
       dLength = districtData.length
 
       d3.selectAll(".dot.narrative.highlight")
+        .transition()
+        .duration(0)
         .attr("cy", chartPos.dot)
 
       d3.selectAll(".dot.narrative:not(.highlight)")
+        .transition()
+        .duration(0)
         .attr("cy", chartPos.dot)
         .attr("r",0)
         .transition()
@@ -1133,7 +1160,7 @@ var scrollVis = function () {
       d3.selectAll(".dot.narrative")
         .transition()
         .duration(DEFAULT_TRANSITION_TIME)
-        .delay(0)
+        // .delay(0)
           .attr("cy", function(d){
             return chartPos.dot;
           })
@@ -1170,6 +1197,17 @@ var scrollVis = function () {
       .transition()
       .delay(1300)
         .style("opacity",0)
+
+  d3.select(".narrative.v.milwaukee.x.axis")
+      .transition()
+        .attr("transform", "translate(0," + (getVHeight("narrative",3)) + ")")
+
+  d3.select(".xaxis.axis.label.x.main.narrative")
+    .transition()
+      .style("opacity",1)
+      .attr("y", (getVHeight("narrative",3) - margins.bottom + 80))
+
+
   }
 
   function showVChart(milwaukeeData, chartData, mapData,allDistrictData,trigger){
@@ -1282,6 +1320,18 @@ var scrollVis = function () {
             })
     }
 
+  var margins = getVMargins("narrative")
+
+  d3.select(".narrative.v.milwaukee.x.axis")
+      .transition()
+        .attr("transform", "translate(0," + (getVHeight("narrative",4)) + ")")
+
+  d3.select(".xaxis.axis.label.x.main.narrative")
+    .transition()
+      .style("opacity",1)
+      .attr("y", (getVHeight("narrative",4) - margins.bottom + 80))
+
+
     updateChooseText(activeIndex)
   }
 
@@ -1290,6 +1340,10 @@ var scrollVis = function () {
     showChooseSchool()
     d3.select("#dotLegend")
       .classed("show", true)
+      .transition()
+      .style("right", function(){
+        return (getChooseSchoolStatus() == "open") ? "180px" : "60px"
+      })
 
     var y = getVY("narrative", 5, milwaukeeData);
     var x = getVX("narrative");
@@ -1327,6 +1381,7 @@ var scrollVis = function () {
 
     d3.select(".xaxis.axis.label.x.main.narrative")
       .transition()
+        .style("opacity",1)
         .attr("y", (getVHeight("narrative",5) - margins.bottom + 80))
 
     if(trigger == "scroll"){
@@ -1384,6 +1439,7 @@ var scrollVis = function () {
     d3.selectAll(".medianTextG")
       .transition()
       .duration(DEFAULT_TRANSITION_TIME)
+          .style("opacity",1)
           .attr("transform", function(d){
             if(IS_PHONE()) return "translate(" + (x(d) - 80) + "," + chartPos.highM + ")"
             else return "translate(" + (x(d) + 10) + "," + chartPos.highM + ")"
@@ -1433,12 +1489,17 @@ var scrollVis = function () {
       .transition()
       .duration(500)
         .style("opacity",1)
+        .attr("y2", chartPos.y3)
         .attr("y1", chartPos.y1)
 
     d3.select(".milwaukee.medianTextG")
       .transition()
       .duration(500)
-        .style("opacity",1)
+          .style("opacity",1)
+          .attr("transform", function(d){
+            if(IS_PHONE()) return "translate(" + (x(d) - 80) + "," + chartPos.highM + ")"
+            else return "translate(" + (x(d) + 10) + "," + chartPos.highM + ")"
+          })
 
     d3.select(".narrative.v.milwaukee.x.axis")
       .transition()
@@ -1580,10 +1641,10 @@ var scrollVis = function () {
   function preprocessMilwaukeeData(milwaukeeData, allDistrictData) {
     TAMARACK_MEDIAN = allDistrictData[MILWAUKEE_ID + "_" + DEFAULT_LEVEL]["M"]
     MILWAUKEE_SUM = allDistrictData[MILWAUKEE_ID + "_" + DEFAULT_LEVEL]["sum"]
-    console.log(allDistrictData[MILWAUKEE_ID + "_" + "3"])
     return milwaukeeData
       .map(function (d, i) {
         districtDatum = allDistrictData[d.districtId + "_" + d.level]
+        if(districtDatum["M"])
         d.pop = +d.pop;
         d.minority_pop = +d.minority_pop;
         d.minority_percent = +d.minority_percent;
@@ -1606,7 +1667,6 @@ var scrollVis = function () {
     // var minMax = d3.extent(milwaukeeData, function(d){ return d.pop }),
     //   minRadius = NARRATIVE_DOT_SCALAR*Math.sqrt(minMax[0]),
     //   maxRadius = NARRATIVE_DOT_SCALAR*Math.sqrt(minMax[1])
-    //   console.log("min & max radius: " + minRadius + " " + maxRadius)
   }
 
   function preprocessSchoolData(schoolData, allDistrictData){

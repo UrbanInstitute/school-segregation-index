@@ -12,7 +12,6 @@ function setActiveDistrict(districtId, level, schoolId, eventType){
 
     var district = getSchoolData().filter(function(o){ return o.districtId == districtId && o.level == level })
     dispatch.call("changeLevel", null, level)
-    console.log(districtId,level,schoolId,eventType)
     dispatch.call("changeDistrict", null, districtId, level, schoolId, eventType)
 }
 function setActiveSchool(school, eventType){
@@ -41,7 +40,7 @@ function updateChooseText(section){
         }
         else if(section == 3 || section == 4){
             var compareText = (d.compareMedian == "above") ? "larger" : "smaller"
-            return "Among the " + d3.format(".0f")(d.totalSchools) + " " + ALL_LEVELS[d.level].toLowerCase() + "s in " + d.distName + ", " + d.schoolName + " enrolls a " + compareText + " share of Black or Hispanic students than most (or " + d.schoolName + " enrolls the same share of Black or Hispanic students as the district)."
+            return "Among the " + d3.format(".0f")(d.totalSchools) + " " + ALL_LEVELS[d.level].toLowerCase() + "s in " + d.distName + ", " + d.schoolName + " enrolls a " + compareText + " share of Black or Hispanic students than the district average."
         }
         else if(section == 5){
             return d.schoolName + " has an SCI value of " + d3.format(".1%")(d.sci) + " and enrolls " + d3.format(".0f")(d.pop) + " students. If " + d.schoolName+ "&rsquo;s racial composition were replaced with the district&rsquo;s, segregation in " + d.distName + " would fall " + d3.format(".1f")(d.sci *100) + " percent."
@@ -268,16 +267,16 @@ function setupChooseVis(districtData, schoolId, districtDatum){
 
 
 
-function updateVoronoi(section, schools){
+function updateVoronoi(section, schools, allSchools){
     var vW = getVWidth(section),
         vH = getVHeight(section),
         vMargins = getVMargins(section),
         x = getVX(section),
-        y = getVY(section, 1, schools),
+        y = getVY(section, 1, allSchools),
         svgV = null;
 
     if(section == "explore"){
-        svgV = d3.select("#exploreVChartContainer svg g");
+        svgV = d3.select("#exploreGroup");
     }
 
     d3.selectAll(".voronoi." + section).remove()
@@ -285,15 +284,15 @@ function updateVoronoi(section, schools){
     var voronoi = d3.voronoi()
         .x(function(d) { return x(d.minority_percent); })
         .y(function(d) { return y(d.sci); })
-        .extent([[0,0], [vW+vMargins.left, vH]]);
+        // .extent([[vMargins.left,vMargins.top], [vW+vMargins.left, vH]]);
+        .extent([[0,0],[vW,vH]]);
 
     var voronoiGroup = svgV.append("g")
         .attr("class", "voronoi " + section);
-
     voronoiGroup.selectAll("path")
         .data(voronoi.polygons(schools))
         .enter().append("path")
-            .attr("d", function(d) { return d ? "M" + d.join("L") + "Z" : null; })
+            .attr("d", function(d) {return d ? "M" + d.join("L") + "Z" : null; })
             .on("mouseover", function(d){
                 if(section == "explore"){
                     setActiveSchool(d.data, "hover")
@@ -357,7 +356,7 @@ function updateExploreV(schools, district, callback){
         d3.format(".1%")(districtMedian)
     )
 
-    updateVoronoi("explore", schools)
+    updateVoronoi("explore", schools, schools)
 
     d3.selectAll(".explore.dot")
         .transition()
@@ -694,7 +693,7 @@ function changeSchool(schoolId, eventType){
             .classed("active", (+getLevel() == +l))
     })
 
-    d3.select(".tt-datumContainer.district .tt-datumLabel").text(d.district)
+    d3.select(".tt-datumContainer.district .tt-datumLabel").text(d.district + ", " + d.state)
     d3.select(".tt-datumContainer.district .tt-datumValue").text(
         ALL_SCHOOL_TYPES_FULL[d.type].charAt(0).toUpperCase() + ALL_SCHOOL_TYPES_FULL[d.type].slice(1)  + " school"
     )
@@ -757,9 +756,11 @@ function changeSchoolTypes(schoolTypes){
         districtId = getActiveDistrict(),
         schools = schoolData.filter(function(o){
             return o.districtId == districtId && o.level == level && schoolTypes.indexOf(o.type) != -1;
+        }),
+        allDistSchools = schoolData.filter(function(o){
+            return o.districtId == districtId && o.level == level;
         })
-
-    updateVoronoi("explore", schools)
+    updateVoronoi("explore", schools, allDistSchools)
 
     d3.select(".radioContainer.all").classed("active", schoolTypes.length == ALL_SCHOOL_TYPES.length)
 

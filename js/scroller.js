@@ -250,7 +250,6 @@ function scroller() {
   *
   */
   function position() {
-    console.log()
 
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop, 
         scrollTarget = d3.select(".headerimage").node().getBoundingClientRect().height + d3.select("#topText").node().getBoundingClientRect().height - 300  
@@ -264,7 +263,7 @@ function scroller() {
 
 
     visPosition()
-    var pos = window.pageYOffset - 100 - containerStart ;
+    var pos = window.pageYOffset - containerStart  - window.innerHeight/2 + 60;
     fixVis();
     var sectionIndex = d3.bisect(sectionPositions, pos) - 1;
     sectionIndex = Math.max(0,Math.min(sections.size() -1, sectionIndex));

@@ -1,7 +1,19 @@
 function SEEB(data){
   d3.selectAll(".dot.explore").style("pointer-events","none")
-  d3.select(".voronoi.explore").style("display","block")
-  d3.selectAll(".exploreBeeHide").transition().duration(2500).style("opacity",1)  
+  if(section == "explore"){ d3.select(".voronoi.explore").style("display","block") }
+  var visible = getSchoolTypes()
+  d3.selectAll(".exploreBeeHide").transition().duration(2500).style("opacity",
+    function(){
+      if(d3.select(this).classed("lollipop")){
+        for(var i = 0; i < visible.length; i++){
+          if(d3.select(this).classed(visible[i])) return 1
+        }
+        return 0
+      }else{
+        return 1
+      }
+    }  
+  )  
   d3.select("#beeLegend").transition().duration(2500).style("opacity",0)  
 
   var x = getVX("explore");
@@ -17,7 +29,7 @@ function SEEB(data){
 
 function BEES(data, section){
   d3.selectAll(".dot.explore").style("pointer-events","auto")
-  d3.select(".voronoi.explore").style("display","none")
+  if(section == "explore"){ d3.select(".voronoi.explore").style("display","none") }
   var margin = {top: 50, right: 50, bottom: 50, left: 50},
       width = 960 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom,
