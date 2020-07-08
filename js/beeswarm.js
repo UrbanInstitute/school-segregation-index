@@ -1,4 +1,4 @@
-function SEEB(data){
+function SEEB(data, section){
   d3.selectAll(".dot.explore").style("pointer-events","none")
   if(section == "explore"){ d3.select(".voronoi.explore").style("display","block") }
   var visible = getSchoolTypes()

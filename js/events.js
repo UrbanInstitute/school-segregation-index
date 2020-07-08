@@ -650,7 +650,7 @@ function updateExploreLayout(layout){
     if(layout == "bees"){
         BEES(schools, "explore")
     }else{
-        SEEB(schools)
+        SEEB(schools, "explore")
     }
 }
 function changeSchool(schoolId, eventType){
