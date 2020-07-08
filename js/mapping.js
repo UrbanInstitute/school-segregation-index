@@ -17,11 +17,33 @@ schoolDotMarker = svgMap.append("circle")
 	.style("fill","#ec008b")
 	.style("stroke","#fff")
 
+
+function reposMarker(school){
+	var popLabel = school.hasOwnProperty("pop") ? "pop" : "population"
+	var coords = map.project([school.lon, school.lat])
+			
+	schoolDotMarker
+		.style("opacity",1)
+		.attr("cx", coords.x)
+		.attr("cy", coords.y)
+		.attr("r", Math.sqrt(school[popLabel]) * MAP_DOT_SCALAR)
+}
+
 //show +/- zoom arrows (and a compass, hidden in CSS)
 map.addControl(new mapboxgl.NavigationControl());
 
+// map.on("zoomstart", function(){
+// 	schoolDotMarker.style("opacity",0)
+// })
 map.on("zoom", function(){
-	schoolDotMarker.style("opacity",0)
+	reposMarker(schoolDotMarker.datum())
+})
+// map.on("dragstart", function(){
+// 	schoolDotMarker.style("opacity",0)
+// })
+map.on("drag", function(){
+	// schoolDotMarker.style("opacity",1)
+	reposMarker(schoolDotMarker.datum())
 })
 
 map.on("click","schooldistricts-fill", function(e){
@@ -275,6 +297,7 @@ dispatch.on("dataLoad", function(bs){
 			var coords = map.project([school.lon, school.lat])
 			
 			schoolDotMarker
+				.datum(school)
 				.style("opacity",1)
 				.attr("cx", coords.x)
 				.attr("cy", coords.y)
