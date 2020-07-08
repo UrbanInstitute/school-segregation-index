@@ -15,6 +15,7 @@ function setActiveDistrict(districtId, level, schoolId, eventType){
     dispatch.call("changeDistrict", null, districtId, level, schoolId, eventType)
 }
 function setActiveSchool(school, eventType){
+    if(typeof(school) == "undefined") return false
     d3.select("#activeSchool").datum(school.schoolId)
     dispatch.call("changeSchool", null, school, eventType)
 }
